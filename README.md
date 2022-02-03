@@ -25,3 +25,53 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+
+
+=======================================================================================================================
+install Firebase:
+
+npm install --save firebase @angular/fire@6.0.4
+npm install firebase@8
+
+setup: https://www.techiediaries.com/angular-10-firebase-database-crud/
+https://console.firebase.google.com/project/societymaintenance-991bf/firestore/data/~2F
+==============================================================================================================================================================================================================================================
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBC-O1glZXeEduZyYD-MvkYGgT7kEhPfaU",
+  authDomain: "societymaintenance-991bf.firebaseapp.com",
+  projectId: "societymaintenance-991bf",
+  storageBucket: "societymaintenance-991bf.appspot.com",
+  messagingSenderId: "967694209573",
+  appId: "1:967694209573:web:968e1617d60d9aa9e6a5cc",
+  measurementId: "G-Q198VV1Z8T"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+==============================================================================================================================================================================================================================================
+
+import { AngularFireModule} from '@angular/fire'
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+=======================================================================================================================
+
+
+
+npm i ngx-spinner
+npm i ngx-toastr
+npm install bootstrap
+npm install jquery
+
+npm i tslib
+=======================================================================================================================
+Primeng version => https://www.npmjs.com/package/primeng?activeTab=versions
