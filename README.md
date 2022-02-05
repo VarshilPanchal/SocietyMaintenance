@@ -75,3 +75,31 @@ npm install jquery
 npm i tslib
 =======================================================================================================================
 Primeng version => https://www.npmjs.com/package/primeng?activeTab=versions
+
+
+
+=======================================================================================================================
+==============================================================================================================================================================================================================================================
+==============================================================================================================================================================================================================================================
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD2hJiVX6-WcE6ffaGngvW3xQNqQw1Vnek",
+  authDomain: "societymaintenance-e775d.firebaseapp.com",
+  projectId: "societymaintenance-e775d",
+  storageBucket: "societymaintenance-e775d.appspot.com",
+  messagingSenderId: "1075368524021",
+  appId: "1:1075368524021:web:9bfe5547e6ee41e3faedbc",
+  measurementId: "G-PW41JPHD2Y"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);

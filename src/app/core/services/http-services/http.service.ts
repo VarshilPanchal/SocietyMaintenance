@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -65,13 +65,13 @@ export class HttpService {
   }
 
   private errorNotification(res: any) {
-    if (res.statusCode !== '200') {
-      if (res.message.length > 4) {
-        this.error.userNotification(res.statusCode, res.message);
-      } else {
-        this.error.userNotification(res.statusCode, res.errorCode);
-      }
-    }
+    // if (res.statusCode !== '200' && res) {
+    //   if (res.message.length > 4) {
+    //     this.error.userNotification(res.statusCode, res.message);
+    //   } else {
+    //     this.error.userNotification(res.statusCode, res.errorCode);
+    //   }
+    // }
   }
 
   handleError(error: HttpErrorResponse, self: this): any {
@@ -82,7 +82,6 @@ export class HttpService {
       this.error.whichError(error.status, error.message);
       return throwError({ error: error.message, status: error.status });
     }
-
   }
 
 }

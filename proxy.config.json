@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://societymaintenance-e775d-default-rtdb.firebaseio.com/user",
+        "secure": false,
+        "loglevel": "debug"
+    }
+}

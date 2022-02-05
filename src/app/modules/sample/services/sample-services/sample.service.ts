@@ -39,22 +39,22 @@ export class SampleService {
 
   sampleGet(): any {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
-    const url = 'region' + '?' + this.queryParam;
+    const url = 'user.json' + '?' + this.queryParam;
     return this.httpService.requestCall(url, ApiMethodName.GET);
   }
 
   samplePost(data: any): any {
-    const url = 'region';
+    const url = 'user.json';
     return this.httpService.requestCall(url, ApiMethodName.POST, data);
   }
 
   samplePut(data: any): any {
-    const url = 'region';
+    const url = 'user.json';
     return this.httpService.requestCall(url, ApiMethodName.PUT, data);
   }
 
   sampleDelete(data: any): any {
-    const url = 'region';
+    const url = 'user.json';
     return this.httpService.requestCall(url, ApiMethodName.DELETE, data);
   }
 
