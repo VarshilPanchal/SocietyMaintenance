@@ -18,6 +18,7 @@ import { AngularFireModule} from '@angular/fire'
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { CardModule } from 'primeng/card';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { CardModule } from 'primeng/card';
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
+    NgbModule,
     // MaterialModule,
   ],
   providers: [
