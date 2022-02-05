@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
       createdDate: new Date(),
       updatedDate: new Date(),
       password: "string",
-      user_name: "string",
+      user_name: "vinita",
       amount: 10
     };
     this.sampleService.samplePost(userObject).subscribe(
