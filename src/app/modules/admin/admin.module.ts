@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AdminRoutingModule } from './admin-routing.module';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.component';
 import { MaterialModule } from 'src/app/core/modules/modules/material/material/material.module';
-
+import { AdminRoutingModule } from './admin-routing.module';
+import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.component';
+import { AdminComponent } from './admin.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [ExpenseandincomeComponent],
@@ -15,6 +15,21 @@ import { MaterialModule } from 'src/app/core/modules/modules/material/material/m
     FormsModule,
     ReactiveFormsModule,
     MaterialModule
+
+
+
+
+@NgModule({
+  declarations: [
+    AdminComponent,
+    DashboardComponent,
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class AdminModule { }
