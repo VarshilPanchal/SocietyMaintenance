@@ -14,10 +14,12 @@ export class DashboardComponent implements OnInit {
   tenatDialog = false;
   waterBillDialog = false;
   maintenanceDialog = false;
+  generateMaintenanceDialog = false;
   popupHeader: string;
   tenatForm: FormGroup;
   maintenanceForm: FormGroup;
   waterBillForm: FormGroup;
+  generateMaintenanceForm: FormGroup;
   loginUserId;
   users;
 
@@ -26,6 +28,12 @@ export class DashboardComponent implements OnInit {
     { header: 'Name' },
     { header: 'Pending Amount' },
     { header: 'Action' },
+  ];
+
+  paymentType = [
+    { label: 'Cheque' },
+    { label: 'Cash' },
+    { label: 'Online' },
   ]
 
   waterMaintenanceBillMaster: WaterMaintenanceBillMaster;
@@ -42,6 +50,7 @@ export class DashboardComponent implements OnInit {
     this.initializeMaintenanceForm()
     this.initializeTenatForm();
     this.initializeWaterBillForm();
+    this.initializeGenerateMaintenanceForm();
   }
 
   addTenatFees(): any {
@@ -54,6 +63,15 @@ export class DashboardComponent implements OnInit {
     this.tenatDialog = false;
     this.initializeTenatForm();
   }
+
+  initializeTenatForm() {
+    this.tenatForm = this._formBuilder.group({
+      id: '',
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+    });
+  }
+
   addMaintenanceFees(): any {
     this.maintenanceDialog = true;
     this.popupHeader = 'Add Maintenance Fees';
@@ -64,6 +82,15 @@ export class DashboardComponent implements OnInit {
     this.maintenanceDialog = false;
     this.initializeMaintenanceForm();
   }
+
+  initializeMaintenanceForm() {
+    this.maintenanceForm = this._formBuilder.group({
+      id: '',
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+    });
+  }
+
   addWaterBillFees(): any {
     this.waterBillDialog = true;
     this.popupHeader = 'Add WaterBill Fees';
@@ -75,30 +102,36 @@ export class DashboardComponent implements OnInit {
     this.initializeWaterBillForm();
   }
 
-  initializeTenatForm() {
-    this.tenatForm = this._formBuilder.group({
-      id: [],
-      amount: ['', [Validators.required]],
-      createdBy: this.loginUserId,
-      updatedBy: this.loginUserId,
-    });
-  }
-
-  initializeMaintenanceForm() {
-    this.maintenanceForm = this._formBuilder.group({
-      id: [],
-      amount: ['', [Validators.required]],
-      createdBy: this.loginUserId,
-      updatedBy: this.loginUserId,
-    });
-  }
-
   initializeWaterBillForm() {
     this.waterBillForm = this._formBuilder.group({
-      id: [],
+      id: '',
       amount: ['', [Validators.required]],
       createdBy: this.loginUserId,
-      updatedBy: this.loginUserId,
+    });
+  }
+
+  generateMaintenance(name): any {
+    this.generateMaintenanceDialog = true;
+    this.popupHeader = `Generate Maintence for ${name}`;
+    this.initializeGenerateMaintenanceForm();
+  }
+
+  hideGenerateMaintenanceDialog(): any {
+    this.generateMaintenanceDialog = false;
+    this.initializeGenerateMaintenanceForm();
+  }
+
+  initializeGenerateMaintenanceForm() {
+    this.generateMaintenanceForm = this._formBuilder.group({
+      id: '',
+      maintenanceAmount: ['', [Validators.required]],
+      waterAmount: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      reading: ['', [Validators.required]],
+      amountType: ['', [Validators.required]],
+      payType: ['', [Validators.required]],
+      userMasterid: ['', [Validators.required]],
+      createdBy: this.loginUserId,
     });
   }
 
@@ -121,7 +154,6 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-
   onSubmitTenatForm() {
   }
 
@@ -129,6 +161,10 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmitWaterBillForm() {
+  }
+
+  GenerateMaintenance(generateMaintenanceForm) {
+    console.log(generateMaintenanceForm);
   }
 
 

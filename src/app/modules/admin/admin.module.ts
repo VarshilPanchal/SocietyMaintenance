@@ -7,17 +7,6 @@ import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.c
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-@NgModule({
-  declarations: [ExpenseandincomeComponent],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule
-
-
-
 
 @NgModule({
   declarations: [
