@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ErrorService } from 'src/app/core/services/error/error.service';
+import { WaterMaintenanceBillMaster } from 'src/app/shared/interfaces/WaterMaintenanceBillMaster';
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
 
 @Component({
@@ -8,16 +10,96 @@ import { DashboardServicesService } from 'src/app/shared/services/dashboard-serv
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  lstofUser: any[] = [];
+  tenatDialog = false;
+  waterBillDialog = false;
+  maintenanceDialog = false;
+  popupHeader: string;
+  tenatForm: FormGroup;
+  maintenanceForm: FormGroup;
+  waterBillForm: FormGroup;
+  loginUserId;
+  users;
+
+
+  cols = [
+    { header: 'Name' },
+    { header: 'Pending Amount' },
+    { header: 'Action' },
+  ]
+
+  waterMaintenanceBillMaster: WaterMaintenanceBillMaster;
 
   constructor(
     private dashboardService: DashboardServicesService,
     private errorService: ErrorService,
+    private _formBuilder: FormBuilder,
   ) { }
 
-  users;
 
   ngOnInit(): void {
     this.getSampleData();
+    this.initializeMaintenanceForm()
+    this.initializeTenatForm();
+    this.initializeWaterBillForm();
+  }
+
+  addTenatFees(): any {
+    this.tenatDialog = true;
+    this.popupHeader = 'Add Tenat Fees';
+    this.initializeTenatForm();
+  }
+
+  hidetenatDialog(): any {
+    this.tenatDialog = false;
+    this.initializeTenatForm();
+  }
+  addMaintenanceFees(): any {
+    this.maintenanceDialog = true;
+    this.popupHeader = 'Add Maintenance Fees';
+    this.initializeMaintenanceForm();
+  }
+
+  hidemaintenanceDialog(): any {
+    this.maintenanceDialog = false;
+    this.initializeMaintenanceForm();
+  }
+  addWaterBillFees(): any {
+    this.waterBillDialog = true;
+    this.popupHeader = 'Add WaterBill Fees';
+    this.initializeWaterBillForm();
+  }
+
+  hideWaterBillDialog(): any {
+    this.waterBillDialog = false;
+    this.initializeWaterBillForm();
+  }
+
+  initializeTenatForm() {
+    this.tenatForm = this._formBuilder.group({
+      id: [],
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+      updatedBy: this.loginUserId,
+    });
+  }
+
+  initializeMaintenanceForm() {
+    this.maintenanceForm = this._formBuilder.group({
+      id: [],
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+      updatedBy: this.loginUserId,
+    });
+  }
+
+  initializeWaterBillForm() {
+    this.waterBillForm = this._formBuilder.group({
+      id: [],
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+      updatedBy: this.loginUserId,
+    });
   }
 
   getSampleData() {
@@ -25,15 +107,10 @@ export class DashboardComponent implements OnInit {
       (data: any) => {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
-          user => {
-            console.log(user);
+          (user) => {
+            this.lstofUser.push(user.value);
           });
-        console.log(this.users);
-
-        this.users.forEach(user => {
-          
-        });
-
+        console.log(this.lstofUser);
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');
         }
@@ -43,5 +120,16 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+
+  onSubmitTenatForm() {
+  }
+
+  onSubmitMaintenanceForm() {
+  }
+
+  onSubmitWaterBillForm() {
+  }
+
 
 }
