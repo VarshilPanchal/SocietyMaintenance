@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PATH_CONSTANTS } from 'src/app/core/constants/PathConstants';
 import { ErrorService } from 'src/app/core/services/error/error.service';
+import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { CustomValidator } from 'src/app/core/services/util/CustomValidator';
 import { AuthService } from '../../services/auth-services/auth.service';
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit {
    private errorService: ErrorService,
    private formBuilder: FormBuilder,
    private notificationService: NotificationService,
-   private route: Router
+   private route: Router,
+   private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -61,7 +63,8 @@ export class LoginComponent implements OnInit {
         if(data){
           this.loginData = data;
           if(this.loginData.password === password){
-            this.notificationService.success('Signin Succesfull','')
+            this.notificationService.success('Signin Succesfull','');
+            this.localStorageService.setItem('logInUserID', this.loginData.username);
             this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
           }else{
             this.notificationService.error('Enter Valid password','')
