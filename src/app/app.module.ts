@@ -19,10 +19,18 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { CardModule } from 'primeng/card';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './shared/header/header.component';
+import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
+import { AdminComponent } from './modules/admin/admin.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    DashboardComponent,
+    AdminComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
