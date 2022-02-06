@@ -4092,3 +4092,7 @@ select {
   -o-background-size: cover;
   background-size: cover;
 }
+.p-invalid,
+.p-error {
+    color: red;
+}

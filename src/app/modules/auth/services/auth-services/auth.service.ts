@@ -20,7 +20,7 @@ export class AuthService {
     sortOrder: 1,
     searchText: null
   };
-  db = AngularFireDatabase;
+  
   // q = Query('user', where("username", "==", "CA"));
 //   ref = firebase.database().ref("diagnostics")
 // ref.orderByChild("key").equalTo("-LF2eRf1lHI6X3U6C7Yh")
@@ -44,49 +44,9 @@ export class AuthService {
   }
 
   
-  getUser(queryParam): any {
+  getUser(username): any {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
-    const url = 'user.json' + '?' + queryParam;
-  //   firebase.database().ref('/tests')
-  // .orderByChild("serie").equalTo("0")
-  // .on('value',(data: DataSnapshot) => {
-  //   data.forEach((child: DataSnapshot) => {
-  //     console.log(child.key, child.val());
-  //   });
-  // return this.fireServices.collection('users',ref => ref.where('username', '>=', "string").
-    // return this.httpService.requestCall(url, ApiMethodName.GET);
-    // return this.fireServices.collection('user',ref => ref.where('user_name').equalTo("string"));
-    // fs.collection('items', ref => ref.where('size', '==', 'large'))
-    // console.log(this.fireServices.collection('user',ref => ref.where('user_name', '==', "vinita")
-    // .where('user_name', '==', "vinita" + '\uf8ff'))
-    // .snapshotChanges())
-    // this.userRef = this.fireServices.collection('user').ref;
-    // console.log(this.angularFireDatabase.object('user'));
-  //   this.userRef.child('Mv8uZX5J25RhR0s2qHA').orderByChild('user_name').equalTo('vinita').on("value", function(snapshot) {
-  //     console.log(snapshot.val());
-  //     snapshot.forEach(function(data) {
-  //         console.log(data.key);
-  //     });
-  // });
-    // console.log(this.db.name)
-    // console.log(this.fireServices.collection('user').valueChanges());
-    // return this.fireServices.collection('user').valueChanges();
-    // return this.fireServices.collection('user',ref => ref.orderBy('-Mv8uZX5J25RhR0s2qHA.user_name').startAt('vi')).snapshotChanges();
-    // console.log(this.angularFireDatabase.database.ref('users'));
-    // return this.fireServices.collection('user', ref => ref.where('-Mv8uZX5J25RhR0s2qHA.user_name', '==', 'vinita')).snapshotChanges()
-    // return this.fireServices.collection('/user', ref => ref.where('-Mv9I72U2Yetewz-H2va.user_name', '==', 'vinita')).snapshotChanges().pipe(map(data => data.map(c => ({ key: c.payload.doc.id, ...c.payload.doc.data() as Object }))), map(res => {
-    //   return res.length === 0;
-    // })
-    // );
-    
-    let counter = 1;
-    return this.angularFireDatabase.object('user/' + 'A101');
-    // return this.fireServices.collection('user', ref => {
-    //   let query : CollectionReference | Query = ref;
-    //    query = query.where('user_name', '==', 'vinita')
-    //   return query;
-    // }).valueChanges();
-    // return this.fireServices.collection('user', ref => ref.where('user_name', '==', 'string'));
+    return this.angularFireDatabase.object('user/' + username);
   }
 
 

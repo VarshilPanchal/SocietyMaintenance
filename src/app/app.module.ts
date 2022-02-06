@@ -13,7 +13,7 @@ import { HttpService } from './core/services/http-services/http.service';
 import { httpInterceptor } from './core/services/interceptor/httpInterceptor';
 import { LocalStorageService } from './core/services/localstorage-service/localstorage.service';
 import { NotificationService } from './core/services/notification/notification.service';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule} from '@angular/fire'
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
@@ -43,6 +43,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule
     // MaterialModule,
   ],
   providers: [
