@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { UserService } from '../../services/user-services/user.service';
@@ -12,7 +13,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private errorService: ErrorService) {
+    private errorService: ErrorService,
+    private angularFireDatabase: AngularFireDatabase) {
   }
 
   users: UserMaster[] = [];
@@ -35,20 +37,21 @@ export class UsersComponent implements OnInit {
       createdDate: new Date(),
       updatedDate: new Date(),
       password: "string",
-      user_name: "string",
+      user_name: "A102",
       amount: 10
     };
-    this.userService.samplePost(userObject).subscribe(
-      (data: any) => {
-        console.log(data);
-        if (data.statusCode === '200' && data.message === 'OK') {
-          this.errorService.userNotification(data.statusCode, 'Post Data');
-        }
-      },
-      (err: Error) => {
-        console.error(err);
-      }
-    );
+    this.angularFireDatabase.database.ref('user').child('A102').set(userObject);
+    // this.userService.samplePost(userObject).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //     if (data.statusCode === '200' && data.message === 'OK') {
+    //       this.errorService.userNotification(data.statusCode, 'Post Data');
+    //     }
+    //   },
+    //   (err: Error) => {
+    //     console.error(err);
+    //   }
+    // );
   }
 
   putData() {
