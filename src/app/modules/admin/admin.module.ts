@@ -8,7 +8,8 @@ import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [ExpenseandincomeComponent],
+  declarations: [ExpenseandincomeComponent,  AdminComponent,
+    DashboardComponent,],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -19,17 +20,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
-@NgModule({
-  declarations: [
-    AdminComponent,
-    DashboardComponent,
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
   ]
 })
-export class AdminModule { }
+export class AdminModule{}
