@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ErrorService } from 'src/app/core/services/error/error.service';
+import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AdminServicesService } from '../services/admin-services.service';
 
 @Component({
@@ -9,6 +11,13 @@ import { AdminServicesService } from '../services/admin-services.service';
 })
 export class ExpenseandincomeComponent implements OnInit {
 
+  cols = [
+    { header: 'Flat no.' },
+    { header: 'Amount' },
+    { header: 'Paid Through' },
+    { header: 'Description' },
+  ]
+  ExpenseFormGroup: FormGroup;
    expenseandincomeObject = {
     id: "A102",
     createdDate: new Date(),
@@ -31,12 +40,17 @@ export class ExpenseandincomeComponent implements OnInit {
   amountData: { type: string; value: any; }[];
   incomeData = [];
   expenseData = [];
+  voucherDialog = false;
+  popupHeader: string;
+  loginUserId: any;
 
   constructor(private adminService: AdminServicesService,
-              private errorService: ErrorService) { }
+              private errorService: ErrorService,
+              private formBuilder: FormBuilder,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
-
+    this.loginUserId = this.localStorageService.getItem('logInUserID');
     this.getIncome();
     // this.addBulkIncome();
   }
@@ -86,5 +100,17 @@ export class ExpenseandincomeComponent implements OnInit {
       }
     })
   }
-  
+  createVoucher(): any {
+    this.voucherDialog = true;
+    this.popupHeader = 'Create Voucher';
+    this.initializeExpenseFormGroup();
+  }
+  initializeExpenseFormGroup(){
+    this.ExpenseFormGroup = this.formBuilder.group({
+      id: [],
+      amount: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      updatedBy: this.loginUserId,
+    });
+  }
   }
