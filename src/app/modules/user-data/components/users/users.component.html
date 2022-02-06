@@ -1,0 +1,24 @@
+<div class="container">
+    <p-table [value]="users">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>
+                    {{user.user_name}}
+                </td>
+                <td>
+                    {{user.password}}
+                </td>
+                <td>
+                    {{user.amount}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

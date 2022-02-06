@@ -9,8 +9,7 @@ import { LocalStorageService } from 'src/app/core/services/localstorage-service/
 @Injectable({
   providedIn: 'root'
 })
-
-export class SampleService {
+export class UserService {
 
   dataTableParams = {
     offset: 0,

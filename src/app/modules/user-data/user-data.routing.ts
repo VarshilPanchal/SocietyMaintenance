@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DemoComponent } from './components/demo/demo.component';
-import { SampleComponent } from './sample.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserDataComponent } from './user-data.component';
 
 export const SAMPLE_ROUTES: Routes = [
     {
         path: '',
-        component: SampleComponent,
+        component: UserDataComponent,
         children: [
             {
-                path: 'demo',
-                component: DemoComponent
-            },
+                path: 'user',
+                component: UsersComponent
+            }
         ]
     },
 ];
@@ -21,4 +21,4 @@ export const SAMPLE_ROUTES: Routes = [
     exports: [RouterModule]
 })
 
-export class SampleRoutingModule { }
+export class UserDataRoutingModule { }
