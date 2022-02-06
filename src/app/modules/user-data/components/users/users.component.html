@@ -1,5 +1,5 @@
 <div class="container">
-    <p-table [value]="users">
+    <p-table >
         <ng-template pTemplate="header">
             <tr>
                 <th *ngFor="let col of cols">
@@ -7,7 +7,7 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <!-- <ng-template pTemplate="body" let-user>
             <tr>
                 <td>
                     {{user.user_name}}
@@ -19,6 +19,6 @@
                     {{user.amount}}
                 </td>
             </tr>
-        </ng-template>
+        </ng-template> -->
     </p-table>
 </div>
