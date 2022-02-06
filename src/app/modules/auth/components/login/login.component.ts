@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   getSampleData() {
     let filterMap = new Map();
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
-    this.authService.getUser(this.queryParam).subscribe(
+    this.authService.getUser(this.queryParam).valueChanges().subscribe(
       (data: any) => {
         console.log(data);
         if (data.statusCode === '200' && data.message === 'OK') {

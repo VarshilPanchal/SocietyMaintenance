@@ -6,6 +6,7 @@ import { HttpService } from 'src/app/core/services/http-services/http.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AngularFirestore, Query, CollectionReference, } from '@angular/fire/firestore';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,7 @@ export class AuthService {
     return params;
   }
 
+  
   getUser(queryParam): any {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     const url = 'user.json' + '?' + queryParam;
@@ -58,21 +60,27 @@ export class AuthService {
     // console.log(this.fireServices.collection('user',ref => ref.where('user_name', '==', "vinita")
     // .where('user_name', '==', "vinita" + '\uf8ff'))
     // .snapshotChanges())
-    this.userRef = this.fireServices.collection('user').ref;
-    console.log(this.angularFireDatabase.object('user'));
+    // this.userRef = this.fireServices.collection('user').ref;
+    // console.log(this.angularFireDatabase.object('user'));
   //   this.userRef.child('Mv8uZX5J25RhR0s2qHA').orderByChild('user_name').equalTo('vinita').on("value", function(snapshot) {
   //     console.log(snapshot.val());
   //     snapshot.forEach(function(data) {
   //         console.log(data.key);
   //     });
   // });
-    console.log(this.db.name)
-    console.log(this.fireServices.collection('user').valueChanges());
+    // console.log(this.db.name)
+    // console.log(this.fireServices.collection('user').valueChanges());
     // return this.fireServices.collection('user').valueChanges();
     // return this.fireServices.collection('user',ref => ref.orderBy('-Mv8uZX5J25RhR0s2qHA.user_name').startAt('vi')).snapshotChanges();
-    console.log(this.angularFireDatabase.database.ref('users'));
-    return this.fireServices.collection('user', ref => ref.where('-Mv8uZX5J25RhR0s2qHA.user_name', '==', 'vinita')).snapshotChanges()
+    // console.log(this.angularFireDatabase.database.ref('users'));
+    // return this.fireServices.collection('user', ref => ref.where('-Mv8uZX5J25RhR0s2qHA.user_name', '==', 'vinita')).snapshotChanges()
+    // return this.fireServices.collection('/user', ref => ref.where('-Mv9I72U2Yetewz-H2va.user_name', '==', 'vinita')).snapshotChanges().pipe(map(data => data.map(c => ({ key: c.payload.doc.id, ...c.payload.doc.data() as Object }))), map(res => {
+    //   return res.length === 0;
+    // })
+    // );
     
+    let counter = 1;
+    return this.angularFireDatabase.object('user/' + 'A101');
     // return this.fireServices.collection('user', ref => {
     //   let query : CollectionReference | Query = ref;
     //    query = query.where('user_name', '==', 'vinita')
