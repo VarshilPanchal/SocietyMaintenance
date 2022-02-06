@@ -7,6 +7,7 @@ import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.c
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+
 @NgModule({
   declarations: [ExpenseandincomeComponent,  AdminComponent,
     DashboardComponent,],
@@ -16,9 +17,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule
-
-
-
 
   ]
 })

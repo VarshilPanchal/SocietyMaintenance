@@ -6,6 +6,7 @@ export interface AmountMaster {
     payType: string;
     reading: string;
     createdDate: Date;
+    createdBy: Date;
     updatedDate: Date;
     waterAmount: string;
     MaintenanceAmount: string;

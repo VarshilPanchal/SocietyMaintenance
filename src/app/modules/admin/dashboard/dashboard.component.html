@@ -24,7 +24,7 @@
                             {{user.amount}}
                         </td>
                         <td>
-                            <button class="p-button bg-dark rounded">
+                            <button class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
                                 Generate Maintenance
                             </button>
                         </td>
@@ -86,10 +86,11 @@
             <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
-                    required autofocus [pKeyFilter]="blockSpecial" maxLength="50" />
+                    required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="waterBillForm.controls['amount'].touched && (waterBillForm.controls['amount'].hasError('required') && !waterBillForm.controls['amount'].valid)">
-                    required</div>
+                    required
+                </div>
             </div>
         </form>
     </ng-template>
@@ -114,10 +115,11 @@
             <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
-                    required autofocus [pKeyFilter]="blockSpecial" maxLength="50" />
+                    required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="tenatForm.controls['amount'].touched && (tenatForm.controls['amount'].hasError('required') && !tenatForm.controls['amount'].valid)">
-                    required</div>
+                    required
+                </div>
             </div>
         </form>
     </ng-template>
@@ -141,10 +143,11 @@
             <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
-                    required autofocus [pKeyFilter]="blockSpecial" maxLength="50" />
+                    required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="maintenanceForm.controls['amount'].touched && (maintenanceForm.controls['amount'].hasError('required') && !maintenanceForm.controls['amount'].valid)">
-                    required</div>
+                    required
+                </div>
             </div>
         </form>
     </ng-template>
@@ -154,6 +157,73 @@
             (click)="hidemaintenanceDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
             (click)="onSubmitMaintenanceForm()"></button>
+    </ng-template>
+
+</p-dialog>
+
+
+
+
+
+
+<p-dialog [(visible)]="generateMaintenanceDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="hideGenerateMaintenanceDialog()">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="generateMaintenanceForm" (ngSubmit)="GenerateMaintenance()">
+            <div class="p-field">
+                <label for="maintenanceAmount">Maintenance Amount* </label>
+                <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
+                    placeholder="Enter Maintenance Amount" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="generateMaintenanceForm.controls['maintenanceAmount'].touched && (generateMaintenanceForm.controls['maintenanceAmount'].hasError('required') && !generateMaintenanceForm.controls['maintenanceAmount'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="waterAmount">Water Bill Amount* </label>
+                <input type="text" disabled pInputText id="waterAmount" formControlName="waterAmount"
+                    placeholder="Enter Water Amount" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="generateMaintenanceForm.controls['waterAmount'].touched && (generateMaintenanceForm.controls['waterAmount'].hasError('required') && !generateMaintenanceForm.controls['waterAmount'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="reading">Used Water unit* </label>
+                <input type="text" pInputText id="reading" formControlName="reading" placeholder="Enter Reading"
+                    required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="generateMaintenanceForm.controls['reading'].touched && (generateMaintenanceForm.controls['reading'].hasError('required') && !generateMaintenanceForm.controls['reading'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="payType">Payment Type* </label>
+                <p-dropdown [options]="paymentType" formControlName="payType" placeholder="Select Payment Type">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="generateMaintenanceForm.controls['payType'].touched && (generateMaintenanceForm.controls['payType'].hasError('required') && !generateMaintenanceForm.controls['payType'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="amount">Total Payable Amount* </label>
+                <input type="text" disabled pInputText id="amount" formControlName="amount" placeholder="Enter Amount"
+                    required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="generateMaintenanceForm.controls['amount'].touched && (generateMaintenanceForm.controls['amount'].hasError('required') && !generateMaintenanceForm.controls['amount'].valid)">
+                    required
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+            (click)="hideGenerateMaintenanceDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+            (click)="GenerateMaintenance(generateMaintenanceForm)"></button>
     </ng-template>
 
 </p-dialog>
