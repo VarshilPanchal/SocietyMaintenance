@@ -11,6 +11,9 @@
         </ng-template>
 
         <ng-container>
+            <button class="p-button bg-primary rounded" (click)="createVoucher()">
+                Add Voucher
+            </button>
             <ng-container>
                 <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="expenseData"
                 class="mx-3">
@@ -196,3 +199,37 @@
 
     </p-dialog> -->
 </p-tabView>
+<p-dialog [(visible)]="voucherDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="hideExpenseDialog()">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="expenseFormGroup" (ngSubmit)="onSubmitExpense()">
+            <div class="p-field">
+                <label for="name">Amount* </label>
+                <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
+                    required pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="expenseFormGroup.controls['amount'].touched && (expenseFormGroup.controls['amount'].hasError('required') && !expenseFormGroup.controls['amount'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="name">Description* </label>
+                <input type="text" pInputText id="regionName" formControlName="description" placeholder="Enter Description"
+                    required maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="expenseFormGroup.controls['amount'].touched && (expenseFormGroup.controls['amount'].hasError('required') && !expenseFormGroup.controls['amount'].valid)">
+                    required
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+            (click)="hideExpenseDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+            (click)="onSubmitExpense()"></button>
+    </ng-template>
+
+</p-dialog>

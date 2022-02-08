@@ -7,12 +7,16 @@ import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.c
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ReceiveMaintainenceComponent } from './receive-maintainence/receive-maintainence.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
   declarations: [ExpenseandincomeComponent,  AdminComponent,
     DashboardComponent,
-    UserProfileComponent,],
+    UserProfileComponent,
+    ReceiveMaintainenceComponent,
+    ChangePasswordComponent,],
   imports: [
     CommonModule,
     AdminRoutingModule,

@@ -17,7 +17,7 @@ export class ExpenseandincomeComponent implements OnInit {
     { header: 'Paid Through' },
     { header: 'Description' },
   ]
-  ExpenseFormGroup: FormGroup;
+  expenseFormGroup: FormGroup;
    expenseandincomeObject = {
     id: "A102",
     createdDate: new Date(),
@@ -106,11 +106,18 @@ export class ExpenseandincomeComponent implements OnInit {
     this.initializeExpenseFormGroup();
   }
   initializeExpenseFormGroup(){
-    this.ExpenseFormGroup = this.formBuilder.group({
+    this.expenseFormGroup = this.formBuilder.group({
       id: [],
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
       updatedBy: this.loginUserId,
     });
+  }
+  onSubmitExpense(){
+    console.log(this.expenseFormGroup.value);
+  }
+  hideExpenseDialog(){
+    this.voucherDialog = false;
+    this.initializeExpenseFormGroup();
   }
   }

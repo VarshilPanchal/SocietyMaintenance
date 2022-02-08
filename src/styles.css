@@ -6020,7 +6020,10 @@ ngx-dropzone {
         position: absolute;
       
     }
-    
+    .main-nav .nav-link {
+      color: #fff;
+      font-weight: 400;
+  }    
 }
 
 

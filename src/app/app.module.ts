@@ -23,12 +23,14 @@ import { HeaderComponent } from './shared/header/header.component';
 import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { AboutUsComponent } from './shared/about-us/about-us.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AboutUsComponent
   ],
   imports: [
     BrowserModule,
