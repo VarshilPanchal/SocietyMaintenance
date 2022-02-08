@@ -6,11 +6,13 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ExpenseandincomeComponent } from './expenseandincome/expenseandincome.component';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
   declarations: [ExpenseandincomeComponent,  AdminComponent,
-    DashboardComponent,],
+    DashboardComponent,
+    UserProfileComponent,],
   imports: [
     CommonModule,
     AdminRoutingModule,

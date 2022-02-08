@@ -29,6 +29,8 @@
     "bootstrap": "^5.1.3",
     "firebase": "^8.10.1",
     "jquery": "^3.6.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.23",
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.1.0",
     "primeflex": "^2.0.0",

@@ -57,7 +57,7 @@
                     </span>
                     <br>
                     <span class="pb-1  float-right">
-                        <button class="p-button bg-primary rounded" (click)="addMaintenanceFees()" class="pb-1">
+                        <button class="p-button bg-primary rounded" (click)="addMaintenanceFees()">
                             Change Maintainence Amount
                         </button>
                     </span>
@@ -165,7 +165,7 @@
 
 
 
-
+<!-- Generate maintenance Dialog -->
 <p-dialog [(visible)]="generateMaintenanceDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
     styleClass="p-fluid" (onHide)="hideGenerateMaintenanceDialog()">
 
@@ -217,6 +217,91 @@
                 </div>
             </div>
         </form>
+
+
+        <!-- <p-table #dt [generatedMintenanceColumns]="cols" [value]="lstofUser" selectionMode="multiple">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                        class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-generatedMintenanceColumns>
+                <tr>
+                    <th *ngFor="let col of generatedMintenanceColumns">
+                        {{col.label}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-generatedMintenanceColumns="generatedMintenanceColumns">
+                <tr>
+                    <td *ngFor="let col of generatedMintenanceColumns">
+                        {{col.label}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table> -->
+
+        <div id="htmlData" *ngIf="receiptGenerated">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-wrap text-break">Current Reading</td>
+                        <td>{{receiptDetail.reading}}</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Used Unit </td>
+                        <td>{{receiptDetail.usedUnit}}</td>
+                        <td>33</td>
+                    </tr>
+                    <tr>
+                        <td>Rate /- unit</td>
+                        <td>{{receiptDetail.waterAmount}}</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>Maintenance Amount</td>
+                        <td>{{receiptDetail.maintenanceAmount}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining Amount</td>
+                        <td>55</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Payment type</td>
+                        <td>{{receiptDetail.payType.label}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{receiptDetail.amount}}</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- <button pButton pRipple icon="pi pi-check" class="p-button-outlined" (click)="exportPdf()"></button> -->
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+            class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+
+
     </ng-template>
 
     <ng-template pTemplate="footer">
