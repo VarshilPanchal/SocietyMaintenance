@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
           this.loginData = data;
           if(this.loginData.password === password){
             this.notificationService.success('Signin Succesfull','');
+            this.localStorageService.setItem('logInUser', this.loginData);
             this.localStorageService.setItem('logInUserID', this.loginData.username);
             this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
           }else{

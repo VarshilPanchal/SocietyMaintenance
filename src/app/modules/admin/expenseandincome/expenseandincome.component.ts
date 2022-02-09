@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AdminServicesService } from '../services/admin-services.service';
-
+import * as converter from 'number-to-words';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -12,10 +12,15 @@ import { AdminServicesService } from '../services/admin-services.service';
 export class ExpenseandincomeComponent implements OnInit {
 
   cols = [
-    { header: 'Flat no.' },
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },
+  ]
+  expenseCols = [
+    { header: 'Amount' },
+    { header: 'Paid Through' },
+    { header: 'Description' },
+    { header: 'Action' },
   ]
   expenseFormGroup: FormGroup;
    expenseandincomeObject = {
@@ -43,6 +48,8 @@ export class ExpenseandincomeComponent implements OnInit {
   voucherDialog = false;
   popupHeader: string;
   loginUserId: any;
+  viewVoucherDialog: boolean;
+  amountInWords: string;
 
   constructor(private adminService: AdminServicesService,
               private errorService: ErrorService,
@@ -52,7 +59,8 @@ export class ExpenseandincomeComponent implements OnInit {
   ngOnInit(): void {
     this.loginUserId = this.localStorageService.getItem('logInUserID');
     this.getIncome();
-    // this.addBulkIncome();
+    console.log(converter.toWords(20000));
+   
   }
   prepareQueryParam(paramObject: any) {
     const params = new URLSearchParams();
@@ -104,6 +112,13 @@ export class ExpenseandincomeComponent implements OnInit {
     this.voucherDialog = true;
     this.popupHeader = 'Create Voucher';
     this.initializeExpenseFormGroup();
+    this.expenseFormGroup.get("amount").valueChanges.subscribe(amount=>{
+      this.amountInWords = converter.toWords(amount);
+    })
+  }
+  viewVoucher(): any {
+    this.viewVoucherDialog = true;
+    this.popupHeader = 'View Voucher';
   }
   initializeExpenseFormGroup(){
     this.expenseFormGroup = this.formBuilder.group({
@@ -119,5 +134,8 @@ export class ExpenseandincomeComponent implements OnInit {
   hideExpenseDialog(){
     this.voucherDialog = false;
     this.initializeExpenseFormGroup();
+  }
+  hideVoucherDialog(){
+    this.viewVoucherDialog = false;
   }
   }

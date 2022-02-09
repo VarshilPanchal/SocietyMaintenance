@@ -19,11 +19,11 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { CardModule } from 'primeng/card';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent } from './shared/header/header.component';
+import { HeaderComponent } from './modules/common/header/header.component';
 import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
 import { AdminComponent } from './modules/admin/admin.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { AboutUsComponent } from './shared/about-us/about-us.component';
+import { FooterComponent } from './modules/common/footer/footer.component';
+import { AboutUsComponent } from './modules/common/about-us/about-us.component';
 
 @NgModule({
   declarations: [
