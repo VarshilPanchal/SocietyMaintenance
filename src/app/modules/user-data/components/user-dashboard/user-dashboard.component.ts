@@ -9,6 +9,13 @@ export class UserDashboardComponent implements OnInit {
 
   constructor() { }
 
+  lstofUser: any[] = [];
+  cols = [
+    { header: 'Name' },
+    { header: 'Pending Amount' },
+    { header: 'Action' },
+  ];
+
   ngOnInit(): void {
   }
 

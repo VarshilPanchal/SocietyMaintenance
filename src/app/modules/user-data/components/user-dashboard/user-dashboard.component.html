@@ -1,1 +1,113 @@
-<p>user-dashboard works!</p>
+<nav class="d-flex align-self-center main-nav bg-primary text-dark">
+    <div class="py-2 pl-4">
+        <b>Dashboard</b>
+    </div>
+</nav>
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col-12">
+            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser"
+                class="mx-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let col of cols" pResizableColumn>
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td>
+                            {{user.user_name}}
+                        </td>
+                        <td *ngIf="user.amount > 0; else amountPaid">
+                            <p style="color: red;">
+                                {{user.amount |currency:"INR":"symbol"}}
+                            </p>
+                        </td>
+                        <ng-template #amountPaid>
+                            <td>
+                                <p style="color: green;">
+                                    {{user.amount |currency:"INR":"symbol"}}
+                                </p>
+                            </td>
+                        </ng-template>
+                        <td>
+                            <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
+                                >
+                                <i class="pi pi-upload" style="font-size: 15px"></i>
+                            </button> &nbsp;
+                            <button class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
+                                >
+                                <i class="pi pi-eye" style="font-size: 15px"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="col-12">
+            <div class="card h-100">
+                <div class="card-header p-3">
+                    <p>
+                        User
+                    </p>
+                </div>
+                <div class="card-text p-3">
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="pb-1">
+                                <p class="d-inline w-25">
+                                    Tenant fees: 1000
+                                </p>
+                                <br>
+                                <button style="font-size: 15px; padding: 5px;"
+                                    class="p-button bg-primary rounded d-inline" > 
+                                    <!-- (click)="addTenatFees()" -->
+                                    Add Tenant Fees
+                                </button>
+                            </span>
+                            <br>
+                            <span class="pb-1">
+                                <p class="d-inline">
+                                    Maintenance: 1000
+                                </p>
+                                <br>
+                                <button style="font-size: 15px; padding: 5px;"
+                                    class="p-button bg-primary rounded d-inline" > 
+                                    <!-- (click)="addMaintenanceFees()" -->
+                                    Change Maintainence Amount
+                                </button>
+                            </span>
+                            <br>
+                            <span class="pb-1">
+                                <p class="d-inline">
+                                    water bill per unit: 1000
+                                </p>
+                                <br>
+                                <button style="font-size: 15px; padding: 5px;"
+                                    class="p-button bg-primary rounded d-inline" > 
+                                    <!-- (click)="addWaterBillFees()" -->
+                                    Change Water Unit Amount
+                                </button>
+                            </span>
+                            <br>
+                            <span class="pb-1">
+                                <p class="d-inline">
+                                    Transfer Fees for 2BHK : 100
+                                    Transfer Fees for 3BHK : 200
+                                </p>
+                                <br>
+                                <button style="font-size: 15px; padding: 5px;"
+                                    class="p-button bg-primary rounded d-inline" > 
+                                    <!-- (click)="addTransferFees()" -->
+                                    Trasfer Fees
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

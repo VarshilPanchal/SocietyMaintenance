@@ -6,6 +6,7 @@ import { DashboardServicesService } from 'src/app/shared/services/dashboard-serv
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,22 +15,42 @@ import html2canvas from 'html2canvas';
 })
 export class DashboardComponent implements OnInit {
   lstofUser: any[] = [];
+  loginUserId;
+  users;
+  flatNo = '';
+  receiptGenerated = false;
+  receiptDetail;
+
+  //Dialog toggle
   tenatDialog = false;
   waterBillDialog = false;
+  TransferDialog = false;
   maintenanceDialog = false;
   generateMaintenanceDialog = false;
+  generateMaintenanceBillDialog = false;
+
+  //Form
   popupHeader: string;
   tenatForm: FormGroup;
   maintenanceForm: FormGroup;
   waterBillForm: FormGroup;
+  TransferForm: FormGroup;
   generateMaintenanceForm: FormGroup;
-  loginUserId;
-  users;
 
-  receiptGenerated = false;
+  // Form submitted
+  tenatFormSubmitted = false;
+  maintenanceFormSubmitted = false;
+  waterBillFormSubmitted = false;
+  TransferFormSubmitted = false;
+  generateMaintenanceFormSubmitted = false;
 
-  receiptDetail;
+  //Paginator
+  totalRecords: Number = 0;
+  size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+  rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
 
+  //DTO
+  waterMaintenanceBillMaster: WaterMaintenanceBillMaster;
 
   cols = [
     { header: 'Name' },
@@ -46,9 +67,12 @@ export class DashboardComponent implements OnInit {
     { label: 'Cheque' },
     { label: 'Cash' },
     { label: 'Online' },
-  ]
+  ];
 
-  waterMaintenanceBillMaster: WaterMaintenanceBillMaster;
+  flatType = [
+    { label: 'Cheque', value: '' },
+    { label: 'Cash', value: '' },
+  ]
 
   constructor(
     private dashboardService: DashboardServicesService,
@@ -63,6 +87,7 @@ export class DashboardComponent implements OnInit {
     this.initializeTenatForm();
     this.initializeWaterBillForm();
     this.initializeGenerateMaintenanceForm();
+    this.initializeTransferForm();
   }
 
   addTenatFees(): any {
@@ -122,6 +147,27 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  addTransferFees(): any {
+    this.TransferDialog = true;
+    this.popupHeader = 'Add Transfer Fees';
+    this.initializeTransferForm();
+  }
+
+  hideTransferDialog(): any {
+    this.TransferDialog = false;
+    this.initializeTransferForm();
+  }
+
+  initializeTransferForm() {
+    this.TransferForm = this._formBuilder.group({
+      id: '',
+      type: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      createdBy: this.loginUserId,
+    });
+  }
+
   generateMaintenance(name): any {
     this.generateMaintenanceDialog = true;
     this.popupHeader = `Generate Maintence for ${name}`;
@@ -129,9 +175,22 @@ export class DashboardComponent implements OnInit {
   }
 
   hideGenerateMaintenanceDialog(): any {
-    this.receiptGenerated = false;
+    // this.receiptGenerated = false;
     this.generateMaintenanceDialog = false;
     this.initializeGenerateMaintenanceForm();
+  }
+
+  generateMaintenanceBill(name): any {
+    this.generateMaintenanceBillDialog = true;
+    this.flatNo = name;
+    // this.popupHeader = `Generated Maintence Bill for ${name}`;
+    this.initializeGenerateMaintenanceForm();
+  }
+
+  hideGenerateMaintenanceBillDialog(): any {
+    // this.receiptGenerated = false;
+    this.flatNo = '';
+    this.generateMaintenanceBillDialog = false;
   }
 
   initializeGenerateMaintenanceForm() {
@@ -142,10 +201,14 @@ export class DashboardComponent implements OnInit {
       amount: [10000, [Validators.required]],
       reading: [1000, [Validators.required]],
       usedUnit: [10, [Validators.required]],
-      amountType: ['', [Validators.required]],
+      previousReading: [10, [Validators.required]],
+      currentReading: [10, [Validators.required]],
+      meterNotWorking: [false, [Validators.required]],
+      averageReading: [10,],
       payType: ['debit', [Validators.required]],
       userMasterid: ['A101', [Validators.required]],
       createdBy: this.loginUserId,
+      createdDate: new Date(),
     });
   }
 
@@ -157,7 +220,9 @@ export class DashboardComponent implements OnInit {
           (user) => {
             this.lstofUser.push(user.value);
           });
-        console.log(this.lstofUser);
+        this.totalRecords = this.users.length;
+        // console.log(this.lstofUser);
+        // console.log(this.totalRecords);
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');
         }
@@ -174,10 +239,24 @@ export class DashboardComponent implements OnInit {
   onSubmitMaintenanceForm() {
   }
 
+  onSubmitTransferFeesForm() {
+  }
+
   onSubmitWaterBillForm() {
   }
 
-  GenerateMaintenance(generateMaintenanceForm) {
+  GenerateMaintenanceBill(generateMaintenanceForm) {
+
+    if (!this.generateMaintenanceForm.valid) {
+      let controlName: string;
+      for (controlName in this.generateMaintenanceForm.controls) {
+        this.generateMaintenanceForm.controls[controlName].markAsDirty();
+        this.generateMaintenanceForm.controls[controlName].updateValueAndValidity(); // Validate form field and show the message
+      }
+      this.generateMaintenanceFormSubmitted = true;
+      return false;
+    }
+
     this.receiptGenerated = true;
     this.receiptDetail = generateMaintenanceForm.value;
     console.log(this.receiptDetail);

@@ -79,6 +79,12 @@ Primeng version => https://www.npmjs.com/package/primeng?activeTab=versions
 
 npm install @angular/cdk@^11.0.0 --save
 
+npm i jspdf
+
+https://www.npmjs.com/package/jspdf
+
+https://stackoverflow.com/questions/55019343/how-to-generate-a-pdf-using-angular-7
+
 =======================================================================================================================
 ==============================================================================================================================================================================================================================================
 ==============================================================================================================================================================================================================================================
@@ -104,3 +110,77 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Varshil Nedd to work on::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:Transfer fees=> 2bhk and 3 bhkEntry fees
+:View maintainence bill button on dashboard
+:header making for all the screens
+:header to design for all the pdfs
+:balance to show on top
+:if amount greater than zero change font color on dashboard
+
+
+:previous reading and current reading field to add in generate maintainence popup
+:previous reading, current reading and average reading(not mandatory) field to add in generate maintainence popup
+
+:Receipt:
+Tenant fees
+Maintainence
+Entry fees
+Transfer fees
+Voucher
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:Change password screen
+:Auth guard to implement
+:new about us screen
+:Complaint box to think
+:expense and income screen me se flat no field htani h
+:View voucher button in expense table screen
+:Receive maintainence screen
+:Made new components Header ki links bnai for admin
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

@@ -15,49 +15,49 @@
                 Add Voucher
             </button>
             <ng-container>
-                <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="expenseData"
-                class="mx-3">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th *ngFor="let col of expenseCols" pResizableColumn>
-                            {{col.header}}
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-expense>
-                    <tr>
-                        <td>
-                            {{expense.amount}}
-                        </td>
-                        <td>
-                            {{expense.pay_type}}
-                        </td>
-                        <td>
-                            {{expense.description}}
-                        </td>
-                        <td>
-                            <button class="p-button bg-primary rounded" (click)="viewVoucher()">
-                                View Voucher
-                            </button>                            
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
+                    [value]="expenseData" class="mx-3">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of expenseCols" pResizableColumn>
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-expense>
+                        <tr>
+                            <td>
+                                {{expense.amount}}
+                            </td>
+                            <td>
+                                {{expense.pay_type}}
+                            </td>
+                            <td>
+                                {{expense.description}}
+                            </td>
+                            <td>
+                                <button class="p-button bg-primary rounded" (click)="viewVoucher()">
+                                    View Voucher
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </ng-container>
             <div *ngIf="!expenseData?.length">
                 <h5 class="text-muted text-center mt-3">No record found</h5>
             </div>
         </ng-container>
-    
-
-
-
-        
 
 
 
 
-     
+
+
+
+
+
+
 
 
     </p-tabPanel>
@@ -71,40 +71,40 @@
         <ng-container>
             <ng-container>
                 <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="incomeData"
-                class="mx-3">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th *ngFor="let col of cols" pResizableColumn>
-                            {{col.header}}
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-income>
-                    <tr>
-                        <td>
-                            {{income.amount}}
-                        </td>
-                        <td>
-                            {{income.pay_type}}
-                        </td>
-                        <td>
-                            {{income.description}}
-                        </td>
-                       
-                    </tr>
-                </ng-template>
-            </p-table>
+                    class="mx-3">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of cols" pResizableColumn>
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-income>
+                        <tr>
+                            <td>
+                                {{income.amount}}
+                            </td>
+                            <td>
+                                {{income.pay_type}}
+                            </td>
+                            <td>
+                                {{income.description}}
+                            </td>
+
+                        </tr>
+                    </ng-template>
+                </p-table>
             </ng-container>
             <div *ngIf="!incomeData?.length">
                 <h5 class="text-muted text-center mt-3">No record found</h5>
             </div>
         </ng-container>
-        
 
-        
+
+
     </p-tabPanel>
 
-       
+
 </p-tabView>
 <p-dialog [(visible)]="voucherDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
     styleClass="p-fluid" (onHide)="hideExpenseDialog()">
@@ -122,8 +122,8 @@
             </div>
             <div class="p-field">
                 <label for="name">Description* </label>
-                <input type="text" pInputText id="regionName" formControlName="description" placeholder="Enter Description"
-                    required maxLength="50" />
+                <input type="text" pInputText id="regionName" formControlName="description"
+                    placeholder="Enter Description" required maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="expenseFormGroup.controls['amount'].touched && (expenseFormGroup.controls['amount'].hasError('required') && !expenseFormGroup.controls['amount'].valid)">
                     required
@@ -145,7 +145,74 @@
 <p-dialog [(visible)]="viewVoucherDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
     styleClass="p-fluid" (onHide)="hideVoucherDialog()">
 
-   
+    <div id="htmlData" >
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
+                        Voucher Receipt</th>
+                </tr>
+                <tr>
+                    <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
+                        Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
+                </tr>
+                <tr>
+                    <th scope="col" colspan="3">Name : flatNo</th>
+                </tr>
+                <tr>
+                    <th scope="col" colspan="3">Month : createdDate</th>
+                </tr>
+                <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-wrap text-break">Current Reading</td>
+                    <td>receiptDetail?.reading</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Used Unit </td>
+                    <td>receiptDetail?.usedUnit</td>
+                    <td>33</td>
+                </tr>
+                <tr>
+                    <td>Rate /- unit</td>
+                    <td>receiptDetail?.waterAmount</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>Maintenance Amount</td>
+                    <td>receiptDetail?.maintenanceAmount</td>
+                    <td>653</td>
+                </tr>
+                <tr>
+                    <td>Remaining Amount</td>
+                    <td>55</td>
+                    <td>653</td>
+                </tr>
+                <tr>
+                    <td>Payment type</td>
+                    <td>receiptDetail?.payType.label</td>
+                    <td>653</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>receiptDetail?.amount</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
