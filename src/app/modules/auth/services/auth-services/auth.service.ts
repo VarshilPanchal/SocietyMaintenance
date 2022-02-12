@@ -49,5 +49,16 @@ export class AuthService {
     return this.angularFireDatabase.object('user/' + username);
   }
 
+  changePassword(username, data, password){
+    return this.angularFireDatabase.object('user/' + username).set({
+      amount: data.amount,
+      createdDate: data.createdDate,
+      id: data.id,
+      updatedDate: data.updatedDate,
+      user_name: data.user_name, 
+      password: password
+    })
+  }
+
 
 }

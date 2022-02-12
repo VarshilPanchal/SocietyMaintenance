@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(auth => auth.AuthModule) },
   { path: 'sample', loadChildren: () => import('./modules/sample/sample.module').then(m => m.SampleModule) },
   { path: 'users', loadChildren: () => import('./modules/user-data/user-data.module').then(m => m.UserDataModule) },
+  { path: 'common', loadChildren: () => import('./modules/common/common.module').then(m => m.CommonModule) },
   {
     path: '404',
     loadChildren: () => import('./modules/error/error.module').then(m => m.ErrorModule)
