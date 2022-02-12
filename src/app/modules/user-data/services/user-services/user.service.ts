@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { ApiMethodName } from 'src/app/core/constants/ApiMethodName';
 import { ErrorService } from 'src/app/core/services/error/error.service';
@@ -26,7 +28,9 @@ export class UserService {
     private storageService: LocalStorageService,
     private router: Router,
     private errorService: ErrorService,
-    private http: HttpClient
+    private http: HttpClient,
+    private fireStore: AngularFirestore,
+    private angularFireDatabase: AngularFireDatabase
   ) { }
 
   prepareQueryParam(paramObject: any) {
@@ -63,6 +67,9 @@ export class UserService {
     return this.httpService.requestCall(url, ApiMethodName.DELETE, data);
   }
 
+  samplePostData(userObject){
+    this.angularFireDatabase.object('user/').set(userObject);
+  }
   // sampleGet(dataTableParam: URLSearchParams): Observable<any> {
   //   const url = environment.apiEndPoint + 'region' + '?' + dataTableParam;
   //   return this.httpService.get(url);

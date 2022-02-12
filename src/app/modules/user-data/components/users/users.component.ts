@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    // this.postData();
+    this.postData();
     // this.putData();
     this.getSampleData();
     // this.getSampleDataById();
@@ -34,13 +34,14 @@ export class UsersComponent implements OnInit {
   postData() {
     const userObject = {
       id: "string",
-      createdDate: '',
-      updatedDate: '',
+      createdDate: new Date().getTime(),
+      updatedDate: new Date().getTime(),
       password: "string",
-      user_name: "A102",
+      user_name: "A104",
       amount: 10
     };
-    this.angularFireDatabase.database.ref('user').child('A102').set(userObject);
+    // this.userService.samplePostData(userObject);
+    this.angularFireDatabase.database.ref('user').child('A104').set(userObject);
     // this.userService.samplePost(userObject).subscribe(
     //   (data: any) => {
     //     console.log(data);
@@ -115,11 +116,15 @@ export class UsersComponent implements OnInit {
       (data: any) => {
         // this.users = JSON.stringify(data);
         this.users = data;
-        // const users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-        // users.forEach(
-        //   user => {
-        //     console.log(user);
-        //   });
+        // this.users.forEach(e=>{
+        //   console.log(new Date(e.createdDate));
+        // })
+        const users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        users.forEach(
+          user => {
+            console.log(new Date(user.value.createdDate));
+
+          });
         console.log(this.users);
 
         if (data.statusCode === '200' && data.message === 'OK') {
