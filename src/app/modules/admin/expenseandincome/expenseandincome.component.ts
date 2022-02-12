@@ -4,6 +4,7 @@ import { ErrorService } from 'src/app/core/services/error/error.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AdminServicesService } from '../services/admin-services.service';
 import * as converter from 'number-to-words';
+import { AngularFireDatabase } from '@angular/fire/database';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -23,7 +24,7 @@ export class ExpenseandincomeComponent implements OnInit {
     { header: 'Action' },
   ]
   expenseFormGroup: FormGroup;
-   expenseandincomeObject = {
+  expenseandincomeObject = {
     id: "A102",
     createdDate: new Date(),
     updatedDate: new Date(),
@@ -34,7 +35,7 @@ export class ExpenseandincomeComponent implements OnInit {
     pay_type: 'cash',
     reading: ''
   };
-   dataTableParams = {
+  dataTableParams = {
     offset: 0,
     size: 10,
     sortField: 'NAME',
@@ -52,15 +53,17 @@ export class ExpenseandincomeComponent implements OnInit {
   amountInWords: string;
 
   constructor(private adminService: AdminServicesService,
-              private errorService: ErrorService,
-              private formBuilder: FormBuilder,
-              private localStorageService: LocalStorageService) { }
+    private errorService: ErrorService,
+    private formBuilder: FormBuilder,
+    private localStorageService: LocalStorageService,
+    private angularFireDatabase: AngularFireDatabase) { }
 
   ngOnInit(): void {
     this.loginUserId = this.localStorageService.getItem('logInUserID');
-    this.getIncome();
+    this.addBulkIncome();
+    // this.getIncome();
     console.log(converter.toWords(20000));
-   
+
   }
   prepareQueryParam(paramObject: any) {
     const params = new URLSearchParams();
@@ -74,30 +77,49 @@ export class ExpenseandincomeComponent implements OnInit {
 
   }
 
-  addBulkIncome(){
-    this.adminService.addIncome(this.expenseandincomeObject).subscribe(
-      (data: any) => {
-        console.log(data);
-        if (data.statusCode === '200' && data.message === 'OK') {
-        }
-      },
-      (err: Error) => {
-        console.error(err);
-      }
-    );
+  addBulkIncome() {
+    const data = []
+    let fetchData = [];
+    let fetchDataMap = []
+    // this.angularFireDatabase.object('amount/' + 'A104').valueChanges().subscribe(data => {
+    //   console.log(data);
+    //   fetchDataMap = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+    //   console.log(fetchDataMap)
+    //   fetchDataMap.forEach(data => {
+    //     fetchData.push(data.value);
+    //   })
+    //   fetchData.push(this.expenseandincomeObject);
+
+
+    //   console.log(fetchData);
+    //   // this.angularFireDatabase.database.ref('amount').child('A104').set(fetchData);
+    // });
+    // data.push(this.expenseandincomeObject)
+    // this.angularFireDatabase.database.ref('amount').child('A104').set(data)
+    // console.log(this.angularFireDatabase.database.ref('amount').child('A104').get());
+    // this.adminService.addIncome(this.expenseandincomeObject).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //     if (data.statusCode === '200' && data.message === 'OK') {
+    //     }
+    //   },
+    //   (err: Error) => {
+    //     console.error(err);
+    //   }
+    // );
   }
 
-  getIncome(){
+  getIncome() {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     this.expenseData = [];
     this.amountData = [];
-    this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data=>{
+    this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
         (amount) => {
-          if(amount.value.amount_type === 'Credit'){
+          if (amount.value.amount_type === 'Credit') {
             this.incomeData.push(amount.value)
-          }else if (amount.value.amount_type === 'Debit'){
+          } else if (amount.value.amount_type === 'Debit') {
             this.expenseData.push(amount.value)
           }
         });
@@ -112,7 +134,7 @@ export class ExpenseandincomeComponent implements OnInit {
     this.voucherDialog = true;
     this.popupHeader = 'Create Voucher';
     this.initializeExpenseFormGroup();
-    this.expenseFormGroup.get("amount").valueChanges.subscribe(amount=>{
+    this.expenseFormGroup.get("amount").valueChanges.subscribe(amount => {
       this.amountInWords = converter.toWords(amount);
     })
   }
@@ -120,7 +142,7 @@ export class ExpenseandincomeComponent implements OnInit {
     this.viewVoucherDialog = true;
     this.popupHeader = 'View Voucher';
   }
-  initializeExpenseFormGroup(){
+  initializeExpenseFormGroup() {
     this.expenseFormGroup = this.formBuilder.group({
       id: [],
       amount: ['', [Validators.required]],
@@ -128,14 +150,14 @@ export class ExpenseandincomeComponent implements OnInit {
       updatedBy: this.loginUserId,
     });
   }
-  onSubmitExpense(){
+  onSubmitExpense() {
     console.log(this.expenseFormGroup.value);
   }
-  hideExpenseDialog(){
+  hideExpenseDialog() {
     this.voucherDialog = false;
     this.initializeExpenseFormGroup();
   }
-  hideVoucherDialog(){
+  hideVoucherDialog() {
     this.viewVoucherDialog = false;
   }
-  }
+}
