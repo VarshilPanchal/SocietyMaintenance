@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/core/services/localstorage-service/
 import { AdminServicesService } from '../services/admin-services.service';
 import * as converter from 'number-to-words';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { async } from 'rxjs';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -25,14 +26,14 @@ export class ExpenseandincomeComponent implements OnInit {
   ]
   expenseFormGroup: FormGroup;
   expenseandincomeObject = {
-    id: "A102",
+    id: "A101",
     createdDate: new Date(),
     updatedDate: new Date(),
     user_master_id: "A101",
-    description: "description",
-    amount_type: "Debit",
-    amount: 500,
-    pay_type: 'cash',
+    description: "maintainence",
+    amount_type: "Credit",
+    amount: 1000,
+    pay_type: 'cheque',
     reading: ''
   };
   dataTableParams = {
@@ -40,7 +41,7 @@ export class ExpenseandincomeComponent implements OnInit {
     size: 10,
     sortField: 'NAME',
     sortOrder: 1,
-    searchText: `{"amount_type": 'Credit'}`
+    searchText: null
   };
   queryParam: URLSearchParams | undefined;
   amountData: { type: string; value: any; }[];
@@ -51,6 +52,7 @@ export class ExpenseandincomeComponent implements OnInit {
   loginUserId: any;
   viewVoucherDialog: boolean;
   amountInWords: string;
+  fetchData =[];
 
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
@@ -60,8 +62,8 @@ export class ExpenseandincomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginUserId = this.localStorageService.getItem('logInUserID');
-    this.addBulkIncome();
-    // this.getIncome();
+    // this.addBulkIncome();
+    this.getIncome();
     console.log(converter.toWords(20000));
 
   }
@@ -79,34 +81,37 @@ export class ExpenseandincomeComponent implements OnInit {
 
   addBulkIncome() {
     const data = []
-    let fetchData = [];
-    let fetchDataMap = []
+    // let fetchData;
+    let fetchDataMap = [];
+    
     // this.angularFireDatabase.object('amount/' + 'A104').valueChanges().subscribe(data => {
     //   console.log(data);
-    //   fetchDataMap = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-    //   console.log(fetchDataMap)
-    //   fetchDataMap.forEach(data => {
-    //     fetchData.push(data.value);
-    //   })
-    //   fetchData.push(this.expenseandincomeObject);
+    //   this.fetchData.push(data[0]);
+    //   console.log(this.fetchData)
+    //   // fetchDataMap = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+    //   // console.log(fetchDataMap)
+    //   // fetchDataMap.forEach(data => {
+    //   //   fetchData.push(data.value);
+    //   // })
+    //   this.fetchData.push(this.expenseandincomeObject);
+    //   console.log(this.fetchData)
 
-
-    //   console.log(fetchData);
-    //   // this.angularFireDatabase.database.ref('amount').child('A104').set(fetchData);
     // });
+    // console.log(this.fetchData);
+    // this.angularFireDatabase.database.ref('amount').child('A102').set(this.expenseandincomeObject);
     // data.push(this.expenseandincomeObject)
     // this.angularFireDatabase.database.ref('amount').child('A104').set(data)
     // console.log(this.angularFireDatabase.database.ref('amount').child('A104').get());
-    // this.adminService.addIncome(this.expenseandincomeObject).subscribe(
-    //   (data: any) => {
-    //     console.log(data);
-    //     if (data.statusCode === '200' && data.message === 'OK') {
-    //     }
-    //   },
-    //   (err: Error) => {
-    //     console.error(err);
-    //   }
-    // );
+    this.adminService.addIncome(this.expenseandincomeObject).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.statusCode === '200' && data.message === 'OK') {
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
   }
 
   getIncome() {

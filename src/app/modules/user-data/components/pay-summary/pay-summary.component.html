@@ -6,7 +6,7 @@
 <div class="container-fluid my-3">
     <div class="row">
         <div class="col-12">
-            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser"
+            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="userAmountData"
                 class="mx-3">
                 <ng-template pTemplate="header">
                     <tr>
@@ -15,30 +15,24 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-user>
+                <ng-template pTemplate="body" let-data>
                     <tr>
                         <td>
-                            {{user.user_name}}
+                            {{data.amount|currency:"INR":"symbol"}}
                         </td>
-                        <td *ngIf="user.amount > 0; else amountPaid">
-                            <p style="color: red;">
-                                {{user.amount |currency:"INR":"symbol"}}
-                            </p>
-                        </td>
-                        <ng-template #amountPaid>
-                            <td>
-                                <p style="color: green;">
-                                    {{user.amount |currency:"INR":"symbol"}}
-                                </p>
-                            </td>
-                        </ng-template>
                         <td>
-                            <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
+                            {{data.createdDate| date: shortDate}}
+                        </td>
+                        <td>
+                            {{data.pay_type}}
+                        </td>
+                        <td>
+                            <!-- <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
                                 >
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
-                            </button> &nbsp;
+                            </button> &nbsp; -->
                             <button class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
-                                >
+                            (click)="viewReceipt(data)" pTooltip="View Receipt">
                                 <i class="pi pi-eye" style="font-size: 15px"></i>
                             </button>
                         </td>
@@ -46,68 +40,73 @@
                 </ng-template>
             </p-table>
         </div>
-        <div class="col-12">
-            <div class="card h-100">
-                <div class="card-header p-3">
-                    <p>
-                        User
-                    </p>
-                </div>
-                <div class="card-text p-3">
-                    <div class="row">
-                        <div class="col-6">
-                            <span class="pb-1">
-                                <p class="d-inline w-25">
-                                    Tenant fees: 1000
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addTenatFees()" -->
-                                    Add Tenant Fees
-                                </button>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    Maintenance: 1000
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addMaintenanceFees()" -->
-                                    Change Maintainence Amount
-                                </button>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    water bill per unit: 1000
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addWaterBillFees()" -->
-                                    Change Water Unit Amount
-                                </button>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    Transfer Fees for 2BHK : 100
-                                    Transfer Fees for 3BHK : 200
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addTransferFees()" -->
-                                    Trasfer Fees
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+<!-- Generate maintenance Bill Dialog -->
+<p-dialog [(visible)]="viewReceiptDialog" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid"
+    (onHide)="hideViewReceiptDialog()">
+
+    <ng-template pTemplate="content">
+
+        <div id="htmlData" *ngIf="viewReceiptDialog">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
+                            Payment Receipt</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
+                            Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">Name : {{flatNo}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">Month : {{receiptData?.createdDate| date:shortDate}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Amount</td>
+                        <td *ngIf="receiptData?.amount">{{receiptData?.amount}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining Amount</td>
+                        <td>55</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Payment type</td>
+                        <td *ngIf="receiptData?.pay_type">{{receiptData?.pay_type}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td *ngIf="recieptData?.amount">{{recieptData?.amount}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button type="button" pButton pRipple (click)="exportPdf()" class="p-button-warning" pTooltip="Download PDF"
+            tooltipPosition="bottom">
+            <i class="pi pi-download" style="font-size: 15px"></i>
+        </button>
+    </ng-template>
+
+</p-dialog>
