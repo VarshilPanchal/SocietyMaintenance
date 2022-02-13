@@ -38,12 +38,31 @@ export class DashboardServicesService {
     return this.httpService.requestCall(url, ApiMethodName.GET);
   }
 
+  getFeesData(): any {
+    this.queryParam = this.prepareQueryParam(this.dataTableParams);
+    const url = 'feesmaster.json' + '?' + this.queryParam;
+    // return this.http.get('https://societymaintenance-e775d-default-rtdb.firebaseio.com/FeesMaster');
+    return this.httpService.requestCall(url, ApiMethodName.GET);
+  }
+
+  getMaintenanceAmountData(): any {
+    this.queryParam = this.prepareQueryParam(this.dataTableParams);
+    const url = 'maintenancemaster.json' + '?' + this.queryParam;
+    // return this.http.get('https://societymaintenance-e775d-default-rtdb.firebaseio.com/FeesMaster');
+    return this.httpService.requestCall(url, ApiMethodName.GET);
+  }
+
   dashboardGetById(): any {
     return this.http.get('https://societymaintenance-e775d-default-rtdb.firebaseio.com/user/0');
   }
 
   dashboardPost(data: any): any {
     const url = 'user.json';
+    return this.httpService.requestCall(url, ApiMethodName.POST, data);
+  }
+
+  generatedMaintenanceBillPost(data: any): any {
+    const url = 'maintenancemaster.json';
     return this.httpService.requestCall(url, ApiMethodName.POST, data);
   }
 
@@ -56,4 +75,5 @@ export class DashboardServicesService {
     const url = 'user.json';
     return this.httpService.requestCall(url, ApiMethodName.DELETE, data);
   }
+
 }

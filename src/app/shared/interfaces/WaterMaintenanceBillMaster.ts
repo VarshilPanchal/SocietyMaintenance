@@ -1,7 +1,7 @@
-export interface WaterMaintenanceBillMaster {
+export class WaterMaintenanceBillMaster {
     id: string;
-    createdDate: Date;
-    updatedDate: Date;
+    createdDate: any;
+    updatedDate: any;
     type: string;
     amount: number;
 }

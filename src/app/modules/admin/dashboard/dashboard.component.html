@@ -67,7 +67,7 @@
                         <div class="col-6">
                             <span class="pb-1">
                                 <p class="d-inline w-25">
-                                    Tenant fees: 1000
+                                    Tenant fees: {{feesMasterData?.TENAT2022.amount}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -78,7 +78,7 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Maintenance: 1000
+                                    Maintenance: {{feesMasterData?.MAINTENANCE_AMOUNT.amount}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -89,7 +89,7 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    water bill per unit: 1000
+                                    water bill per unit: {{feesMasterData?.WATER_BILL.amount}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -100,8 +100,8 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Transfer Fees for 2BHK : 100
-                                    Transfer Fees for 3BHK : 200
+                                    Transfer Fees for 2BHK : {{feesMasterData?.TRANSFER_2_BHK.amount}}
+                                    Transfer Fees for 3BHK : {{feesMasterData?.TRANSFER_3_BHK.amount}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -268,11 +268,11 @@
                 </div>
             </div>
             <div class="p-field">
-                <label for="reading">Used Water unit* </label>
-                <input type="text" pInputText id="reading" formControlName="reading" placeholder="Enter Reading"
+                <label for="usedUnit">Used Water unit* </label>
+                <input type="text" pInputText id="usedUnit" formControlName="usedUnit" placeholder="Enter Used Unit"
                     required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['reading'].touched && (generateMaintenanceForm.controls['reading'].hasError('required') && !generateMaintenanceForm.controls['reading'].valid)">
+                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['usedUnit'].touched && (generateMaintenanceForm.controls['usedUnit'].hasError('required') && !generateMaintenanceForm.controls['usedUnit'].valid)">
                     required
                 </div>
             </div>
@@ -303,7 +303,7 @@
                     required
                 </div>
             </div>
-            <div class="p-field">
+            <!-- <div class="p-field">
                 <label for="amount">Total Payable Amount* </label>
                 <input type="text" disabled pInputText id="amount" formControlName="amount" placeholder="Enter Amount"
                     required autofocus pKeyFilter="num" maxLength="50" />
@@ -311,7 +311,7 @@
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['amount'].touched && (generateMaintenanceForm.controls['amount'].hasError('required') && !generateMaintenanceForm.controls['amount'].valid)">
                     required
                 </div>
-            </div>
+            </div> -->
         </form>
     </ng-template>
 
