@@ -32,6 +32,8 @@
     "jquery": "^3.6.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.23",
+    "n2words": "^1.11.0",
+    "ngx-num-to-words": "^1.0.0",
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.1.0",
     "number-to-words": "^1.2.4",
