@@ -6,6 +6,7 @@ import { AdminServicesService } from '../services/admin-services.service';
 import * as converter from 'number-to-words';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
+import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -13,6 +14,11 @@ import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 })
 export class ExpenseandincomeComponent implements OnInit {
   amount;
+  payTypeList = [
+    {name: 'Cash', code: 'Cash'},
+    {name: 'Cheque', code: 'Cheque'},
+    {name: 'OverDraft', code: 'OverDraft'},
+];
   cols = [
     { header: 'Amount' },
     { header: 'Paid Through' },
@@ -53,6 +59,8 @@ export class ExpenseandincomeComponent implements OnInit {
   viewVoucherDialog: boolean;
   amountInWords: string;
   fetchData =[];
+  expenseDataForVoucher: any;
+  receiptDetail: any;
 
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
@@ -120,6 +128,7 @@ export class ExpenseandincomeComponent implements OnInit {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     this.expenseData = [];
     this.amountData = [];
+    this.incomeData = [];
     this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
@@ -142,23 +151,44 @@ export class ExpenseandincomeComponent implements OnInit {
     this.popupHeader = 'Create Voucher';
     this.initializeExpenseFormGroup();
     this.expenseFormGroup.get("amount").valueChanges.subscribe(amount => {
-      this.amountInWords = converter.toWords(amount);
+      const wordsPipe = new NumberToWordsPipe();
+      this.amountInWords = wordsPipe.transform(amount);
+      // this.amountInWords = converter.toWords(amount);
     })
   }
-  viewVoucher(): any {
+  viewVoucher(expense): any {
+    this.receiptDetail = expense;
     this.viewVoucherDialog = true;
     this.popupHeader = 'View Voucher';
   }
   initializeExpenseFormGroup() {
     this.expenseFormGroup = this.formBuilder.group({
       id: [],
+      createdDate: new Date(),
+      updatedDate: new Date(),
+      user_master_id: "",
+      amount_type: "Debit",
+      pay_type: ['', [Validators.required]],
+      reading: '',
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      updatedBy: this.loginUserId,
     });
   }
   onSubmitExpense() {
     console.log(this.expenseFormGroup.value);
+    this.adminService.addIncome(this.expenseFormGroup.value).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.hideExpenseDialog();
+        this.getIncome();
+        if (data.statusCode === '200' && data.message === 'OK') {
+          
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
   }
   hideExpenseDialog() {
     this.voucherDialog = false;
