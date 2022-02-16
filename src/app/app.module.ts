@@ -23,12 +23,14 @@ import { HeaderComponent } from './modules/common/header/header.component';
 import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { FooterComponent } from './modules/common/footer/footer.component';
-
+import { NgxNumToWordsModule } from 'ngx-num-to-words';
+// import { NumberToWordsPipe } from './number-to-words.pipe'; 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    // NumberToWordsPipe,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { FooterComponent } from './modules/common/footer/footer.component';
     AngularFireDatabaseModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxNumToWordsModule
     // MaterialModule,
   ],
   providers: [

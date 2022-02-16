@@ -39,7 +39,6 @@ import { CheckboxModule } from "primeng/checkbox";
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 
-
 const materialModule =
   [
     LayoutModule,
@@ -85,7 +84,8 @@ const materialModule =
     InputMaskModule,
     CheckboxModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    
   ];
 
 @NgModule({

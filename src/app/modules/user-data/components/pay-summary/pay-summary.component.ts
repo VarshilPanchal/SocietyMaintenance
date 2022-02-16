@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/core/services/localstorage-service/
 import { AdminServicesService } from 'src/app/modules/admin/services/admin-services.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { AuthService } from 'src/app/modules/auth/services/auth-services/auth.service';
 
 @Component({
   selector: 'app-pay-summary',
@@ -17,11 +18,14 @@ export class PaySummaryComponent implements OnInit {
   viewReceiptDialog = false;
   flatNo;
   recieptData: any;
+  remainingAmount: any;
+  loggedInUserName: any;
 
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,
-    private localStorageService: LocalStorageService,) { }
+    private localStorageService: LocalStorageService,
+    private authService: AuthService) { }
 
   lstofUser: any[] = [];
   cols = [
@@ -39,6 +43,7 @@ export class PaySummaryComponent implements OnInit {
     searchText: null
   };
   ngOnInit(): void {
+    this.loggedInUserName = this.localStorageService.getLoginUserName();
     this.getPaymentData();
   }
   prepareQueryParam(paramObject: any) {
@@ -49,15 +54,16 @@ export class PaySummaryComponent implements OnInit {
     }
     return params;
   }
-  getPaymentData(){
+  getPaymentData() {
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     this.amountData = [];
     this.userAmountData = [];
+    console.log(this.loggedInUserName);
     this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
         (amount) => {
-          if (amount.value.amount_type === 'Credit' && amount.value.user_master_id === 'A102') {
+          if (amount.value.amount_type === 'Credit' && amount.value.user_master_id === this.loggedInUserName) {
             this.userAmountData.push(amount.value)
           }
         });
@@ -65,30 +71,37 @@ export class PaySummaryComponent implements OnInit {
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }
-    }) 
+    })
   }
-  viewReceipt(data){
-      this.recieptData = data;
-      this.viewReceiptDialog = true;
-      this.flatNo = 'A102';
-  
-    }
-    exportPdf(): void {
-      let DATA = document.getElementById('htmlData');
-  
-      html2canvas(DATA).then(canvas => {
-        let fileWidth = 208;
-        let fileHeight = canvas.height * fileWidth / canvas.width;
-  
-        const FILEURI = canvas.toDataURL('image/png')
-        let PDF = new jsPDF('p', 'mm', 'a4');
-        let position = 0;
-        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
-  
-        PDF.save('payment-receipt.pdf');
+  viewReceipt(data) {
+    this.recieptData = data;
+    this.viewReceiptDialog = true;
+    this.flatNo = this.loggedInUserName;
+    this.getUserData(this.flatNo);
+
+  }
+  getUserData(flatNo) {
+    this.authService.getUser(flatNo).valueChanges().subscribe(
+      (data: any) => {
+        this.remainingAmount = data.amount;
       });
-    }
-    hideViewReceiptDialog(): any {
-      this.viewReceiptDialog = false;
-    }
+  }
+  exportPdf(): void {
+    let DATA = document.getElementById('htmlData');
+
+    html2canvas(DATA).then(canvas => {
+      let fileWidth = 208;
+      let fileHeight = canvas.height * fileWidth / canvas.width;
+
+      const FILEURI = canvas.toDataURL('image/png')
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+
+      PDF.save('payment-receipt.pdf');
+    });
+  }
+  hideViewReceiptDialog(): any {
+    this.viewReceiptDialog = false;
+  }
 }

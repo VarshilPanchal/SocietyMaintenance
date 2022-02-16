@@ -110,6 +110,10 @@
     styleClass="p-fluid" (onHide)="hideExpenseDialog()">
 
     <ng-template pTemplate="content">
+        <div class="p-field">
+            <input type="text" [(ngModel)]="amount">
+            <span>{{amount | numberToWords}}</span>
+        </div>
         <form [formGroup]="expenseFormGroup" (ngSubmit)="onSubmitExpense()">
             <div class="p-field">
                 <label for="name">Amount* </label>

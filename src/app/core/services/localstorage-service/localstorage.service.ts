@@ -60,6 +60,10 @@ export class LocalStorageService {
         const user = this.getItem('user');
         return user ? user.id : '';
     }
+    getLoginUserName(): any {
+        const user = this.getItem('user');
+        return user ? user.user_name : '';
+    }
 
     getLoginUserObject(): any {
         const user = this.getItem('user');

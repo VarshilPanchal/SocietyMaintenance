@@ -43,7 +43,7 @@
     </div>
 </div>
 <!-- Generate maintenance Bill Dialog -->
-<p-dialog [(visible)]="viewReceiptDialog" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid"
+<p-dialog [(visible)]="viewReceiptDialog" [style]="{width: '450px'}" [modal]="true" styleClass="p-fluid"
     (onHide)="hideViewReceiptDialog()">
 
     <ng-template pTemplate="content">
@@ -63,7 +63,12 @@
                         <th scope="col" colspan="3">Name : {{flatNo}}</th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Month : {{receiptData?.createdDate| date:shortDate}}</th>
+                        <th scope="col" colspan="3">Month : {{recieptData?.createdDate| date:shortDate}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">Payment type : {{recieptData?.pay_type}}</th>
+                        <!-- <td *ngIf="recieptData?.pay_type">{{recieptData?.pay_type}}</td> -->
+                        <!-- <td></td> -->
                     </tr>
                     <tr>
                         <th scope="col">Description</th>
@@ -73,19 +78,15 @@
                 <tbody>
                     <tr>
                         <td>Amount</td>
-                        <td *ngIf="receiptData?.amount">{{receiptData?.amount}}</td>
-                        <td>653</td>
+                        <td *ngIf="recieptData?.amount">{{recieptData?.amount}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
-                        <td>55</td>
-                        <td>653</td>
+                        <td *ngIf="remainingAmount">{{remainingAmount}}</td>
+                        <td></td>
                     </tr>
-                    <tr>
-                        <td>Payment type</td>
-                        <td *ngIf="receiptData?.pay_type">{{receiptData?.pay_type}}</td>
-                        <td>653</td>
-                    </tr>
+                   
                     <tr>
                         <td></td>
                         <td></td>

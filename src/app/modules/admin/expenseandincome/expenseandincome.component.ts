@@ -5,14 +5,14 @@ import { LocalStorageService } from 'src/app/core/services/localstorage-service/
 import { AdminServicesService } from '../services/admin-services.service';
 import * as converter from 'number-to-words';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { async } from 'rxjs';
+import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
   styleUrls: ['./expenseandincome.component.css']
 })
 export class ExpenseandincomeComponent implements OnInit {
-
+  amount;
   cols = [
     { header: 'Amount' },
     { header: 'Paid Through' },
@@ -58,13 +58,15 @@ export class ExpenseandincomeComponent implements OnInit {
     private errorService: ErrorService,
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
-    private angularFireDatabase: AngularFireDatabase) { }
+    private angularFireDatabase: AngularFireDatabase,
+    private ngxNumToWordsService: NgxNumToWordsService) { }
 
   ngOnInit(): void {
-    this.loginUserId = this.localStorageService.getItem('logInUserID');
+    // this.loginUserId = this.localStorageService.getItem('logInUserID');
     // this.addBulkIncome();
     this.getIncome();
-    console.log(converter.toWords(20000));
+    // console.log(this.ngxNumToWordsService.inWords(100000, 'en'));
+    // console.log(converter.toWords(20000));
 
   }
   prepareQueryParam(paramObject: any) {

@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ReceiveMaintainenceComponent } from './receive-maintainence/receive-maintainence.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -22,8 +23,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
-
+    MaterialModule,
+    SharedModule
   ]
 })
 export class AdminModule{}
