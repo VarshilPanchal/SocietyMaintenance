@@ -1,6 +1,6 @@
-<nav class="d-flex align-self-center main-nav bg-primary text-white">
+<nav class="d-flex align-self-center main-nav bg-primary text-dark">
     <div class="py-2 pl-4">
-        Expenses and Income
+        <b>Expenses and Income</b>
     </div>
 </nav>
 <p-tabView styleClass="tabview-custom p-3" (onChange)="handleChange($event)">
@@ -132,7 +132,7 @@
             </div>
             <div class="p-field">
                 <label for="name">Paid By* </label>
-                <p-dropdown [options]="payTypeList" formControlName="pay_type" optionLabel="name">
+                <p-dropdown [options]="payTypeList" formControlName="pay_type" optionLabel="name" optionValue="name">
                 </p-dropdown>
                 <div class="p-invalid"
                     *ngIf="expenseFormGroup.controls['pay_type'].touched && (expenseFormGroup.controls['pay_type'].hasError('required') && !expenseFormGroup.controls['pay_type'].valid)">

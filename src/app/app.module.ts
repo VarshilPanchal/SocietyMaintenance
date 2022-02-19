@@ -24,6 +24,8 @@ import { DashboardComponent } from './modules/admin/dashboard/dashboard.componen
 import { AdminComponent } from './modules/admin/admin.component';
 import { FooterComponent } from './modules/common/footer/footer.component';
 import { NgxNumToWordsModule } from 'ngx-num-to-words';
+import { AuthGuard } from './core/gaurds/auth.guard';
+import { AuthGuardAdmin } from './core/gaurds/auth.guardAdmin';
 // import { NumberToWordsPipe } from './number-to-words.pipe'; 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { NgxNumToWordsModule } from 'ngx-num-to-words';
       provide: HTTP_INTERCEPTORS,
       useClass: httpInterceptor,
       multi: true,
-    }
+    },
+    AuthGuard,
+    AuthGuardAdmin,
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

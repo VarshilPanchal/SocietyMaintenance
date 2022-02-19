@@ -63,9 +63,14 @@ export class LoginComponent implements OnInit {
         if(data){
           this.loginData = data;
           if(this.loginData.password === password){
-            this.notificationService.success('Signin Succesfull','');
+            // this.notificationService.success('Signin Succesfull','');
             this.localStorageService.setItem('user', this.loginData);
-            this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+            if(this.loginData.id ==='Admin'){
+              this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+            }else{
+              this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
+
+            }
           }else{
             this.notificationService.error('Enter Valid password','')
           }

@@ -81,9 +81,9 @@ export class LocalStorageService {
     logout(): any {
         sessionStorage.clear();
         localStorage.clear();
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
+        // setTimeout(() => {
+        //     window.location.reload();
+        // }, 500);
     }
 
 }

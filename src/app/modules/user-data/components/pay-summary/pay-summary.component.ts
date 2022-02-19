@@ -6,6 +6,7 @@ import { AdminServicesService } from 'src/app/modules/admin/services/admin-servi
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from 'src/app/modules/auth/services/auth-services/auth.service';
+import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 
 @Component({
   selector: 'app-pay-summary',
@@ -20,7 +21,10 @@ export class PaySummaryComponent implements OnInit {
   recieptData: any;
   remainingAmount: any;
   loggedInUserName: any;
-
+   // Paginator
+   totalRecords: Number = 0;
+   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,

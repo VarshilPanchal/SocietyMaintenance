@@ -7,7 +7,9 @@
     <div class="row">
         <div class="col-12">
             <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="userAmountData"
-                class="mx-3">
+                class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} payment"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                 <ng-template pTemplate="header">
                     <tr>
                         <th *ngFor="let col of cols" pResizableColumn>
@@ -35,6 +37,13 @@
                             (click)="viewReceipt(data)" pTooltip="View Receipt">
                                 <i class="pi pi-eye" style="font-size: 15px"></i>
                             </button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="3" class="text-center">
+                            No records found
                         </td>
                     </tr>
                 </ng-template>

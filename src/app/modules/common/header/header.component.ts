@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PATH_CONSTANTS } from 'src/app/core/constants/PathConstants';
+import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
+// import { ConfirmDialogueService } from 'src/app/shared/services/confirm-dialogue.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,16 +11,31 @@ import { PATH_CONSTANTS } from 'src/app/core/constants/PathConstants';
 export class HeaderComponent implements OnInit {
 
   navbarOpen = false;
+  loggedInUser: any;
+  roleName: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private localStorageService: LocalStorageService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.loggedInUser = this.localStorageService.getLoginUserName();
+    if(this.loggedInUser == 'Admin'){
+      this.roleName = 'ADMIN';
+    }else{
+      this.roleName = 'USER';
+    }
+  }
 
   setNavbarOpen() {
     this.navbarOpen = !this.navbarOpen;
   }
   onDashboardClick() {
-    this.router.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD])
+    if(this.roleName == 'ADMIN'){
+      this.router.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+    }else{
+      this.router.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
+     
+    }
   }
   onReceiveMaintainenceClick() {
     this.router.navigate([PATH_CONSTANTS.RECEIVE_MAINATAINENCE])
@@ -33,7 +50,29 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([PATH_CONSTANTS.ABOUT_US])
   }
   onLogoutClick() {
-    console.log("logout")
+   
+      // let options = null;
+      // options = {
+      //   title: "Warning",
+      //   message: "Are you sure you want to logout?",
+      //   cancelText: "No",
+      //   confirmText: "Yes"
+  
+      // };
+      // this.confirmDialogService.open(options);
+      // this.confirmDialogService.confirmed().subscribe(confirmed => {
+      //   if (confirmed) {
+      //     this.logout();
+      //   }
+      // });
+    this.logout();
+  }
+  logout() {
+    this.localStorageService.logout();
+    this.router.navigate([PATH_CONSTANTS.LOGIN])
+  }
+  onPaymentSummaryClick() {
+    this.router.navigate([PATH_CONSTANTS.PAY_SUMMARY])
   }
 
 }

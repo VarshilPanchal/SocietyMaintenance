@@ -8,5 +8,7 @@ export const PATH_CONSTANTS = {
     CHANGE_PASSWORD: '/admin/change-password',
     ABOUT_US: '/common/about-us',
     PAY_SUMMARY: '/users/pay-summary',
+    LOGIN: '/auth/login',
+    USER_DASHBOARD: '/users/user-dashboard',
 
 };

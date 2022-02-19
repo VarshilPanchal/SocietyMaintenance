@@ -38,7 +38,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { CheckboxModule } from "primeng/checkbox";
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
-
+import {MatDialogModule } from '@angular/material/dialog';
+import {MatToolbarModule } from '@angular/material/toolbar';
 const materialModule =
   [
     LayoutModule,
@@ -85,7 +86,8 @@ const materialModule =
     CheckboxModule,
     AvatarModule,
     AvatarGroupModule,
-    
+    MatDialogModule,
+    MatToolbarModule
   ];
 
 @NgModule({

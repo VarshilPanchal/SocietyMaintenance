@@ -9,7 +9,7 @@ import { LocalStorageService } from '../services/localstorage-service/localstora
 
 @Injectable()
 
-export class AuthGuard implements CanActivate {
+export class AuthGuardAdmin implements CanActivate {
 
   constructor(
     private router: Router,
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.localStorageService.getItem('user') && this.localStorageService.getItem('user').id !== 'Admin') {
+    if (this.localStorageService.getItem('user') && this.localStorageService.getItem('user').id === 'Admin') {
       return true;
     }
     // not logged in than redirect to login page
