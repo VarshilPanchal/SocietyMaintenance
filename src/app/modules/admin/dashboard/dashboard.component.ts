@@ -5,7 +5,9 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 import { ErrorService } from 'src/app/core/services/error/error.service';
+import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { MaintenanceBillMaster } from 'src/app/shared/interfaces/MaintenanceBillMaster';
+import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { WaterMaintenanceBillMaster } from 'src/app/shared/interfaces/WaterMaintenanceBillMaster';
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
 
@@ -56,6 +58,8 @@ export class DashboardComponent implements OnInit {
   // DTO
   waterMaintenanceBillMaster: WaterMaintenanceBillMaster;
   maintenanceBillMaster: MaintenanceBillMaster;
+  userMasterDto: UserMaster;
+  remainingAmount = 0;
 
   cols = [
     { header: 'Name' },
@@ -83,7 +87,8 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardServicesService,
     private errorService: ErrorService,
     private _formBuilder: FormBuilder,
-    private angularFireDatabase: AngularFireDatabase
+    private angularFireDatabase: AngularFireDatabase,
+    private notificationService: NotificationService
   ) { }
 
 
@@ -107,6 +112,7 @@ export class DashboardComponent implements OnInit {
   hidetenatDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.tenatDialog = false;
+    this.getFessMasterData();
     this.initializeTenatForm();
   }
 
@@ -114,7 +120,7 @@ export class DashboardComponent implements OnInit {
     this.tenatForm = this._formBuilder.group({
       id: 'TENAT2022',
       type: ['TENAT', [Validators.required]],
-      amount: ['', [Validators.required]],
+      amount: [this.feesMasterData?.TENAT2022.amount ? this.feesMasterData.TENAT2022.amount : 0, [Validators.required]],
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
       createdBy: 'Admin',
@@ -131,6 +137,7 @@ export class DashboardComponent implements OnInit {
   hidemaintenanceDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.maintenanceDialog = false;
+    this.getFessMasterData();
     this.initializeMaintenanceForm();
   }
 
@@ -138,7 +145,7 @@ export class DashboardComponent implements OnInit {
     this.maintenanceForm = this._formBuilder.group({
       id: 'MAINTENANCE_AMOUNT',
       type: ['MAINTENANCE_AMOUNT', [Validators.required]],
-      amount: ['', [Validators.required]],
+      amount: [this.feesMasterData?.MAINTENANCE_AMOUNT.amount ? this.feesMasterData?.MAINTENANCE_AMOUNT.amount : 0, [Validators.required]],
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
       createdBy: 'Admin',
@@ -155,6 +162,7 @@ export class DashboardComponent implements OnInit {
   hideWaterBillDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.waterBillDialog = false;
+    this.getFessMasterData();
     this.initializeWaterBillForm();
   }
 
@@ -162,7 +170,7 @@ export class DashboardComponent implements OnInit {
     this.waterBillForm = this._formBuilder.group({
       id: 'WATER_BILL',
       type: ['WATER_BILL', [Validators.required]],
-      amount: ['', [Validators.required]],
+      amount: [this.feesMasterData?.WATER_BILL.amount ? this.feesMasterData?.WATER_BILL.amount : 0, [Validators.required]],
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
       createdBy: 'Admin',
@@ -179,6 +187,7 @@ export class DashboardComponent implements OnInit {
   hideTransferDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.TransferDialog = false;
+    this.getFessMasterData();
     this.initializeTransferForm();
   }
 
@@ -196,7 +205,10 @@ export class DashboardComponent implements OnInit {
   generateMaintenance(name): any {
     // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.generateMaintenanceDialog = true;
+    this.flatNo = name;
+    console.log(this.flatNo);
     this.popupHeader = `Generate Maintence for ${name}`;
+    this.getUserMaster(name);
     this.initializeGenerateMaintenanceForm();
   }
 
@@ -206,10 +218,9 @@ export class DashboardComponent implements OnInit {
     this.initializeGenerateMaintenanceForm();
   }
 
-  generateMaintenanceBill(name): any {
+  opengenerateMaintenanceBillDialog(name): any {
     // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.generateMaintenanceBillDialog = true;
-    this.flatNo = name;
     // this.popupHeader = `Generated Maintence Bill for ${name}`;
     this.initializeGenerateMaintenanceForm();
   }
@@ -226,21 +237,25 @@ export class DashboardComponent implements OnInit {
       maintenanceAmount: [this.feesMasterData?.MAINTENANCE_AMOUNT.amount, [Validators.required]],
       waterAmount: [this.feesMasterData?.WATER_BILL.amount, [Validators.required]],
       amount: [''],
+      amountReceived: [''],
       usedUnit: ['', [Validators.required]],
       previousReading: ['', [Validators.required]],
       currentReading: ['', [Validators.required]],
-      // meterNotWorking: [false, [Validators.required]],
+      maintenancePaid: [false, [Validators.required]],
       averageReading: [''],
       payType: ['Debit'],
-      userMasterid: ['A101'],
-      createdBy: this.loginUserId,
+      userMasterid: [this.flatNo],
+      createdBy: 'Admin',
       createdDate: new Date().getTime(),
+      updatedDate: ''
     });
   }
 
   getSampleData() {
     this.dashboardService.dashboardGet().subscribe(
       (data: any) => {
+        this.users = [];
+        this.lstofUser = [];
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
@@ -265,7 +280,6 @@ export class DashboardComponent implements OnInit {
           this.errorService.userNotification(data.statusCode, 'Get Data');
         }
         console.log(this.feesMasterData);
-        console.log(this.feesMasterData.MAINTENANCE_AMOUNT);
       },
       (err: Error) => {
         console.error(err);
@@ -287,7 +301,8 @@ export class DashboardComponent implements OnInit {
     this.waterMaintenanceBillMaster = this.tenatForm.value;
     console.log(this.waterMaintenanceBillMaster);
 
-    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster);
+    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
+      .finally(this.hidetenatDialog());
     this.tenatFormSubmitted = false;
   }
 
@@ -304,7 +319,8 @@ export class DashboardComponent implements OnInit {
     }
     this.waterMaintenanceBillMaster = this.maintenanceForm.value;
     console.log(this.waterMaintenanceBillMaster);
-    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster);
+    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
+      .finally(this.hidemaintenanceDialog())
     this.maintenanceFormSubmitted = false;
   }
 
@@ -322,7 +338,8 @@ export class DashboardComponent implements OnInit {
     this.waterMaintenanceBillMaster = this.TransferForm.value;
     this.waterMaintenanceBillMaster.id = this.waterMaintenanceBillMaster.type;
     console.log(this.waterMaintenanceBillMaster);
-    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster);
+    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
+      .finally(this.hideTransferDialog());
     this.TransferFormSubmitted = false;
   }
 
@@ -339,7 +356,8 @@ export class DashboardComponent implements OnInit {
     }
     this.waterMaintenanceBillMaster = this.waterBillForm.value;
     console.log(this.waterMaintenanceBillMaster);
-    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster);
+    this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
+    .finally(this.hideWaterBillDialog());
     this.waterBillFormSubmitted = false;
   }
 
@@ -353,10 +371,6 @@ export class DashboardComponent implements OnInit {
       }
       this.generateMaintenanceFormSubmitted = true;
       this.maintenanceBillMaster = generateMaintenanceForm.value;
-
-      console.log(this.generateMaintenanceForm);
-      console.log(this.generateMaintenanceForm.valid);
-      console.log(this.maintenanceBillMaster);
       return false;
     }
 
@@ -365,6 +379,7 @@ export class DashboardComponent implements OnInit {
     let totalAmount: number = this.maintenanceBillMaster.usedUnit * this.maintenanceBillMaster.waterAmount;
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
     this.maintenanceBillMaster.amount = totalAmount;
+    this.remainingAmount = totalAmount;
     this.receiptDetail = generateMaintenanceForm.value;
     console.log(this.maintenanceBillMaster);
     // tslint:disable-next-line: max-line-length
@@ -372,6 +387,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.generatedMaintenanceBillPost(this.maintenanceBillMaster).subscribe(
       (data: any) => {
         console.log(data);
+        this.onSubmitUserMasterAmountUpdate();
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Post Data');
         }
@@ -380,6 +396,44 @@ export class DashboardComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+
+  getUserMaster(id) {
+    this.dashboardService.getUser(id).valueChanges().subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data) {
+          this.userMasterDto = data;
+          console.log(this.userMasterDto);
+        } else {
+          this.notificationService.error('Something Error', '');
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
+
+  onSubmitUserMasterAmountUpdate() {
+    this.userMasterDto.amount = this.userMasterDto.amount + this.remainingAmount;
+    this.userMasterDto.updatedDate = new Date().getTime();
+    this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
+      .finally(() => { this.clearAll(); return true; })
+      .catch(err => {
+        this.notificationService.error(err, '');
+        console.log(err);
+      });
+  }
+
+  clearAll() {
+    this.userMasterDto = null;
+    this.maintenanceBillMaster = null;
+    this.remainingAmount = null;
+    this.generateMaintenanceBillDialog = null;
+    this.hideGenerateMaintenanceDialog();
+    this.getSampleData();
+    return true;
   }
 
   exportPdf(): void {

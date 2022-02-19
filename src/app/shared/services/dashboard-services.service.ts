@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { ApiMethodName } from 'src/app/core/constants/ApiMethodName';
 import { HttpService } from 'src/app/core/services/http-services/http.service';
 
+import { AngularFireDatabase } from '@angular/fire/database';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +24,7 @@ export class DashboardServicesService {
   constructor(
     private httpService: HttpService,
     private http: HttpClient,
+    private angularFireDatabase: AngularFireDatabase
   ) { }
 
   prepareQueryParam(paramObject: any) {
@@ -54,6 +58,15 @@ export class DashboardServicesService {
 
   dashboardGetById(): any {
     return this.http.get('https://societymaintenance-e775d-default-rtdb.firebaseio.com/user/0');
+  }
+
+  // userGetById(id): any {
+  //   return this.http.get('https://societymaintenance-e775d-default-rtdb.firebaseio.com/user/'+ id);
+  // }
+
+  getUser(username): any {
+    this.queryParam = this.prepareQueryParam(this.dataTableParams);
+    return this.angularFireDatabase.object('user/' + username);
   }
 
   dashboardPost(data: any): any {

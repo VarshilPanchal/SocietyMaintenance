@@ -3,14 +3,16 @@ export interface MaintenanceBillMaster {
     maintenanceAmount: number;
     waterAmount: number;
     amount: number;
+    amountReceived: number;
     reading: number;
     usedUnit: number;
     previousReading: number;
     currentReading: number;
-    meterNotWorking: boolean;
+    maintenancePaid: boolean;
     averageReading: number;
     payType: string;
     userMasterid: string;
     createdBy: string;
     createdDate;
+    updatedDate;
 }
