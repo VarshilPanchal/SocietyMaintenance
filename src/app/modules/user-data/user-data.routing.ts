@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExpenseAndIncomeComponent } from './components/expense-and-income/expense-and-income.component';
 import { PaySummaryComponent } from './components/pay-summary/pay-summary.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { UsersComponent } from './components/users/users.component';
@@ -21,6 +22,10 @@ export const SAMPLE_ROUTES: Routes = [
             {
                 path: 'user-dashboard',
                 component: UserDashboardComponent
+            },
+            {
+                path: 'expense-income',
+                component: ExpenseAndIncomeComponent
             }
         ]
     },

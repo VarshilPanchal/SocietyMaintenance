@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/core/modules/modules/material/material/m
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { PaySummaryComponent } from './components/pay-summary/pay-summary.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { ExpenseAndIncomeComponent } from './components/expense-and-income/expense-and-income.component';
 
 
 
@@ -17,11 +18,12 @@ import { UserDashboardComponent } from './components/user-dashboard/user-dashboa
     UserProfileComponent,
     PaySummaryComponent,
     UserDashboardComponent,
+    ExpenseAndIncomeComponent,
   ],
   imports: [
     CommonModule,
     UserDataRoutingModule,
-    MaterialModule
+    MaterialModule,
   ]
 })
 export class UserDataModule { }

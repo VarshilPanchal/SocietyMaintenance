@@ -27,7 +27,10 @@
                     <ng-template pTemplate="body" let-expense>
                         <tr>
                             <td>
-                                {{expense.amount}}
+                                {{expense.payTo}}
+                            </td>
+                            <td>
+                                {{expense.amount|currency:"INR":"symbol"}}
                             </td>
                             <td>
                                 {{expense.pay_type}}
@@ -82,7 +85,7 @@
                     <ng-template pTemplate="body" let-income>
                         <tr>
                             <td>
-                                {{income.amount}}
+                                {{income.amount |currency:"INR":"symbol"}}
                             </td>
                             <td>
                                 {{income.pay_type}}
@@ -116,6 +119,15 @@
         </div> -->
         <form [formGroup]="expenseFormGroup" (ngSubmit)="onSubmitExpense()">
             <div class="p-field">
+                <label for="name">Pay to* </label>
+                <input type="text" pInputText id="regionName" formControlName="payTo" placeholder="Pay to"
+                    required maxLength="200" />
+                <div class="p-invalid"
+                    *ngIf="expenseFormGroup.controls['payTo'].touched && (expenseFormGroup.controls['payTo'].hasError('required') && !expenseFormGroup.controls['payTo'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
                     required pKeyFilter="num" maxLength="50" />
@@ -132,7 +144,7 @@
             </div>
             <div class="p-field">
                 <label for="name">Paid By* </label>
-                <p-dropdown [options]="payTypeList" formControlName="pay_type" optionLabel="name" optionValue="name">
+                <p-dropdown [options]="payTypeList" formControlName="pay_type" optionLabel="name" optionValue="name" [showClear]="true" placeholder="Select pay type">
                 </p-dropdown>
                 <div class="p-invalid"
                     *ngIf="expenseFormGroup.controls['pay_type'].touched && (expenseFormGroup.controls['pay_type'].hasError('required') && !expenseFormGroup.controls['pay_type'].valid)">
@@ -179,12 +191,12 @@
                     <th scope="col" colspan="3">Month : {{receiptDetail?.createdDate | date:"shortDate"}}</th>
                 </tr>
                 <tr>
-                    <th scope="col" colspan="3">Amount : {{receiptDetail?.amount}}</th>
+                    <th scope="col" colspan="3">Amount : {{receiptDetail?.amount|currency:"INR":"symbol"}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Pay to: </td>
+                    <td>Pay to: {{receiptDetail?.payTo}}</td>
                 </tr>
                 <tr>
                    <td>Amount in Words: {{receiptDetail?.amount| numberToWords}}</td>

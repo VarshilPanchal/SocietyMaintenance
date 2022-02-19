@@ -44,7 +44,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([PATH_CONSTANTS.CHANGE_PASSWORD])
   }
   onExpenseAndIncomeCLick() {
-    this.router.navigate([PATH_CONSTANTS.EXPENSE_AND_INCOME])
+    if(this.roleName == 'ADMIN'){
+      this.router.navigate([PATH_CONSTANTS.EXPENSE_AND_INCOME])
+    }else{
+      this.router.navigate([PATH_CONSTANTS.USER_EXPENSE_AND_INCOME]);
+     
+    }
   }
   onAboutUsClick() {
     this.router.navigate([PATH_CONSTANTS.ABOUT_US])

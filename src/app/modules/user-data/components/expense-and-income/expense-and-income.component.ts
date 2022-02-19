@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxNumToWordsService } from 'ngx-num-to-words';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
-import { AdminServicesService } from '../services/admin-services.service';
-import * as converter from 'number-to-words';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
+import { AdminServicesService } from 'src/app/modules/admin/services/admin-services.service';
 import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
+
 @Component({
-  selector: 'app-expenseandincome',
-  templateUrl: './expenseandincome.component.html',
-  styleUrls: ['./expenseandincome.component.css']
+  selector: 'app-expense-and-income',
+  templateUrl: './expense-and-income.component.html',
+  styleUrls: ['./expense-and-income.component.css']
 })
-export class ExpenseandincomeComponent implements OnInit {
+export class ExpenseAndIncomeComponent implements OnInit {
+
   amount;
   payTypeList = [
     {name: 'Cash', code: 'Cash'},
@@ -29,7 +30,6 @@ export class ExpenseandincomeComponent implements OnInit {
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },
-    { header: 'Action' },
   ]
   expenseFormGroup: FormGroup;
   expenseandincomeObject = {
@@ -62,6 +62,7 @@ export class ExpenseandincomeComponent implements OnInit {
   fetchData =[];
   expenseDataForVoucher: any;
   receiptDetail: any;
+  balance: any;
 
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
@@ -142,6 +143,7 @@ export class ExpenseandincomeComponent implements OnInit {
         });
       console.log(this.incomeData);
       console.log(this.expenseData);
+      // this.balance = 
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }
@@ -151,11 +153,11 @@ export class ExpenseandincomeComponent implements OnInit {
     this.voucherDialog = true;
     this.popupHeader = 'Create Voucher';
     this.initializeExpenseFormGroup();
-    this.expenseFormGroup.get("amount").valueChanges.subscribe(amount => {
-      const wordsPipe = new NumberToWordsPipe();
-      this.amountInWords = wordsPipe.transform(amount);
-      // this.amountInWords = converter.toWords(amount);
-    })
+    // this.expenseFormGroup.get("amount").valueChanges.subscribe(amount => {
+    //   const wordsPipe = new NumberToWordsPipe();
+    //   this.amountInWords = wordsPipe.transform(amount);
+    //   // this.amountInWords = converter.toWords(amount);
+    // })
   }
   viewVoucher(expense): any {
     this.receiptDetail = expense;
@@ -199,4 +201,5 @@ export class ExpenseandincomeComponent implements OnInit {
   hideVoucherDialog() {
     this.viewVoucherDialog = false;
   }
+
 }

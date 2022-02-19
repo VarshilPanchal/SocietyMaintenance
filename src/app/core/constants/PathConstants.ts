@@ -10,5 +10,5 @@ export const PATH_CONSTANTS = {
     PAY_SUMMARY: '/users/pay-summary',
     LOGIN: '/auth/login',
     USER_DASHBOARD: '/users/user-dashboard',
-
+    USER_EXPENSE_AND_INCOME: '/users/expense-income',
 };
