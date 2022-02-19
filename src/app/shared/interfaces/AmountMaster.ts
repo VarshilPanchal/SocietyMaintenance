@@ -1,4 +1,4 @@
-export interface AmountMaster {
+export class AmountMaster {
     id: string;
     userMasterid: string;
     description: string;
@@ -9,6 +9,8 @@ export interface AmountMaster {
     createdBy: Date;
     updatedDate: Date;
     waterAmount: string;
-    MaintenanceAmount: string;
+    MaintenanceAmount: number;
+    referenceNo: string;
+    bankName: string;
     amount: number;
 }
