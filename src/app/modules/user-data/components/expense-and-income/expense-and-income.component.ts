@@ -127,6 +127,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
   }
 
   getIncome() {
+    this.balance = 0;
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     this.expenseData = [];
     this.amountData = [];
@@ -137,13 +138,15 @@ export class ExpenseAndIncomeComponent implements OnInit {
         (amount) => {
           if (amount.value.amount_type === 'Credit') {
             this.incomeData.push(amount.value)
+            this.balance = this.balance + parseInt(amount.value.amount);
           } else if (amount.value.amount_type === 'Debit') {
             this.expenseData.push(amount.value)
+            this.balance = this.balance - parseInt(amount.value.amount);
           }
         });
+      console.log(this.balance);
       console.log(this.incomeData);
       console.log(this.expenseData);
-      // this.balance = 
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }

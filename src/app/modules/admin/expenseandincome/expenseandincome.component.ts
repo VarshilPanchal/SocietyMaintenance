@@ -62,6 +62,7 @@ export class ExpenseandincomeComponent implements OnInit {
   fetchData =[];
   expenseDataForVoucher: any;
   receiptDetail: any;
+  balance = 0;
 
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
@@ -126,6 +127,7 @@ export class ExpenseandincomeComponent implements OnInit {
   }
 
   getIncome() {
+    this.balance = 0;
     this.queryParam = this.prepareQueryParam(this.dataTableParams);
     this.expenseData = [];
     this.amountData = [];
@@ -136,10 +138,13 @@ export class ExpenseandincomeComponent implements OnInit {
         (amount) => {
           if (amount.value.amount_type === 'Credit') {
             this.incomeData.push(amount.value)
+            this.balance = this.balance + parseInt(amount.value.amount);
           } else if (amount.value.amount_type === 'Debit') {
             this.expenseData.push(amount.value)
+            this.balance = this.balance - parseInt(amount.value.amount);
           }
         });
+      console.log(this.balance);
       console.log(this.incomeData);
       console.log(this.expenseData);
       if (data.statusCode === '200' && data.message === 'OK') {
@@ -170,7 +175,7 @@ export class ExpenseandincomeComponent implements OnInit {
       user_master_id: "",
       amount_type: "Debit",
       payTo: ['', [Validators.required]],
-      pay_type: ['', [Validators.required]],
+      payType: ['', [Validators.required]],
       reading: '',
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
