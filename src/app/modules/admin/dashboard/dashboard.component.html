@@ -35,8 +35,8 @@
                             </td>
                         </ng-template>
                         <td>
-                            <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
-                                (click)="generateMaintenance(user.user_name)">
+                            <button pTooltip="Generate Maintenance" style="font-size: 15px; padding: 10px;"
+                                class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
                             <!-- <button class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
@@ -67,7 +67,7 @@
                         <div class="col-6">
                             <span class="pb-1">
                                 <p class="d-inline w-25">
-                                    Tenant fees: {{feesMasterData?.TENAT2022.amount}}
+                                    Tenant Fees: {{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -78,7 +78,7 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Maintenance: {{feesMasterData?.MAINTENANCE_AMOUNT.amount}}
+                                    Maintenance: {{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -89,7 +89,7 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    water bill per unit: {{feesMasterData?.WATER_BILL.amount}}
+                                    Water Bill Per Unit: {{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"
@@ -100,8 +100,11 @@
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Transfer Fees for 2BHK : {{feesMasterData?.TRANSFER_2_BHK.amount}}
-                                    Transfer Fees for 3BHK : {{feesMasterData?.TRANSFER_3_BHK.amount}}
+                                    Transfer Fees For 2-BHK :
+                                    {{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
+                                    <br>
+                                    Transfer Fees For 3-BHK :
+                                    {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
                                 </p>
                                 <br>
                                 <button style="font-size: 15px; padding: 5px;"

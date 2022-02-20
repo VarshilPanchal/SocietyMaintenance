@@ -1,59 +1,72 @@
-<p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofMaintenance" #dt
-    class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="rowsPerPageOptions">
-    <ng-template pTemplate="header">
-        <tr>
-            <th *ngFor="let col of cols">
-                {{col.header}}
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-data>
-        <tr>
-            <td>
-                {{data.userMasterid}}
-            </td>
-            <td>
-                {{data.amount}}
-            </td>
-            <td>
-                {{data.usedUnit}}
-            </td>
-            <td>
-                {{data.previousReading}}
-            </td>
-            <td>
-                {{data.currentReading}}
-            </td>
-            <td>
-                <p *ngIf="data.amountReceived">{{data.amountReceived|currency:"INR":"symbol"}}</p>
-                <p *ngIf="!data.amountReceived"> - </p>
-            </td>
-            <td>
-                <button *ngIf="!data.maintenancePaid" class="p-button bg-dark rounded"
-                    style="font-size: 15px; padding: 10px;" (click)="showMaintenanceBillDialog(data)">
-                    <i class="pi pi-eye" style="font-size: 15px"></i>
-                </button> &nbsp;
-                <button *ngIf="!data.maintenancePaid" style="font-size: 15px; padding: 10px;"
-                    class="p-button bg-dark rounded" (click)="showGenerateReceiptDialog(data)">
-                    <i class="pi pi-upload" style="font-size: 15px"></i>
-                </button> &nbsp;
-                <button *ngIf="data.maintenancePaid" class="p-button bg-dark rounded"
-                    style="font-size: 15px; padding: 10px;" (click)="showMaintenanceReceiptDialog(data)">
-                    <i class="pi pi-eye" style="font-size: 15px"></i>
-                </button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td [attr.colspan]="3" class="text-center">
-                No records found
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+<nav class="d-flex align-self-center main-nav bg-primary text-dark">
+    <div class="py-2 pl-4">
+        <b>Receive Maintenance</b>
+    </div>
+</nav>
+<div class="container-fluid my-3">
+    <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofMaintenance" #dt
+        class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="rowsPerPageOptions">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td>
+                    {{data.userMasterid}}
+                </td>
+                <td>
+                    {{data.createdDate|date}}
+                </td>
+                <td>
+                    {{data.amount|currency:"INR":"symbol"}}
+                </td>
+                <td>
+                    {{data.usedUnit}}
+                </td>
+                <td>
+                    {{data.previousReading}}
+                </td>
+                <td>
+                    {{data.currentReading}}
+                </td>
+                <td>
+                    <p *ngIf="data.amountReceived">{{data.amountReceived|currency:"INR":"symbol"}}</p>
+                    <p *ngIf="!data.amountReceived"> - </p>
+                </td>
+                <td>
+                    <button pTooltip="View Generated Bill" *ngIf="!data.maintenancePaid"
+                        class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
+                        (click)="showMaintenanceBillDialog(data)">
+                        <i class="pi pi-eye" style="font-size: 15px"></i>
+                    </button> &nbsp;
+                    <button pTooltip="Receive Maintenance" *ngIf="!data.maintenancePaid"
+                        style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
+                        (click)="showGenerateReceiptDialog(data)">
+                        <i class="pi pi-upload" style="font-size: 15px"></i>
+                    </button> &nbsp;
+                    <button pTooltip="View Generated Receipt" *ngIf="data.maintenancePaid"
+                        class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
+                        (click)="showMaintenanceReceiptDialog(data)">
+                        <i class="pi pi-eye" style="font-size: 15px"></i>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="3" class="text-center">
+                    No records found
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
 
 
 <!-- Generate maintenance Bill Dialog -->
