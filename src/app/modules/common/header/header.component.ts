@@ -17,11 +17,11 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router,
     private localStorageService: LocalStorageService) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.loggedInUser = this.localStorageService.getLoginUserName();
-    if(this.loggedInUser == 'Admin'){
+    if (this.loggedInUser == 'Admin') {
       this.roleName = 'ADMIN';
-    }else{
+    } else {
       this.roleName = 'USER';
     }
   }
@@ -30,11 +30,11 @@ export class HeaderComponent implements OnInit {
     this.navbarOpen = !this.navbarOpen;
   }
   onDashboardClick() {
-    if(this.roleName == 'ADMIN'){
+    if (this.roleName == 'ADMIN') {
       this.router.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
-    }else{
+    } else {
       this.router.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
-     
+
     }
   }
   onReceiveMaintainenceClick() {
@@ -44,32 +44,32 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([PATH_CONSTANTS.CHANGE_PASSWORD])
   }
   onExpenseAndIncomeCLick() {
-    if(this.roleName == 'ADMIN'){
+    if (this.roleName == 'ADMIN') {
       this.router.navigate([PATH_CONSTANTS.EXPENSE_AND_INCOME])
-    }else{
+    } else {
       this.router.navigate([PATH_CONSTANTS.USER_EXPENSE_AND_INCOME]);
-     
+
     }
   }
   onAboutUsClick() {
     this.router.navigate([PATH_CONSTANTS.ABOUT_US])
   }
   onLogoutClick() {
-   
-      // let options = null;
-      // options = {
-      //   title: "Warning",
-      //   message: "Are you sure you want to logout?",
-      //   cancelText: "No",
-      //   confirmText: "Yes"
-  
-      // };
-      // this.confirmDialogService.open(options);
-      // this.confirmDialogService.confirmed().subscribe(confirmed => {
-      //   if (confirmed) {
-      //     this.logout();
-      //   }
-      // });
+
+    // let options = null;
+    // options = {
+    //   title: "Warning",
+    //   message: "Are you sure you want to logout?",
+    //   cancelText: "No",
+    //   confirmText: "Yes"
+
+    // };
+    // this.confirmDialogService.open(options);
+    // this.confirmDialogService.confirmed().subscribe(confirmed => {
+    //   if (confirmed) {
+    //     this.logout();
+    //   }
+    // });
     this.logout();
   }
   logout() {
@@ -80,4 +80,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([PATH_CONSTANTS.PAY_SUMMARY])
   }
 
+  toggleNavbar(collapseID) {
+    document.getElementById(collapseID).classList.toggle("hidden");
+    document.getElementById(collapseID).classList.toggle("flex");
+  }
 }

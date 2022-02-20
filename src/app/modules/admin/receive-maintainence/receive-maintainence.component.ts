@@ -51,6 +51,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
   count = 0;
   cols = [
     { header: 'User Id' },
+    { header: 'Create Date' },
     { header: 'Amount' },
     { header: 'Used Unit' },
     { header: 'Previous Reading' },
@@ -252,6 +253,11 @@ export class ReceiveMaintainenceComponent implements OnInit {
             console.log(e.type);
             this.lstofMaintenance.push(e.value);
           });
+        this.lstofMaintenance = this.lstofMaintenance.sort(
+          (a, b) => {
+            return <any>new Date(b.createdDate) - <any>new Date(a.createdDate);
+          }
+        );
         this.totalRecords = this.maintenanceData.length;
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');

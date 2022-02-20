@@ -1,16 +1,18 @@
 <nav class="d-flex align-self-center main-nav bg-primary text-dark">
     <div class="py-2 pl-4">
-        <b>Dashboard</b>
+        <b>User Dashboard</b>
     </div>
 </nav>
 <div class="container-fluid my-3">
     <div class="row">
         <div class="col-12">
-            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser"
-                class="mx-3">
+            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser" #dt
+                class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th *ngFor="let col of cols" pResizableColumn>
+                        <th *ngFor="let col of cols">
                             {{col.header}}
                         </th>
                     </tr>
@@ -32,15 +34,12 @@
                                 </p>
                             </td>
                         </ng-template>
-                        <td>
-                            <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
-                                >
-                                <i class="pi pi-upload" style="font-size: 15px"></i>
-                            </button> &nbsp;
-                            <button class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
-                                >
-                                <i class="pi pi-eye" style="font-size: 15px"></i>
-                            </button>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="3" class="text-center">
+                            No records found
                         </td>
                     </tr>
                 </ng-template>
@@ -50,7 +49,7 @@
             <div class="card h-100">
                 <div class="card-header p-3">
                     <p>
-                        User
+                        Admin
                     </p>
                 </div>
                 <div class="card-text p-3">
@@ -58,51 +57,43 @@
                         <div class="col-6">
                             <span class="pb-1">
                                 <p class="d-inline w-25">
-                                    Tenant fees: 1000
+                                    <b>
+                                        Tenant Fees:
+                                    </b>
+                                    {{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}
                                 </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addTenatFees()" -->
-                                    Add Tenant Fees
-                                </button>
                             </span>
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Maintenance: 1000
+                                    <b>
+                                        Maintenance:
+                                    </b>
+                                    {{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
                                 </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addMaintenanceFees()" -->
-                                    Change Maintainence Amount
-                                </button>
                             </span>
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    water bill per unit: 1000
+                                    <b>
+                                        Water Bill Per Unit:
+                                    </b>
+                                    {{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}
                                 </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addWaterBillFees()" -->
-                                    Change Water Unit Amount
-                                </button>
                             </span>
                             <br>
                             <span class="pb-1">
                                 <p class="d-inline">
-                                    Transfer Fees for 2BHK : 100
-                                    Transfer Fees for 3BHK : 200
+                                    <b>
+                                        Transfer Fees For 2-BHK :
+                                    </b>
+                                    {{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
+                                    <br>
+                                    <b>
+                                        Transfer Fees For 3-BHK :
+                                    </b>
+                                    {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
                                 </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" > 
-                                    <!-- (click)="addTransferFees()" -->
-                                    Trasfer Fees
-                                </button>
                             </span>
                         </div>
                     </div>
