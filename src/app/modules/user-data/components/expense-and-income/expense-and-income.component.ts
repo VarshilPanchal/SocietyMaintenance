@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxNumToWordsService } from 'ngx-num-to-words';
+import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AdminServicesService } from 'src/app/modules/admin/services/admin-services.service';
@@ -13,7 +14,11 @@ import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
   styleUrls: ['./expense-and-income.component.css']
 })
 export class ExpenseAndIncomeComponent implements OnInit {
-
+   // Paginator
+   totalRecords: Number = 0;
+   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
+  totalRecordsForExpense: Number = 0;
   amount;
   payTypeList = [
     {name: 'Cash', code: 'Cash'},
@@ -147,6 +152,8 @@ export class ExpenseAndIncomeComponent implements OnInit {
       console.log(this.balance);
       console.log(this.incomeData);
       console.log(this.expenseData);
+      this.totalRecords = this.incomeData.length;
+      this.totalRecordsForExpense = this.expenseData.length;
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }

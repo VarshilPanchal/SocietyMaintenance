@@ -6,9 +6,9 @@
 <div class="container-fluid my-3">
     <div class="row">
         <div class="col-12">
-            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="userAmountData"
+            <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="userAmountData"
                 class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} payment"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                 <ng-template pTemplate="header">
                     <tr>

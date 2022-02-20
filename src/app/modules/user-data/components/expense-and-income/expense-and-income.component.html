@@ -15,8 +15,10 @@
 
         <ng-container>
             <ng-container>
-                <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
-                    [value]="expenseData" class="mx-3">
+                <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
+                    [value]="expenseData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecordsForExpense"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let col of expenseCols" pResizableColumn>
@@ -33,7 +35,7 @@
                                 {{expense.amount|currency:"INR":"symbol"}}
                             </td>
                             <td>
-                                {{expense.pay_type}}
+                                {{expense.payType}}
                             </td>
                             <td>
                                 {{expense.description}}
@@ -69,7 +71,9 @@
         <ng-container>
             <ng-container>
                 <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="incomeData"
-                    class="mx-3">
+                    class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let col of cols" pResizableColumn>
@@ -83,7 +87,7 @@
                                 {{income.amount |currency:"INR":"symbol"}}
                             </td>
                             <td>
-                                {{income.pay_type}}
+                                {{income.payType}}
                             </td>
                             <td>
                                 {{income.description}}

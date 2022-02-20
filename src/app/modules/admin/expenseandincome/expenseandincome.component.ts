@@ -7,6 +7,7 @@ import * as converter from 'number-to-words';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
+import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -63,7 +64,11 @@ export class ExpenseandincomeComponent implements OnInit {
   expenseDataForVoucher: any;
   receiptDetail: any;
   balance = 0;
-
+   // Paginator
+   totalRecords: Number = 0;
+   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
+  totalRecordsForExpense: Number = 0;
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,
@@ -147,6 +152,8 @@ export class ExpenseandincomeComponent implements OnInit {
       console.log(this.balance);
       console.log(this.incomeData);
       console.log(this.expenseData);
+      this.totalRecords = this.incomeData.length;
+      this.totalRecordsForExpense = this.expenseData.length;
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }

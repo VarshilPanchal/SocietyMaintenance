@@ -72,6 +72,7 @@ export class PaySummaryComponent implements OnInit {
           }
         });
       console.log(this.userAmountData);
+      this.totalRecords = this.userAmountData.length;
       if (data.statusCode === '200' && data.message === 'OK') {
         this.errorService.userNotification(data.statusCode, 'Get Data');
       }
