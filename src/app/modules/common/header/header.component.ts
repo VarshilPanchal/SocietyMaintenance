@@ -11,25 +11,42 @@ import { LocalStorageService } from 'src/app/core/services/localstorage-service/
 export class HeaderComponent implements OnInit {
 
   navbarOpen = false;
-  loggedInUser: any;
+  loggedInUser: any = null;
   roleName: any;
 
-  constructor(private router: Router,
-    private localStorageService: LocalStorageService) { }
+  url;
+
+  loginLink;
+
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService
+  ) { }
 
   ngOnInit(): void {
+    this.url = this.router.url;
+
+    if (this.url === '/auth/login') {
+      this.loginLink = false;
+    }
+    // else if (this.url.indexOf(('/signup/'.split('/')[1])) > -1) {
+    //   this.loginLink = true;
+    //   this.signupLink = false;
+    // }
+
     this.loggedInUser = this.localStorageService.getLoginUserName();
-    if (this.loggedInUser == 'Admin') {
+    if (this.loggedInUser === 'Admin') {
       this.roleName = 'ADMIN';
     } else {
       this.roleName = 'USER';
     }
   }
 
-  setNavbarOpen() {
+  setNavbarOpen(): any {
     this.navbarOpen = !this.navbarOpen;
   }
-  onDashboardClick() {
+
+  onDashboardClick(): any {
     if (this.roleName == 'ADMIN') {
       this.router.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
     } else {
@@ -37,13 +54,16 @@ export class HeaderComponent implements OnInit {
 
     }
   }
-  onReceiveMaintainenceClick() {
+
+  onReceiveMaintainenceClick(): any {
     this.router.navigate([PATH_CONSTANTS.RECEIVE_MAINATAINENCE])
   }
-  onChangePasswordClick() {
+
+  onChangePasswordClick(): any {
     this.router.navigate([PATH_CONSTANTS.CHANGE_PASSWORD])
   }
-  onExpenseAndIncomeCLick() {
+
+  onExpenseAndIncomeCLick(): any {
     if (this.roleName == 'ADMIN') {
       this.router.navigate([PATH_CONSTANTS.EXPENSE_AND_INCOME])
     } else {
@@ -51,10 +71,12 @@ export class HeaderComponent implements OnInit {
 
     }
   }
-  onAboutUsClick() {
+
+  onAboutUsClick(): any {
     this.router.navigate([PATH_CONSTANTS.ABOUT_US])
   }
-  onLogoutClick() {
+
+  onLogoutClick(): any {
 
     // let options = null;
     // options = {
@@ -72,11 +94,13 @@ export class HeaderComponent implements OnInit {
     // });
     this.logout();
   }
-  logout() {
+
+  logout(): any {
     this.localStorageService.logout();
-    this.router.navigate([PATH_CONSTANTS.LOGIN])
+    this.router.navigate([PATH_CONSTANTS.LOGIN]);
   }
-  onPaymentSummaryClick() {
+
+  onPaymentSummaryClick(): any {
     this.router.navigate([PATH_CONSTANTS.PAY_SUMMARY])
   }
 
@@ -84,4 +108,5 @@ export class HeaderComponent implements OnInit {
     document.getElementById(collapseID).classList.toggle("hidden");
     document.getElementById(collapseID).classList.toggle("flex");
   }
+
 }

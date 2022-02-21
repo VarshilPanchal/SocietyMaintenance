@@ -82,7 +82,7 @@ export class LocalStorageService {
         sessionStorage.clear();
         localStorage.clear();
         // setTimeout(() => {
-        //     window.location.reload();
+        window.location.reload();
         // }, 500);
     }
 

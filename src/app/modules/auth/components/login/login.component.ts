@@ -26,19 +26,19 @@ export class LoginComponent implements OnInit {
   loginData;
   submitted = false;
   constructor(
-   private authService: AuthService,
-   private errorService: ErrorService,
-   private formBuilder: FormBuilder,
-   private notificationService: NotificationService,
-   private route: Router,
-   private localStorageService: LocalStorageService
+    private authService: AuthService,
+    private errorService: ErrorService,
+    private formBuilder: FormBuilder,
+    private notificationService: NotificationService,
+    private route: Router,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', CustomValidator.required],
       password: ['', CustomValidator.required]
-    })
+    });
   }
   prepareQueryParam(paramObject: any) {
     const params = new URLSearchParams();
@@ -60,24 +60,26 @@ export class LoginComponent implements OnInit {
     this.authService.getUser(username).valueChanges().subscribe(
       (data: any) => {
         console.log(data);
-        if(data){
+        if (data) {
           this.loginData = data;
-          if(this.loginData.password === password){
+          if (this.loginData.password === password) {
             // this.notificationService.success('Signin Succesfull','');
             this.localStorageService.setItem('user', this.loginData);
-            if(this.loginData.id ==='Admin'){
+            if (this.loginData.id === 'Admin') {
               this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
-            }else{
+            } else {
               this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
-
             }
-          }else{
-            this.notificationService.error('Enter Valid password','')
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          } else {
+            this.notificationService.error('Enter Valid password', '');
           }
-        }else{
-          this.notificationService.error('Invalid credentials','');
+        } else {
+          this.notificationService.error('Invalid credentials', '');
         }
-        
+
       },
       (err: Error) => {
         console.error(err);

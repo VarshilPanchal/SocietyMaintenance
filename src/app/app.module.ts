@@ -1,6 +1,6 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -14,7 +14,7 @@ import { httpInterceptor } from './core/services/interceptor/httpInterceptor';
 import { LocalStorageService } from './core/services/localstorage-service/localstorage.service';
 import { NotificationService } from './core/services/notification/notification.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFireModule} from '@angular/fire'
+import { AngularFireModule } from '@angular/fire'
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { CardModule } from 'primeng/card';
@@ -26,11 +26,13 @@ import { FooterComponent } from './modules/common/footer/footer.component';
 import { NgxNumToWordsModule } from 'ngx-num-to-words';
 import { AuthGuard } from './core/gaurds/auth.guard';
 import { AuthGuardAdmin } from './core/gaurds/auth.guardAdmin';
+import { LoginHeaderComponent } from './modules/common/login-header/login-header.component';
 // import { NumberToWordsPipe } from './number-to-words.pipe'; 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    LoginHeaderComponent,
     FooterComponent,
     // NumberToWordsPipe,
   ],
@@ -64,6 +66,6 @@ import { AuthGuardAdmin } from './core/gaurds/auth.guardAdmin';
     AuthGuardAdmin,
   ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
