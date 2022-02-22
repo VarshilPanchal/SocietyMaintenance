@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   navbarOpen = false;
   loggedInUser: any = null;
   roleName: any;
-
+  usernameLabel: string;
   url;
 
   loginLink;
@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.roleName = 'USER';
     }
+    this.usernameLabel = this.loggedInUser.user_name;
   }
 
   setNavbarOpen(): any {
