@@ -266,23 +266,25 @@ export class ReceiveMaintainenceComponent implements OnInit {
         this.lstofMaintenance = [];
         this.maintenanceData = [];
         console.log(data);
-        this.maintenanceData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-        this.maintenanceData.forEach(
-          (e) => {
-            e.value.id = e.type;
-            console.log(e.type);
-            this.lstofMaintenance.push(e.value);
-          });
-        this.lstofMaintenance = this.lstofMaintenance.sort(
-          (a, b) => {
-            return <any>new Date(b.createdDate) - <any>new Date(a.createdDate);
+        if (data) {
+          this.maintenanceData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+          this.maintenanceData.forEach(
+            (e) => {
+              e.value.id = e.type;
+              console.log(e.type);
+              this.lstofMaintenance.push(e.value);
+            });
+          this.lstofMaintenance = this.lstofMaintenance.sort(
+            (a, b) => {
+              return <any>new Date(b.createdDate) - <any>new Date(a.createdDate);
+            }
+          );
+          this.totalRecords = this.maintenanceData.length;
+          if (data.statusCode === '200' && data.message === 'OK') {
+            this.errorService.userNotification(data.statusCode, 'Get Data');
           }
-        );
-        this.totalRecords = this.maintenanceData.length;
-        if (data.statusCode === '200' && data.message === 'OK') {
-          this.errorService.userNotification(data.statusCode, 'Get Data');
+          console.log(this.lstofMaintenance);
         }
-        console.log(this.lstofMaintenance);
       },
       (err: Error) => {
         console.error(err);

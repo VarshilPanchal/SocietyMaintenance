@@ -4280,8 +4280,8 @@ input.ng-invalid.ng-touched {
 
 .client-theme .p-checkbox .p-checkbox-box.p-highlight,
 .client-theme .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
-    border-color: #3A7CEC;
-    background: #3A7CEC;
+    border-color: #000000;
+    background: #000000;
     color: #ffffff;
 }
 
@@ -4352,14 +4352,14 @@ app-user button {
 .p-button.p-button-outlined {
     background-color: transparent;
     color: #080808;
-    border: 2px solid #3a7cec;
+    border: 2px solid #000000 !important;
     font-weight: 600;
 }
 
 .p-button.p-button-outlined:enabled:hover {
     background: rgba(33, 150, 243, 0.04);
     color: #080808;
-    border: 2px solid #3a7cec;
+    border: 2px solid #000000 !important;
     font-weight: 600;
 }
 .p-inputgroup-addon:last-child, .p-inputgroup button:last-child, .p-inputgroup input:last-child {
@@ -4452,7 +4452,7 @@ app-user button {
 
 .admin-theme .p-selectbutton .p-button {
     background: #ffffff;
-    border: 1px solid #ced4da;
+    border: 1px solid #ced4da !important;
     color: #495057;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
@@ -4527,7 +4527,7 @@ app-user button {
 /* End Admin Theme */
 
 .client-theme .mat-dialog-container .mat-toolbar-single-row {
-    background-color: #3A7CEC;
+    background-color: #000000;
 }
 
 .subcontractor-theme .View_Profile_bg .card-header {
@@ -4537,12 +4537,12 @@ app-user button {
 
 .client-theme .bg-primary,
 .admin-theme .bg-primary {
-    background-color: #3A7CEC !important;
+    background-color: #000000 !important;
 }
 
 .client-theme .text-primary,
 .admin-theme .text-primary {
-    color: #3A7CEC!important;
+    color: #000000!important;
 }
 
 .client-theme .View_Profile_bg .card-header,
@@ -4569,7 +4569,7 @@ app-user button {
 .admin-theme .mat-toolbar.mat-warn  */
 
 {
-    background-color: #3A7CEC;
+    background-color: #000000;
     color: #fff;
 }
 
@@ -4579,14 +4579,14 @@ app-user button {
 .admin-theme .bg-primary */
 
 {
-    background-color: #3A7CEC !important;
+    background-color: #000000 !important;
 }
 
 .client-theme .text-primary
 /* .admin-theme .text-primary  */
 
 {
-    color: #3A7CEC!important;
+    color: #000000!important;
 }
 
 .client-theme .p-radiobutton .p-radiobutton-box.p-highlight,
@@ -4597,13 +4597,13 @@ app-user button {
 .admin-theme app-user .p-button */
 
 {
-    border-color: #3A7CEC;
+    border-color: #000000;
     color: #fff;
 }
 
 .client-theme .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
 .client-theme a {
-    color: #3A7CEC;
+    color: #000000;
 }
 
 .client-theme .p-tabview .p-tabview-nav li .p-tabview-nav-link {
@@ -4631,7 +4631,7 @@ app-user button {
 .client-theme .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link,
 .client-theme .p-button.p-button-link,
 .client-theme a {
-    color: #3A7CEC;
+    color: #000000;
 }
 
 .worker-theme .mat-badge-content,
@@ -4818,8 +4818,8 @@ div .p-field,
 
 .p-button {
     color: #ffffff;
-    background: #3A7CEC;
-    border: 1px solid #3A7CEC;
+    background: #000000;
+    border: 1px solid #000000 !important;
     border-radius: 10px;
 }
 
@@ -4839,16 +4839,16 @@ div .p-field,
 
 .worker-theme .p-button.p-button-primary.p-button-outlined {
     background-color: #fff!important;
-    border: 1px solid #2196F3!important;
+    border: 1px solid #000000!important;
     border-radius: 10px;
-    color: #2196F3!important;
+    color: #000000!important;
 }
 
 .p-button.p-button-primary,
 .p-buttonset.p-button-primary>.p-button,
 .p-splitbutton.p-button-primary>.p-button {
-    background: #2196F3;
-    border: 1px solid #2196F3;
+    background: #000000;
+    border: 1px solid #000000 !important;
     border-radius: 10px;
 }
 
@@ -4856,8 +4856,8 @@ div .p-field,
 /* .p-button.p-button-primary,
 .p-buttonset.p-button-primary>.p-button,
 .p-splitbutton.p-button-primary>.p-button {
-    background: #2196F3;
-    border: 1px solid #2196F3;
+    background: #000000;
+    border: 1px solid #000000;
     border-radius: 10px;
 } */
 
@@ -5323,7 +5323,7 @@ ngx-dropzone {
 
 
 /* .Vist .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
-    border: 2px solid #2196F3;
+    border: 2px solid #000000;
 }
 
 .Vist .p-tabview .p-tabview-nav li .p-tabview-nav-link {
@@ -5427,7 +5427,7 @@ ngx-dropzone {
 }
 
 .View_Cli_Profile .card-header {
-    background-color: #3A7CEC !important;
+    background-color: #000000 !important;
 }
 
 .View_Profile_bg .card-header:first-child {
@@ -5511,7 +5511,7 @@ ngx-dropzone {
 .bg_black_button .p-button {
     color: #ffffff;
     background: #000;
-    border: 1px solid #000;
+    border: 1px solid #000 ;
     border-radius: 10px;
 }
 

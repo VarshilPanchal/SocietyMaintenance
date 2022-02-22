@@ -209,6 +209,7 @@ export class DashboardComponent implements OnInit {
   generateMaintenance(name): any {
     // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.generateMaintenanceDialog = true;
+    this.generateMaintenanceFormSubmitted = false;
     this.flatNo = name;
     console.log(this.flatNo);
     this.popupHeader = `Generate Maintence for ${name}`;
@@ -217,6 +218,7 @@ export class DashboardComponent implements OnInit {
   }
 
   hideGenerateMaintenanceDialog(): any {
+    this.generateMaintenanceFormSubmitted = false;
     // this.receiptGenerated = false;
     this.generateMaintenanceDialog = false;
     this.initializeGenerateMaintenanceForm();

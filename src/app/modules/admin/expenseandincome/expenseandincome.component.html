@@ -1,11 +1,29 @@
-<nav class="d-flex align-self-center main-nav bg-primary text-dark">
+<!-- <nav class="d-flex align-self-center main-nav bg-primary text-dark">
     <div class="py-2 pl-4">
         <b>Expenses and Income</b>
     </div>
     <div class="py-2 right">
         <b>Balance: {{balance}}</b>
     </div>
+</nav> -->
+
+<nav class="d-flex align-self-center main-nav bg-primary text-dark">
+    <div class="pt-3 pl-4">
+        <b>
+            <h2>
+                Expenses and Income
+            </h2>
+        </b>
+    </div>
+    <div class="pt-3 right">
+        <b>
+            <h2>
+                Balance: {{balance}}
+            </h2>
+        </b>
+    </div>
 </nav>
+
 <p-tabView styleClass="tabview-custom p-3" (onChange)="handleChange($event)">
 
     <p-tabPanel>
@@ -14,12 +32,13 @@
         </ng-template>
 
         <ng-container>
-            <button class="p-button bg-primary rounded mb-2" (click)="createVoucher()">
+            <button class="p-button bg-dark rounded mb-2" (click)="createVoucher()">
                 Add Voucher
             </button>
             <ng-container>
-                <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
-                    [value]="expenseData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecordsForExpense"
+                <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
+                    [value]="expenseData" class="mx-3" [paginator]="true" [rows]="size"
+                    [totalRecords]="totalRecordsForExpense"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
@@ -44,17 +63,21 @@
                                 {{expense.description}}
                             </td>
                             <td>
-                                <button class="p-button bg-primary rounded" (click)="viewVoucher(expense)">
+                                <button class="p-button bg-dark rounded" (click)="viewVoucher(expense)">
                                     View Voucher
                                 </button>
                             </td>
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="5" class="text-center">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
                 </p-table>
             </ng-container>
-            <div *ngIf="!expenseData?.length">
-                <h5 class="text-muted text-center mt-3">No record found</h5>
-            </div>
         </ng-container>
 
 
@@ -78,10 +101,10 @@
 
         <ng-container>
             <ng-container>
-                <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="incomeData"
-                class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
-                [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
+                <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
+                    [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let col of cols" pResizableColumn>
@@ -103,11 +126,15 @@
 
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="3" class="text-center">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
                 </p-table>
             </ng-container>
-            <div *ngIf="!incomeData?.length">
-                <h5 class="text-muted text-center mt-3">No record found</h5>
-            </div>
         </ng-container>
 
 
@@ -129,20 +156,20 @@
                 <label for="name">Pay to* </label>
                 <input type="text" autofocus pInputText id="regionName" formControlName="payTo" placeholder="Pay to"
                     required maxLength="200" />
-                    <div class="p-invalid"
+                <div class="p-invalid"
                     *ngIf="(submitted && !expenseFormGroup.get('payTo').valid) || (!expenseFormGroup.get('payTo').valid && expenseFormGroup.get('payTo').touched) ">
                     <div *ngIf="(expenseFormGroup.get('payTo').errors.required) ">
-                        Required  </div>
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
                     required pKeyFilter="num" maxLength="50" />
-                    <div class="p-invalid"
+                <div class="p-invalid"
                     *ngIf="(submitted && !expenseFormGroup.get('amount').valid) || (!expenseFormGroup.get('amount').valid && expenseFormGroup.get('amount').touched) ">
                     <div *ngIf="(expenseFormGroup.get('amount').errors.required) ">
-                        Required  </div>
+                        Required </div>
                 </div>
             </div>
             <!-- [(ngModel)] = "password" [ngModelOptions]="{standalone: true}" -->
@@ -153,50 +180,53 @@
             </div>
             <div class="p-field">
                 <label for="name">Paid By* </label>
-                <p-dropdown [options]="payTypeList" autofocus formControlName="payType" optionLabel="name" optionValue="name" [showClear]="true" placeholder="Select pay type">
+                <p-dropdown [options]="payTypeList" autofocus formControlName="payType" optionLabel="name"
+                    optionValue="name" [showClear]="true" placeholder="Select pay type">
                 </p-dropdown>
                 <div class="p-invalid"
-                *ngIf="(submitted && !expenseFormGroup.get('payType').valid) || (!expenseFormGroup.get('payType').valid && expenseFormGroup.get('payType').touched) ">
-                <div *ngIf="(expenseFormGroup.get('payType').errors.required) ">
-                    Required  </div>
-            </div>
-            </div>
-            <div class="p-field"
-            *ngIf="this.expenseFormGroup.get('payType').value === 'Cheque' || this.expenseFormGroup.get('payType').value === 'OverDraft'">
-            <label for="referenceNo"> Reference No / Cheque No* </label>
-            <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
-                placeholder="Enter referenceNo" required autofocus pKeyFilter="num" maxLength="50" />
-            <div class="p-invalid"
-                *ngIf="(submitted && !expenseFormGroup.get('referenceNo').valid) || (!expenseFormGroup.get('referenceNo').valid && expenseFormGroup.get('referenceNo').touched) ">
-                <div *ngIf=" ( expenseFormGroup.get('referenceNo').errors.required) ">
-                    Required </div>
-            </div>
-        </div>
-            <div class="p-field">
-                <label for="name">Description* </label>
-                <input type="text" pInputText id="regionName" formControlName="description"
-                    placeholder="Enter Description" autofocus required maxLength="50" />
-                    <div class="p-invalid"
-                    *ngIf="(submitted && !expenseFormGroup.get('description').valid) || (!expenseFormGroup.get('description').valid && expenseFormGroup.get('description').touched) ">
-                    <div *ngIf=" ( expenseFormGroup.get('description').errors.required) ">
-                        Required  </div>
+                    *ngIf="(submitted && !expenseFormGroup.get('payType').valid) || (!expenseFormGroup.get('payType').valid && expenseFormGroup.get('payType').touched) ">
+                    <div *ngIf="(expenseFormGroup.get('payType').errors.required) ">
+                        Required </div>
                 </div>
             </div>
-           
+            <div class="p-field"
+                *ngIf="this.expenseFormGroup.get('payType').value === 'Cheque' || this.expenseFormGroup.get('payType').value === 'OverDraft'">
+                <label for="referenceNo"> Reference No / Cheque No* </label>
+                <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
+                    placeholder="Enter referenceNo" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(submitted && !expenseFormGroup.get('referenceNo').valid) || (!expenseFormGroup.get('referenceNo').valid && expenseFormGroup.get('referenceNo').touched) ">
+                    <div *ngIf=" ( expenseFormGroup.get('referenceNo').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="name">Description* </label>
+                <!-- <input type="text" pInputText id="regionName" formControlName="description"
+                    placeholder="Enter Description" autofocus required maxLength="50" /> -->
+                <textarea pInputText formControlName="description" maxlength="500" name="description" id="" cols="200"
+                    rows="4" class="w-100" placeholder="Enter Description"></textarea>
+                <div class="p-invalid"
+                    *ngIf="(submitted && !expenseFormGroup.get('description').valid) || (!expenseFormGroup.get('description').valid && expenseFormGroup.get('description').touched) ">
+                    <div *ngIf=" ( expenseFormGroup.get('description').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
         </form>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideExpenseDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitExpense()"></button>
     </ng-template>
 
 </p-dialog>
 
-<p-dialog [(visible)]="viewVoucherDialog" [style]="{width: '500px'}" [modal]="true"
-    styleClass="p-fluid" (onHide)="hideVoucherDialog()">
+<p-dialog [(visible)]="viewVoucherDialog" [style]="{width: '500px'}" [modal]="true" styleClass="p-fluid"
+    (onHide)="hideVoucherDialog()">
 
     <div id="htmlData">
         <table class="table">
@@ -222,7 +252,7 @@
                     <td>Pay to: {{receiptDetail?.payTo}}</td>
                 </tr>
                 <tr>
-                   <td>Amount in Words: {{receiptDetail?.amount| numberToWords}}</td>
+                    <td>Amount in Words: {{receiptDetail?.amount| numberToWords}}</td>
                 </tr>
                 <tr>
                     <td>Description: {{receiptDetail?.description}}</td>
@@ -233,7 +263,7 @@
     </div>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdf()" class="p-button-warning" pTooltip="Download PDF"
+        <button type="button" pButton pRipple (click)="exportPdf()" class="bg-dark" pTooltip="Download PDF"
             tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>

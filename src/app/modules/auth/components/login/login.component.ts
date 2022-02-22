@@ -35,6 +35,15 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const user = this.localStorageService.getLoginUserObject();
+    if (user) {
+      if (user.id === 'Admin') {
+        this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+      } else {
+        this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
+      }
+    }
+
     this.loginForm = this.formBuilder.group({
       username: ['', CustomValidator.required],
       password: ['', CustomValidator.required]

@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardAdmin] },
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(auth => auth.AuthModule) },
   { path: 'sample', loadChildren: () => import('./modules/sample/sample.module').then(m => m.SampleModule) },
-  { path: 'users', loadChildren: () => import('./modules/user-data/user-data.module').then(m => m.UserDataModule), canActivate: [AuthGuard]},
+  { path: 'users', loadChildren: () => import('./modules/user-data/user-data.module').then(m => m.UserDataModule), canActivate: [AuthGuard] },
   { path: 'common', loadChildren: () => import('./modules/common/common.module').then(m => m.CommonModule) },
   {
     path: '404',

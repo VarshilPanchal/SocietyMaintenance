@@ -1,9 +1,17 @@
 <nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="py-2 pl-4">
-        <b>Expenses and Income</b>
+    <div class="pt-3 pl-4">
+        <b>
+            <h2>
+                Expenses and Income
+            </h2>
+        </b>
     </div>
-    <div class="py-2 right">
-        <b>Balance: {{balance}}</b>
+    <div class="pt-3 right">
+        <b>
+            <h2>
+                Balance: {{balance}}
+            </h2>
+        </b>
     </div>
 </nav>
 <p-tabView styleClass="tabview-custom p-3" (onChange)="handleChange($event)">
@@ -16,7 +24,8 @@
         <ng-container>
             <ng-container>
                 <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
-                    [value]="expenseData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecordsForExpense"
+                    [value]="expenseData" class="mx-3" [paginator]="true" [rows]="size"
+                    [totalRecords]="totalRecordsForExpense"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
@@ -42,11 +51,15 @@
                             </td>
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="5" class="text-center">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
                 </p-table>
             </ng-container>
-            <div *ngIf="!expenseData?.length">
-                <h5 class="text-muted text-center mt-3">No record found</h5>
-            </div>
         </ng-container>
 
 
@@ -70,8 +83,8 @@
 
         <ng-container>
             <ng-container>
-                <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="incomeData"
-                    class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
+                    [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
@@ -95,11 +108,15 @@
 
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="3" class="text-center">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
                 </p-table>
             </ng-container>
-            <div *ngIf="!incomeData?.length">
-                <h5 class="text-muted text-center mt-3">No record found</h5>
-            </div>
         </ng-container>
 
 
@@ -108,5 +125,3 @@
 
 
 </p-tabView>
-
-

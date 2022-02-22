@@ -1,6 +1,10 @@
 <nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="py-2 pl-4">
-        <b>Dashboard</b>
+    <div class="pt-3 pl-4">
+        <b>
+            <h2>
+                Dashboard
+            </h2>
+        </b>
     </div>
 </nav>
 
@@ -45,7 +49,7 @@
                         </ng-template>
                         <td>
                             <button pTooltip="Generate Maintenance" style="font-size: 15px; padding: 10px;"
-                                class="p-button bg-primary rounded" (click)="generateMaintenance(user.user_name)">
+                                class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
                             <button pTooltip="Receive Payment" style="font-size: 15px; padding: 10px;"
@@ -180,9 +184,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideWaterBillDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitWaterBillForm()"></button>
     </ng-template>
 
@@ -209,9 +213,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin" (click)="hidetenatDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
-            (click)="onSubmitTenatForm()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
+            (click)="hidetenatDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark" (click)="onSubmitTenatForm()"></button>
     </ng-template>
 
 </p-dialog>
@@ -237,9 +241,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hidemaintenanceDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitMaintenanceForm()"></button>
     </ng-template>
 
@@ -273,9 +277,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideTransferDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitTransferFeesForm()"></button>
     </ng-template>
 
@@ -340,7 +344,7 @@
                 </div>
             </div>
             <div class="p-field">
-                <label for="averageReading">Average Reading* </label>
+                <label for="averageReading">Average Reading </label>
                 <input type="text" pInputText id="averageReading" formControlName="averageReading"
                     placeholder="Enter Average Reading" autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
@@ -362,9 +366,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideGenerateMaintenanceDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="GenerateMaintenanceBill(generateMaintenanceForm)"></button>
     </ng-template>
 
@@ -448,7 +452,7 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdf()" class="p-button-warning" pTooltip="Download PDF"
+        <button type="button" pButton pRipple (click)="exportPdf()" class="bg-dark" pTooltip="Download PDF"
             tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
@@ -528,9 +532,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hidePaymentDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitPayment(receivePaymentForm)"></button>
     </ng-template>
 

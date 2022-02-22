@@ -1,10 +1,15 @@
 <nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="py-2 pl-4">
-        <b>Receive Maintenance</b>
+    <div class="pt-3 pl-4">
+        <b>
+            <h2>
+                Receive Maintenance
+            </h2>
+        </b>
     </div>
 </nav>
+
 <div class="container-fluid my-3">
-    <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofMaintenance" #dt
+    <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofMaintenance" #dt
         class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="rowsPerPageOptions">
@@ -156,7 +161,7 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="p-button-warning"
+        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark"
             pTooltip="Download PDF" tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
@@ -199,15 +204,15 @@
                     </tr>
                     <tr>
                         <td>Payment type</td>
-                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.amountType | lowercase}}</td>
+                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.payType | lowercase}}</td>
                     </tr>
                     <tr>
                         <td>Reference No / Chaque No</td>
-                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.referenceNo}}</td>
+                        <td *ngIf="maintenanceReceipt?.referenceNo">{{maintenanceReceipt?.referenceNo}}</td>
                     </tr>
                     <tr>
                         <td>Bank Name</td>
-                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.bankName}}</td>
+                        <td *ngIf="maintenanceReceipt?.bankName">{{maintenanceReceipt?.bankName}}</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -223,7 +228,7 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="p-button-warning"
+        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark"
             pTooltip="Download PDF" tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
@@ -408,9 +413,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideGenerateReceiptDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitGenerateReceipt(generateMaintenanceForm)"></button>
     </ng-template>
 

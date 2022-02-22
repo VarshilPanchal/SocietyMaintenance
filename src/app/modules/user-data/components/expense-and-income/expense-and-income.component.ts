@@ -14,36 +14,36 @@ import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
   styleUrls: ['./expense-and-income.component.css']
 })
 export class ExpenseAndIncomeComponent implements OnInit {
-   // Paginator
-   totalRecords: Number = 0;
-   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
-   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
+  // Paginator
+  totalRecords: Number = 0;
+  size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+  rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
   totalRecordsForExpense: Number = 0;
   amount;
   payTypeList = [
-    {name: 'Cash', code: 'Cash'},
-    {name: 'Cheque', code: 'Cheque'},
-    {name: 'OverDraft', code: 'OverDraft'},
-];
+    { name: 'Cash', code: 'Cash' },
+    { name: 'Cheque', code: 'Cheque' },
+    { name: 'OverDraft', code: 'OverDraft' },
+  ];
   cols = [
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },
-  ]
+  ];
   expenseCols = [
     { header: 'Paid To' },
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },
-  ]
+  ];
   expenseFormGroup: FormGroup;
   expenseandincomeObject = {
-    id: "A101",
+    id: 'A101',
     createdDate: new Date(),
     updatedDate: new Date(),
-    userMasterId: "A101",
-    description: "maintainence",
-    amountType: "Credit",
+    userMasterId: 'A101',
+    description: 'maintainence',
+    amountType: 'Credit',
     amount: 1000,
     payType: 'cheque',
     reading: ''
@@ -64,7 +64,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
   loginUserId: any;
   viewVoucherDialog: boolean;
   amountInWords: string;
-  fetchData =[];
+  fetchData = [];
   expenseDataForVoucher: any;
   receiptDetail: any;
   balance: any;
@@ -97,10 +97,10 @@ export class ExpenseAndIncomeComponent implements OnInit {
   }
 
   addBulkIncome() {
-    const data = []
+    const data = [];
     // let fetchData;
-    let fetchDataMap = [];
-    
+    const fetchDataMap = [];
+
     // this.angularFireDatabase.object('amount/' + 'A104').valueChanges().subscribe(data => {
     //   console.log(data);
     //   this.fetchData.push(data[0]);
@@ -138,26 +138,28 @@ export class ExpenseAndIncomeComponent implements OnInit {
     this.amountData = [];
     this.incomeData = [];
     this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
-      this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-      this.amountData.forEach(
-        (amount) => {
-          if (amount.value.amountType === 'Credit') {
-            this.incomeData.push(amount.value)
-            this.balance = this.balance + parseInt(amount.value.amount);
-          } else if (amount.value.amountType === 'Debit') {
-            this.expenseData.push(amount.value)
-            this.balance = this.balance - parseInt(amount.value.amount);
-          }
-        });
-      console.log(this.balance);
-      console.log(this.incomeData);
-      console.log(this.expenseData);
-      this.totalRecords = this.incomeData.length;
-      this.totalRecordsForExpense = this.expenseData.length;
-      if (data.statusCode === '200' && data.message === 'OK') {
-        this.errorService.userNotification(data.statusCode, 'Get Data');
+      if (data) {
+        this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.amountData.forEach(
+          (amount) => {
+            if (amount.value.amountType === 'Credit') {
+              this.incomeData.push(amount.value);
+              this.balance = this.balance + parseInt(amount.value.amount);
+            } else if (amount.value.amountType === 'Debit') {
+              this.expenseData.push(amount.value);
+              this.balance = this.balance - parseInt(amount.value.amount);
+            }
+          });
+        console.log(this.balance);
+        console.log(this.incomeData);
+        console.log(this.expenseData);
+        this.totalRecords = this.incomeData.length;
+        this.totalRecordsForExpense = this.expenseData.length;
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
       }
-    })
+    });
   }
   createVoucher(): any {
     this.voucherDialog = true;
@@ -179,8 +181,8 @@ export class ExpenseAndIncomeComponent implements OnInit {
       id: [],
       createdDate: new Date(),
       updatedDate: new Date(),
-      userMasterId: "",
-      amount_type: "Debit",
+      userMasterId: '',
+      amount_type: 'Debit',
       payTo: ['', [Validators.required]],
       payType: ['', [Validators.required]],
       reading: '',
@@ -196,7 +198,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
         this.hideExpenseDialog();
         this.getIncome();
         if (data.statusCode === '200' && data.message === 'OK') {
-          
+
         }
       },
       (err: Error) => {
