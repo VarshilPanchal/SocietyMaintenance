@@ -6,8 +6,13 @@
 <div class="container-fluid my-3">
     <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofMaintenance" #dt
         class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="rowsPerPageOptions">
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col *ngFor="let col of cols" style="width: 150px;">
+            </colgroup>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th *ngFor="let col of cols">
@@ -18,7 +23,7 @@
         <ng-template pTemplate="body" let-data>
             <tr>
                 <td>
-                    {{data.userMasterid}}
+                    {{data.userMasterId}}
                 </td>
                 <td>
                     {{data.createdDate|date}}
@@ -60,7 +65,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td [attr.colspan]="3" class="text-center">
+                <td [attr.colspan]="8" class="text-center">
                     No records found
                 </td>
             </tr>
@@ -86,7 +91,7 @@
                             Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Name : {{maintenanceBill.userMasterid}}</th>
+                        <th scope="col" colspan="3">Name : {{maintenanceBill.userMasterId}}</th>
                     </tr>
                     <tr>
                         <th scope="col" colspan="3">Month : {{maintenanceBill.createdDate | date}}</th>
@@ -177,7 +182,7 @@
                             Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Name : {{maintenanceReceipt.userMasterid}}</th>
+                        <th scope="col" colspan="3">Name : {{maintenanceReceipt.userMasterId}}</th>
                     </tr>
                     <tr>
                         <th scope="col" colspan="3">Month : {{maintenanceReceipt.createdDate | date }} </th>
@@ -237,102 +242,165 @@
                 <label for="maintenanceAmount">Maintenance Amount* </label>
                 <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
                     placeholder="Enter Maintenance Amount" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['maintenanceAmount'].touched && (generateMaintenanceForm.controls['maintenanceAmount'].hasError('required') && !generateMaintenanceForm.controls['maintenanceAmount'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('maintenanceAmount').valid) || (!generateMaintenanceForm.get('maintenanceAmount').valid && generateMaintenanceForm.get('maintenanceAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('maintenanceAmount').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="waterAmount">Water Bill Amount* </label>
                 <input type="text" disabled pInputText id="waterAmount" formControlName="waterAmount"
                     placeholder="Enter Water Amount" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['waterAmount'].touched && (generateMaintenanceForm.controls['waterAmount'].hasError('required') && !generateMaintenanceForm.controls['waterAmount'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('waterAmount').valid) || (!generateMaintenanceForm.get('waterAmount').valid && generateMaintenanceForm.get('waterAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('waterAmount').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="usedUnit">Used Water unit* </label>
                 <input type="text" disabled pInputText id="usedUnit" formControlName="usedUnit"
                     placeholder="Enter Used Unit" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['usedUnit'].touched && (generateMaintenanceForm.controls['usedUnit'].hasError('required') && !generateMaintenanceForm.controls['usedUnit'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('usedUnit').valid) || (!generateMaintenanceForm.get('usedUnit').valid && generateMaintenanceForm.get('usedUnit').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('usedUnit').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="previousReading">Previous Reading* </label>
                 <input type="text" disabled pInputText id="previousReading" formControlName="previousReading"
                     placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['previousReading'].touched && (generateMaintenanceForm.controls['previousReading'].hasError('required') && !generateMaintenanceForm.controls['previousReading'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('previousReading').valid) || (!generateMaintenanceForm.get('previousReading').valid && generateMaintenanceForm.get('previousReading').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('previousReading').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="currentReading">Current Reading* </label>
                 <input type="text" disabled pInputText id="currentReading" formControlName="currentReading"
                     placeholder="Enter Current Reading" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['currentReading'].touched && (generateMaintenanceForm.controls['currentReading'].hasError('required') && !generateMaintenanceForm.controls['currentReading'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('currentReading').valid) || (!generateMaintenanceForm.get('currentReading').valid && generateMaintenanceForm.get('currentReading').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('currentReading').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="averageReading">Average Reading* </label>
                 <input type="text" disabled pInputText id="averageReading" formControlName="averageReading"
                     placeholder="Enter Average Reading" autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['averageReading'].touched && (generateMaintenanceForm.controls['averageReading'].hasError('required') && !generateMaintenanceForm.controls['averageReading'].valid)">
                     required
-                </div>
+                </div> -->
             </div>
             <div class="p-field">
                 <label for="amount">Total Payable Amount* </label>
                 <input type="text" disabled pInputText id="amount" formControlName="amount" placeholder="Enter Amount"
                     required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['amount'].touched && (generateMaintenanceForm.controls['amount'].hasError('required') && !generateMaintenanceForm.controls['amount'].valid)">
                     required
-                </div>
+                </div> -->
             </div>
 
             <div class="p-field">
                 <label for="referenceNo"> Reference No / Chaque No* </label>
                 <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
-                    placeholder="Enter referenceNo" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                    placeholder="Enter referenceNo" required autofocus maxLength="50" />
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['referenceNo'].touched && (generateMaintenanceForm.controls['referenceNo'].hasError('required') && !generateMaintenanceForm.controls['referenceNo'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('referenceNo').valid) || (!generateMaintenanceForm.get('referenceNo').valid && generateMaintenanceForm.get('referenceNo').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('referenceNo').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
             <div class="p-field">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
-                    required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                    required autofocus maxLength="50" />
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['bankName'].touched && (generateMaintenanceForm.controls['bankName'].hasError('required') && !generateMaintenanceForm.controls['bankName'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('bankName').valid) || (!generateMaintenanceForm.get('bankName').valid && generateMaintenanceForm.get('bankName').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('bankName').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
 
             <div class="p-field">
                 <label for="name">Select Payment Type* </label>
-                <p-dropdown [options]="paymentType" formControlName="amountType" placeholder="Select Payment Type">
+                <p-dropdown [options]="paymentType" formControlName="payType" optionLabel="label" optionValue="label"
+                    placeholder="Select Payment Type">
                 </p-dropdown>
-                <div class="p-invalid"
-                    *ngIf="generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['amountType'].touched && (generateMaintenanceForm.controls['amountType'].hasError('required') && !generateMaintenanceForm.controls['amountType'].valid)">
+                <!-- <div class="p-invalid"
+                    *ngIf="generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['payType'].touched && (generateMaintenanceForm.controls['payType'].hasError('required') && !generateMaintenanceForm.controls['payType'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('payType').valid) || (!generateMaintenanceForm.get('payType').valid && generateMaintenanceForm.get('payType').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('payType').errors.required) ">
+                        Required
+                    </div>
                 </div>
+            </div>
+
+            <div class="p-field">
+                <label for="description"> Description </label>
+                <textarea pInputText formControlName="description" maxlength="500" name="description" id="" cols="200"
+                    rows="4" class="w-100" placeholder="Enter Description"></textarea>
+                <!-- <input type="text" pInputText id="description" formControlName="description"
+                    placeholder="Enter description" autofocus maxLength="50" /> -->
             </div>
 
             <div class="p-field">
                 <label for="amountReceived"> Amount To Pay* </label>
                 <input type="text" pInputText id="amountReceived" formControlName="amountReceived"
                     placeholder="Enter amountReceived" required autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['amountReceived'].touched && (generateMaintenanceForm.controls['amountReceived'].hasError('required') && !generateMaintenanceForm.controls['amountReceived'].valid)">
                     required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('amountReceived').valid) || (!generateMaintenanceForm.get('amountReceived').valid && generateMaintenanceForm.get('amountReceived').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('amountReceived').errors.required) ">
+                        Required
+                    </div>
                 </div>
             </div>
 

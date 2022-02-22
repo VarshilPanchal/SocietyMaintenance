@@ -60,7 +60,7 @@
       <button
         class="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
         type="button" (click)="toggleNavbar('example-collapse-navbar')">
-        <i class="text-white fas fa-bars"></i>
+        <i class="fa fa-bars" aria-hidden="true"></i>
       </button>
     </div>
 
@@ -68,6 +68,36 @@
       *ngIf="loggedInUser">
       <ul class="nav navbar-nav navbar-right">
 
+        <!-- <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer;" (click)="onDashboardClick()">Dashboard <span
+              class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item" *ngIf="roleName==='ADMIN'">
+          <a class="nav-link" style="cursor: pointer;" (click)="onReceiveMaintainenceClick()">Receive Maintainence</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer;" (click)="onExpenseAndIncomeCLick()">Expenses and Income</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer;" (click)="onAboutUsClick()">About us</a>
+        </li>
+        <li class="nav-item" *ngIf="roleName==='ADMIN'">
+          <a class="nav-link" style="cursor: pointer;" (click)="onChangePasswordClick()" tabindex="-1"
+            aria-disabled="true">Change Password</a>
+        </li>
+        <li class="nav-item" *ngIf="roleName==='USER'">
+          <a class="nav-link" style="cursor: pointer;" (click)="onPaymentSummaryClick()" tabindex="-1"
+            aria-disabled="true">Payment Summary</a>
+        </li> -->
+
+        <!-- <li>
+          <a class="nav-link" style="cursor: pointer;" (click)="onLogoutClick()" tabindex="-1"
+            aria-disabled="true">Logout</a>
+        </li> -->
+
+      </ul>
+
+      <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
         <li class="nav-item">
           <a class="nav-link" style="cursor: pointer;" (click)="onDashboardClick()">Dashboard <span
               class="sr-only">(current)</span></a>
@@ -89,13 +119,11 @@
           <a class="nav-link" style="cursor: pointer;" (click)="onPaymentSummaryClick()" tabindex="-1"
             aria-disabled="true">Payment Summary</a>
         </li>
-
-      </ul>
-
-      <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
         <li>
-          <a class="nav-link" style="cursor: pointer;" (click)="onLogoutClick()" tabindex="-1"
-            aria-disabled="true">Logout</a>
+          <a class="nav-link" style="cursor: pointer;" (click)="onLogoutClick()" tabindex="-1" aria-disabled="true">
+            Logout
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </a>
         </li>
       </ul>
 

@@ -1,9 +1,10 @@
 export class AmountMaster {
     id: string;
-    userMasterid: string;
+    userMasterId: string;
     description: string;
     amountType: string;
     payType: string;
+    payTo: string;
     reading: string;
     createdDate: Date;
     createdBy: Date;

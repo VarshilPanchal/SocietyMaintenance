@@ -248,7 +248,7 @@ export class DashboardComponent implements OnInit {
       maintenancePaid: [false, [Validators.required]],
       averageReading: [''],
       payType: ['Debit'],
-      userMasterid: [this.flatNo],
+      userMasterId: [this.flatNo],
       createdBy: 'Admin',
       createdDate: new Date().getTime(),
       updatedDate: ''

@@ -32,6 +32,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
   maintenanceBillDialog = false;
   maintenanceReceiptDialog = false;
   generateReceiptDialog = false;
+  generateMaintenanceFormSubmitted = false;
 
   generateMaintenanceForm: FormGroup;
   popupHeader;
@@ -112,10 +113,10 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   showGenerateReceiptDialog(data): any {
     // this.maintenanceBill = data;
-    this.popupHeader = `Receive Maintenance For ${data.userMasterid}`;
+    this.popupHeader = `Receive Maintenance For ${data.userMasterId}`;
     this.generateReceiptDialog = true;
     this.initializeGenerateMaintenanceForm(data);
-    this.getUserMaster(data.userMasterid, data);
+    this.getUserMaster(data.userMasterId, data);
   }
 
   initializeGenerateMaintenanceForm(data?) {
@@ -130,11 +131,12 @@ export class ReceiveMaintainenceComponent implements OnInit {
       currentReading: [data?.currentReading, [Validators.required]],
       maintenancePaid: [true, [Validators.required]],
       averageReading: [data?.averageReading],
-      payType: [data?.payType],
-      amountType: [''],
+      payType: ['', [Validators.required]],
+      amountType: ['Credit'],
+      description: [''],
       referenceNo: [''],
       bankName: [''],
-      userMasterid: [data?.userMasterid],
+      userMasterId: [data?.userMasterId],
       createdBy: 'Admin',
       createdDate: data?.createdDate,
       updatedDate: new Date().getTime(),
@@ -143,6 +145,19 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   onSubmitGenerateReceipt(generateMaintenanceForm) {
     console.log(generateMaintenanceForm.value);
+
+    if (!this.generateMaintenanceForm.valid) {
+      let controlName: string;
+      // tslint:disable-next-line: forin
+      for (controlName in this.generateMaintenanceForm.controls) {
+        this.generateMaintenanceForm.controls[controlName].markAsDirty();
+        this.generateMaintenanceForm.controls[controlName].updateValueAndValidity(); // Validate form field and show the message
+      }
+      this.generateMaintenanceFormSubmitted = true;
+      this.maintenanceBillMaster = generateMaintenanceForm.value;
+      return false;
+    }
+
     this.maintenanceBillMaster = generateMaintenanceForm.value;
     this.amountType = generateMaintenanceForm.value.amountType;
     this.referenceNo = generateMaintenanceForm.value.referenceNo;
@@ -206,14 +221,19 @@ export class ReceiveMaintainenceComponent implements OnInit {
     const amountMaster = new AmountMaster();
 
     amountMaster.amount = incomeData.amountReceived;
-    amountMaster.amountType = this.amountType.value;
-    amountMaster.payType = 'CREDIT';
-    amountMaster.userMasterid = incomeData.userMasterid;
+    amountMaster.payType = incomeData.payType;
+    amountMaster.payTo = 'Admin';
+    amountMaster.description = incomeData.description;
+    amountMaster.amountType = this.amountType;
+    amountMaster.userMasterId = incomeData.userMasterId;
     amountMaster.createdDate = new Date();
     amountMaster.updatedDate = new Date();
     amountMaster.MaintenanceAmount = incomeData.amount;
     amountMaster.referenceNo = this.referenceNo;
     amountMaster.bankName = this.bankName;
+
+    console.log(amountMaster);
+    console.log(incomeData);
 
     this.adminService.addIncome(amountMaster).subscribe(
       (data: any) => {

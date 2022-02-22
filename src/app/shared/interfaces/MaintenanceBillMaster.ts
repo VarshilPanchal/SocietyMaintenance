@@ -11,7 +11,9 @@ export interface MaintenanceBillMaster {
     maintenancePaid: boolean;
     averageReading: number;
     payType: string;
-    userMasterid: string;
+    amountType: string;
+    description: string;
+    userMasterId: string;
     createdBy: string;
     createdDate;
     updatedDate;
