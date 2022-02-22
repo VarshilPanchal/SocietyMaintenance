@@ -41,7 +41,7 @@ export class ExpenseandincomeComponent implements OnInit {
     description: "maintainence",
     amount_type: "Credit",
     amount: 1000,
-    pay_type: 'cheque',
+    payType: 'cheque',
     reading: ''
   };
   dataTableParams = {

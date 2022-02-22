@@ -151,10 +151,10 @@
             </div>
             <div class="p-field">
                 <label for="name">Paid By* </label>
-                <p-dropdown [options]="payTypeList" formControlName="pay_type" optionLabel="name" optionValue="name" [showClear]="true" placeholder="Select pay type">
+                <p-dropdown [options]="payTypeList" formControlName="payType" optionLabel="name" optionValue="name" [showClear]="true" placeholder="Select pay type">
                 </p-dropdown>
                 <div class="p-invalid"
-                    *ngIf="expenseFormGroup.controls['pay_type'].touched && (expenseFormGroup.controls['pay_type'].hasError('required') && !expenseFormGroup.controls['pay_type'].valid)">
+                    *ngIf="expenseFormGroup.controls['payType'].touched && (expenseFormGroup.controls['payTe'].hasError('required') && !expenseFormGroup.controls['payType'].valid)">
                     required
                 </div>
             </div>

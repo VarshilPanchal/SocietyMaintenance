@@ -45,7 +45,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
     description: "maintainence",
     amount_type: "Credit",
     amount: 1000,
-    pay_type: 'cheque',
+    payType: 'cheque',
     reading: ''
   };
   dataTableParams = {
@@ -182,7 +182,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
       user_master_id: "",
       amount_type: "Debit",
       payTo: ['', [Validators.required]],
-      pay_type: ['', [Validators.required]],
+      payType: ['', [Validators.required]],
       reading: '',
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
