@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { AdminServicesService } from '../services/admin-services.service';
@@ -8,6 +8,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 import { NumberToWordsPipe } from 'src/app/number-to-words.pipe';
 import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 @Component({
   selector: 'app-expenseandincome',
   templateUrl: './expenseandincome.component.html',
@@ -37,9 +39,9 @@ export class ExpenseandincomeComponent implements OnInit {
     id: "A101",
     createdDate: new Date(),
     updatedDate: new Date(),
-    user_master_id: "A101",
+    userMasterId: "A101",
     description: "maintainence",
-    amount_type: "Credit",
+    amountType: "Credit",
     amount: 1000,
     payType: 'cheque',
     reading: ''
@@ -69,6 +71,7 @@ export class ExpenseandincomeComponent implements OnInit {
    size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
    rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
   totalRecordsForExpense: Number = 0;
+  submitted = false;
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,
@@ -141,10 +144,10 @@ export class ExpenseandincomeComponent implements OnInit {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
         (amount) => {
-          if (amount.value.amount_type === 'Credit') {
+          if (amount.value.amountType === 'Credit') {
             this.incomeData.push(amount.value)
             this.balance = this.balance + parseInt(amount.value.amount);
-          } else if (amount.value.amount_type === 'Debit') {
+          } else if (amount.value.amountType === 'Debit') {
             this.expenseData.push(amount.value)
             this.balance = this.balance - parseInt(amount.value.amount);
           }
@@ -179,16 +182,34 @@ export class ExpenseandincomeComponent implements OnInit {
       id: [],
       createdDate: new Date(),
       updatedDate: new Date(),
-      user_master_id: "",
-      amount_type: "Debit",
+      userMasterId: "",
+      amountType: "Debit",
       payTo: ['', [Validators.required]],
       payType: ['', [Validators.required]],
       reading: '',
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      referenceNo: ['', [Validators.required]],
     });
+    this.expenseFormGroup.get('payType').valueChanges.subscribe(response=>{
+      if(response === 'Cheque' || response === 'OverDraft'){
+        this.expenseFormGroup.addControl('referenceNo', new FormControl('', [Validators.required]));
+      }else if(response === 'Cash'){
+        this.expenseFormGroup.removeControl('referenceNo');
+      }
+    })
   }
   onSubmitExpense() {
+    if (!this.expenseFormGroup.valid) {
+      let controlName: string;
+      // tslint:disable-next-line: forin
+      for (controlName in this.expenseFormGroup.controls) {
+        this.expenseFormGroup.controls[controlName].markAsDirty();
+        this.expenseFormGroup.controls[controlName].updateValueAndValidity(); // Validate form field and show the message
+      }
+      this.submitted = true;
+      return false;
+    }
     console.log(this.expenseFormGroup.value);
     this.adminService.addIncome(this.expenseFormGroup.value).subscribe(
       (data: any) => {
@@ -210,5 +231,20 @@ export class ExpenseandincomeComponent implements OnInit {
   }
   hideVoucherDialog() {
     this.viewVoucherDialog = false;
+  }
+  exportPdf(): void {
+    const DATA = document.getElementById('htmlData');
+
+    html2canvas(DATA).then(canvas => {
+      const fileWidth = 208;
+      const fileHeight = canvas.height * fileWidth / canvas.width;
+
+      const FILEURI = canvas.toDataURL('image/png');
+      const PDF = new jsPDF('p', 'mm', 'a4');
+      const position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+
+      PDF.save('voucher-receipt.pdf');
+    });
   }
 }

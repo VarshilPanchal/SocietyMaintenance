@@ -41,9 +41,9 @@ export class ExpenseAndIncomeComponent implements OnInit {
     id: "A101",
     createdDate: new Date(),
     updatedDate: new Date(),
-    user_master_id: "A101",
+    userMasterId: "A101",
     description: "maintainence",
-    amount_type: "Credit",
+    amountType: "Credit",
     amount: 1000,
     payType: 'cheque',
     reading: ''
@@ -141,10 +141,10 @@ export class ExpenseAndIncomeComponent implements OnInit {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
         (amount) => {
-          if (amount.value.amount_type === 'Credit') {
+          if (amount.value.amountType === 'Credit') {
             this.incomeData.push(amount.value)
             this.balance = this.balance + parseInt(amount.value.amount);
-          } else if (amount.value.amount_type === 'Debit') {
+          } else if (amount.value.amountType === 'Debit') {
             this.expenseData.push(amount.value)
             this.balance = this.balance - parseInt(amount.value.amount);
           }
@@ -179,7 +179,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
       id: [],
       createdDate: new Date(),
       updatedDate: new Date(),
-      user_master_id: "",
+      userMasterId: "",
       amount_type: "Debit",
       payTo: ['', [Validators.required]],
       payType: ['', [Validators.required]],

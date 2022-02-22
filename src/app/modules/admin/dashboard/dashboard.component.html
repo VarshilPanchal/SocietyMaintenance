@@ -5,10 +5,13 @@
 </nav>
 <div class="container-fluid my-3">
     <div class="row">
-        <div class="col-12">
-            <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser" #dt
+        <div class="col-2">
+
+        </div>
+        <div class="col-8 align-center">
+            <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser" #dt
                 class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                 <ng-template pTemplate="header">
                     <tr>
@@ -39,6 +42,10 @@
                                 class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
+                            <button pTooltip="Receive Payment" style="font-size: 15px; padding: 10px;"
+                                class="p-button bg-dark rounded" (click)="showReceivePaymentDialog(user.user_name)">
+                                <i class="fa fa-money" style="font-size: 15px"></i>
+                            </button> &nbsp;
                             <!-- <button class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
                                 (click)="opengenerateMaintenanceBillDialog(user.user_name)">
                                 <i class="pi pi-eye" style="font-size: 15px"></i>
@@ -55,67 +62,90 @@
                 </ng-template>
             </p-table>
         </div>
-        <div class="col-12">
-            <div class="card h-100">
-                <div class="card-header p-3">
-                    <p>
-                        Admin
-                    </p>
-                </div>
-                <div class="card-text p-3">
-                    <div class="row">
-                        <div class="col-6">
-                            <span class="pb-1">
-                                <p class="d-inline w-25">
-                                    Tenant Fees: {{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" (click)="addTenatFees()">
-                                    Add Tenant Fees
-                                </button>
-                            </span>
+        <div class="col-2">
+
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Label</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Tenant Fees</th>
+                        <td>{{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}</td>
+                        <td>
+                            <button pTooltip="Change Tenant Fees" style="font-size: 15px; padding: 10px;"
+                                class="p-button bg-dark rounded" (click)="addTenatFees()">
+                                <i class="pi pi-pencil" style="font-size: 15px"></i>
+                            </button>
+                            <!-- <button style="font-size: 15px; padding: 5px;"
+                        class="p-button bg-primary rounded d-inline" (click)="addTenatFees()">
+                        Change Tenant Fees
+                    </button> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Maintenance</th>
+                        <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}</td>
+                        <td>
+                            <button pTooltip="Change Maintainence Amount" style="font-size: 15px; padding: 10px;"
+                            class="p-button bg-dark rounded" (click)="addMaintenanceFees()">
+                            <i class="pi pi-pencil" style="font-size: 15px"></i>
+                        </button>
+                            <!-- <button style="font-size: 15px; padding: 5px;" class="p-button bg-primary rounded d-inline"
+                                (click)="addMaintenanceFees()">
+                                Change Maintainence Amount
+                            </button> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Water Bill Per Unit</th>
+                        <td>{{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}</td>
+                        <td> 
+                            <button pTooltip="Change Water Unit Amount" style="font-size: 15px; padding: 10px;"
+                            class="p-button bg-dark rounded" (click)="addWaterBillFees()">
+                            <i class="pi pi-pencil" style="font-size: 15px"></i>
+                            </button>
+                            <!-- <button style="font-size: 15px; padding: 5px;" class="p-button bg-primary rounded d-inline"
+                                (click)="addWaterBillFees()">
+                                Change Water Unit Amount
+                            </button> -->
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <th scope="row">Transfer Fees For 2-BHK
                             <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    Maintenance: {{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" (click)="addMaintenanceFees()">
-                                    Change Maintainence Amount
-                                </button>
-                            </span>
+                            Transfer Fees For 3-BHK
+                        </th>
+                        <td>{{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
                             <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    Water Bill Per Unit: {{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" (click)="addWaterBillFees()">
-                                    Change Water Unit Amount
-                                </button>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    Transfer Fees For 2-BHK :
-                                    {{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
-                                    <br>
-                                    Transfer Fees For 3-BHK :
-                                    {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
-                                </p>
-                                <br>
-                                <button style="font-size: 15px; padding: 5px;"
-                                    class="p-button bg-primary rounded d-inline" (click)="addTransferFees()">
-                                    Trasfer Fees
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
+                        </td>
+                        <td> 
+                            <button pTooltip="Change Transfer Fees" style="font-size: 15px; padding: 10px;"
+                            class="p-button bg-dark rounded" (click)="addTransferFees()">
+                            <i class="pi pi-pencil" style="font-size: 15px"></i>
+                            </button>
+                            <!-- <button style="font-size: 15px; padding: 5px;" class="p-button bg-primary rounded d-inline"
+                                (click)="addTransferFees()">
+                                Change Transfer Fees
+                            </button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2">
+
         </div>
     </div>
 </div>
@@ -257,8 +287,9 @@
                 <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
                     placeholder="Enter Maintenance Amount" required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['maintenanceAmount'].touched && (generateMaintenanceForm.controls['maintenanceAmount'].hasError('required') && !generateMaintenanceForm.controls['maintenanceAmount'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('maintenanceAmount').valid) || (!generateMaintenanceForm.get('maintenanceAmount').valid && generateMaintenanceForm.get('maintenanceAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('maintenanceAmount').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
@@ -266,8 +297,9 @@
                 <input type="text" disabled pInputText id="waterAmount" formControlName="waterAmount"
                     placeholder="Enter Water Amount" required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['waterAmount'].touched && (generateMaintenanceForm.controls['waterAmount'].hasError('required') && !generateMaintenanceForm.controls['waterAmount'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('waterAmount').valid) || (!generateMaintenanceForm.get('waterAmount').valid && generateMaintenanceForm.get('waterAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('waterAmount').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
@@ -275,8 +307,9 @@
                 <input type="text" pInputText id="usedUnit" formControlName="usedUnit" placeholder="Enter Used Unit"
                     required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['usedUnit'].touched && (generateMaintenanceForm.controls['usedUnit'].hasError('required') && !generateMaintenanceForm.controls['usedUnit'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('usedUnit').valid) || (!generateMaintenanceForm.get('usedUnit').valid && generateMaintenanceForm.get('usedUnit').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('usedUnit').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
@@ -284,8 +317,9 @@
                 <input type="text" pInputText id="previousReading" formControlName="previousReading"
                     placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['previousReading'].touched && (generateMaintenanceForm.controls['previousReading'].hasError('required') && !generateMaintenanceForm.controls['previousReading'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('previousReading').valid) || (!generateMaintenanceForm.get('previousReading').valid && generateMaintenanceForm.get('previousReading').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('previousReading').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
@@ -293,8 +327,9 @@
                 <input type="text" pInputText id="currentReading" formControlName="currentReading"
                     placeholder="Enter Current Reading" required autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['currentReading'].touched && (generateMaintenanceForm.controls['currentReading'].hasError('required') && !generateMaintenanceForm.controls['currentReading'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('currentReading').valid) || (!generateMaintenanceForm.get('currentReading').valid && generateMaintenanceForm.get('currentReading').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('currentReading').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <div class="p-field">
@@ -302,8 +337,9 @@
                 <input type="text" pInputText id="averageReading" formControlName="averageReading"
                     placeholder="Enter Average Reading" autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
-                    *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['averageReading'].touched && (generateMaintenanceForm.controls['averageReading'].hasError('required') && !generateMaintenanceForm.controls['averageReading'].valid)">
-                    required
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('averageReading').valid) || (!generateMaintenanceForm.get('averageReading').valid && generateMaintenanceForm.get('averageReading').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('averageReading').errors.required) ">
+                        Required </div>
                 </div>
             </div>
             <!-- <div class="p-field">
@@ -409,6 +445,86 @@
             tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
+    </ng-template>
+
+</p-dialog>
+
+<!-- Receive Payment Dialog -->
+<p-dialog [(visible)]="receivePaymentDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="hidePaymentDialog()">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="receivePaymentForm" (ngSubmit)="onSubmitPayment()">
+
+
+
+
+
+            <div class="p-field">
+                <label for="amount">Amount* </label>
+                <input type="text" pInputText id="amount" formControlName="amount" placeholder="Enter Amount" required
+                    autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('amount').valid) || (!receivePaymentForm.get('amount').valid && receivePaymentForm.get('amount').touched) ">
+                    <div *ngIf=" ( receivePaymentForm.get('amount').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+
+            <div class="p-field">
+                <label for="name">Select Payment Type* </label>
+                <p-dropdown [options]="paymentType" formControlName="payType" optionValue="label" [showClear]="true"
+                    placeholder="Select payment type">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('payType').valid) || (!receivePaymentForm.get('payType').valid && receivePaymentForm.get('payType').touched) ">
+                    <div *ngIf=" ( receivePaymentForm.get('payType').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field"
+                *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque' || this.receivePaymentForm.get('payType').value === 'Online'">
+                <label for="referenceNo"> Reference No / Cheque No* </label>
+                <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
+                    placeholder="Enter referenceNo" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('referenceNo').valid) || (!receivePaymentForm.get('referenceNo').valid && receivePaymentForm.get('referenceNo').touched) ">
+                    <div *ngIf=" ( receivePaymentForm.get('referenceNo').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field" *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque'">
+                <label for="bankName"> Bank Name* </label>
+                <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
+                    required autofocus maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('bankName').valid) || (!receivePaymentForm.get('bankName').valid && receivePaymentForm.get('bankName').touched) ">
+                    <div *ngIf=" ( receivePaymentForm.get('bankName').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="name">Description* </label>
+                <input type="text" pInputText id="regionName" formControlName="description"
+                    placeholder="Enter Description" required maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('description').valid) || (!receivePaymentForm.get('description').valid && receivePaymentForm.get('description').touched) ">
+                    <div *ngIf=" ( receivePaymentForm.get('description').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
+            (click)="hidePaymentDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-outlined"
+            (click)="onSubmitPayment(receivePaymentForm)"></button>
     </ng-template>
 
 </p-dialog>

@@ -34,8 +34,8 @@ export class HeaderComponent implements OnInit {
     //   this.signupLink = false;
     // }
 
-    this.loggedInUser = this.localStorageService.getLoginUserName();
-    if (this.loggedInUser === 'Admin') {
+    this.loggedInUser = this.localStorageService.getLoginUserObject();
+    if (this.loggedInUser.id === 'Admin') {
       this.roleName = 'ADMIN';
     } else {
       this.roleName = 'USER';

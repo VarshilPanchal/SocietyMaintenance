@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
@@ -10,6 +10,7 @@ import { MaintenanceBillMaster } from 'src/app/shared/interfaces/MaintenanceBill
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { WaterMaintenanceBillMaster } from 'src/app/shared/interfaces/WaterMaintenanceBillMaster';
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
+import { AdminServicesService } from '../services/admin-services.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit {
   flatNo = '';
   receiptGenerated = false;
   receiptDetail;
-
+  count = 0;
   // Dialog toggle
   tenatDialog = false;
   waterBillDialog = false;
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
   waterBillFormSubmitted = false;
   TransferFormSubmitted = false;
   generateMaintenanceFormSubmitted = false;
-
+  receivePaymentFormSubmitted = false;
   // Paginator
   totalRecords: Number = 0;
   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
@@ -82,13 +83,16 @@ export class DashboardComponent implements OnInit {
     { label: '2-BHK', value: 'TRANSFER_2_BHK' },
     { label: '3-BHK', value: 'TRANSFER_3_BHK' },
   ];
+  receivePaymentDialog = false;
+  receivePaymentForm: FormGroup;
 
   constructor(
     private dashboardService: DashboardServicesService,
     private errorService: ErrorService,
     private _formBuilder: FormBuilder,
     private angularFireDatabase: AngularFireDatabase,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private adminService: AdminServicesService
   ) { }
 
 
@@ -112,7 +116,7 @@ export class DashboardComponent implements OnInit {
   hidetenatDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.tenatDialog = false;
-    this.getFessMasterData();
+    // this.getFessMasterData();
     this.initializeTenatForm();
   }
 
@@ -137,7 +141,7 @@ export class DashboardComponent implements OnInit {
   hidemaintenanceDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.maintenanceDialog = false;
-    this.getFessMasterData();
+    // this.getFessMasterData();
     this.initializeMaintenanceForm();
   }
 
@@ -162,7 +166,7 @@ export class DashboardComponent implements OnInit {
   hideWaterBillDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.waterBillDialog = false;
-    this.getFessMasterData();
+    // this.getFessMasterData();
     this.initializeWaterBillForm();
   }
 
@@ -187,7 +191,7 @@ export class DashboardComponent implements OnInit {
   hideTransferDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.TransferDialog = false;
-    this.getFessMasterData();
+    // this.getFessMasterData();
     this.initializeTransferForm();
   }
 
@@ -451,5 +455,92 @@ export class DashboardComponent implements OnInit {
       PDF.save('maintenance-receipt.pdf');
     });
   }
-
+  showReceivePaymentDialog(data): any {
+    // this.maintenanceBill = data;
+    this.popupHeader = `Receive Payment For ${data}`;
+    this.receivePaymentDialog = true;
+    this.initializeReceivePaymentForm(data);
+  }
+  initializeReceivePaymentForm(data?) {
+    this.receivePaymentForm = this._formBuilder.group({
+      id: [],
+      createdDate: new Date(),
+      updatedDate: new Date(),
+      userMasterId: data,
+      amountType: "Credit",
+      payTo: [''],
+      payType: ['',[Validators.required]],
+      reading: '',
+      amount: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      bankName: ['', [Validators.required]],
+      referenceNo: ['', [Validators.required]],
+    });
+    this.receivePaymentForm.get('payType').valueChanges.subscribe(response=>{
+      if(response === 'Cheque'){
+        this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]))
+      }
+      else if(response === 'Online'){
+        this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+      }else if(response==='Cash'){
+        this.receivePaymentForm.removeControl('referenceNo');
+        this.receivePaymentForm.removeControl('bankName');
+      }
+    })
+    
+  }
+  getUserMasterForReceivePayment(id, user) {
+    this.dashboardService.getUser(id).valueChanges().subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data) {
+          this.count = this.count + 1;
+          if (this.count === 1) {
+            this.userMasterDto = data;
+            console.log(this.userMasterDto);
+            this.initializeReceivePaymentForm(user);
+            return false;
+            // this.onSubmitUserMasterAmountUpdate();
+          }
+        } else {
+          this.notificationService.error('Something Error', '');
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
+  onSubmitPayment() {
+    if (!this.receivePaymentForm.valid) {
+      let controlName: string;
+      // tslint:disable-next-line: forin
+      for (controlName in this.receivePaymentForm.controls) {
+        this.receivePaymentForm.controls[controlName].markAsDirty();
+        this.receivePaymentForm.controls[controlName].updateValueAndValidity(); // Validate form field and show the message
+      }
+      this.receivePaymentFormSubmitted = true;
+      return false;
+    }
+    console.log(this.receivePaymentForm.value);
+    // this.receivePaymentFormSubmitted = true;
+    this.adminService.addIncome(this.receivePaymentForm.value).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.hidePaymentDialog();
+        // this.getIncome();
+        if (data.statusCode === '200' && data.message === 'OK') {
+          
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
+  hidePaymentDialog() {
+    this.receivePaymentDialog = false;
+    this.initializeReceivePaymentForm();
+  }
 }

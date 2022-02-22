@@ -67,7 +67,7 @@ export class PaySummaryComponent implements OnInit {
       this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
       this.amountData.forEach(
         (amount) => {
-          if (amount.value.amount_type === 'Credit' && amount.value.user_master_id === this.loggedInUserName) {
+          if (amount.value.amountType === 'Credit' && amount.value.userMasterId === this.loggedInUserName) {
             this.userAmountData.push(amount.value)
           }
         });
