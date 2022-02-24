@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
@@ -84,7 +84,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSampleData();
-    this.initializeGenerateMaintenanceForm();
+    // this.initializeGenerateMaintenanceForm();
   }
 
   hidemaintenanceBillDialog() {
@@ -115,8 +115,8 @@ export class ReceiveMaintainenceComponent implements OnInit {
     // this.maintenanceBill = data;
     this.popupHeader = `Receive Maintenance For ${data.userMasterId}`;
     this.generateReceiptDialog = true;
-    this.initializeGenerateMaintenanceForm(data);
     this.getUserMaster(data.userMasterId, data);
+    this.initializeGenerateMaintenanceForm(data);
   }
 
   initializeGenerateMaintenanceForm(data?) {
@@ -134,13 +134,25 @@ export class ReceiveMaintainenceComponent implements OnInit {
       payType: ['', [Validators.required]],
       amountType: ['Credit'],
       description: [''],
-      referenceNo: [''],
-      bankName: [''],
+      referenceNo: ['', [Validators.required]],
+      bankName: ['', [Validators.required]],
       userMasterId: [data?.userMasterId],
       createdBy: 'Admin',
       createdDate: data?.createdDate,
       updatedDate: new Date().getTime(),
     });
+    this.generateMaintenanceForm.get('payType').valueChanges.subscribe(response=>{
+      if(response === 'Cheque'){
+        this.generateMaintenanceForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+        this.generateMaintenanceForm.addControl('bankName', new FormControl('', [Validators.required]))
+      }
+      else if(response === 'Online'){
+        this.generateMaintenanceForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+      }else if(response === 'Cash'){
+        this.generateMaintenanceForm.removeControl('referenceNo');
+        this.generateMaintenanceForm.removeControl('bankName');
+      }
+    })
   }
 
   onSubmitGenerateReceipt(generateMaintenanceForm) {

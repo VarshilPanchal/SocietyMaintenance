@@ -89,12 +89,12 @@
                 <tbody>
                     <tr>
                         <td>Amount</td>
-                        <td *ngIf="recieptData?.amount">{{recieptData?.amount}}</td>
+                        <td *ngIf="recieptData?.amount">{{recieptData?.amount |currency:"INR":"symbol"}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
-                        <td *ngIf="remainingAmount">{{remainingAmount}}</td>
+                        <td *ngIf="remainingAmount">{{remainingAmount |currency:"INR":"symbol"}}</td>
                         <td></td>
                     </tr>
 
@@ -105,7 +105,7 @@
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td *ngIf="recieptData?.amount">{{recieptData?.amount}}</td>
+                        <td *ngIf="recieptData?.amount">{{recieptData?.amount |currency:"INR":"symbol"}}</td>
                         <td></td>
                     </tr>
                 </tbody>

@@ -199,20 +199,20 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Maintenance Amount</td>
-                        <td *ngIf="maintenanceReceipt?.maintenanceAmount">{{maintenanceReceipt?.maintenanceAmount}}</td>
+                        <td>Amount</td>
+                        <td *ngIf="maintenanceReceipt?.maintenanceAmount">{{maintenanceReceipt?.amount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
                         <td>Payment type</td>
-                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.payType | lowercase}}</td>
+                        <td *ngIf="maintenanceReceipt?.payType">{{maintenanceReceipt?.payType}}</td>
                     </tr>
                     <tr>
-                        <td>Reference No / Chaque No</td>
-                        <td *ngIf="maintenanceReceipt?.referenceNo">{{maintenanceReceipt?.referenceNo}}</td>
+                        <td>Reference No / Cheque No</td>
+                        <td>{{maintenanceReceipt?.referenceNo? maintenanceReceipt?.referenceNo: '-' }}</td>
                     </tr>
                     <tr>
                         <td>Bank Name</td>
-                        <td *ngIf="maintenanceReceipt?.bankName">{{maintenanceReceipt?.bankName}}</td>
+                        <td>{{maintenanceReceipt?.bankName? maintenanceReceipt?.bankName: '-'}}</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -220,8 +220,12 @@
                     </tr>
                     <tr>
                         <td>Amount Paid</td>
-                        <td *ngIf="maintenanceReceipt?.amount">{{maintenanceReceipt?.amountReceived}}</td>
+                        <td *ngIf="maintenanceReceipt?.amount">{{maintenanceReceipt?.amountReceived|currency:"INR":"symbol"}}</td>
                     </tr>
+                    <!-- <tr>
+                        <td>Remaining Amount</td>
+                        <td *ngIf="maintenanceReceipt?.amount">{{maintenanceReceipt?.amount}}</td>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -336,9 +340,24 @@
                     required
                 </div> -->
             </div>
-
             <div class="p-field">
-                <label for="referenceNo"> Reference No / Chaque No* </label>
+                <label for="name">Select Payment Type* </label>
+                <p-dropdown [options]="paymentType" formControlName="payType" optionValue="label" [showClear]="true"
+                    placeholder="Select payment type">
+                </p-dropdown>
+                <!-- <div class="p-invalid"
+                    *ngIf="generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['payType'].touched && (generateMaintenanceForm.controls['payType'].hasError('required') && !generateMaintenanceForm.controls['payType'].valid)">
+                    required
+                </div> -->
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('payType').valid) || (!generateMaintenanceForm.get('payType').valid && generateMaintenanceForm.get('payType').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('payType').errors.required) ">
+                        Required
+                    </div>
+                </div>
+            </div>
+            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
+                <label for="referenceNo"> Reference No / Cheque No* </label>
                 <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
                     placeholder="Enter referenceNo" required autofocus maxLength="50" />
                 <!-- <div class="p-invalid"
@@ -352,7 +371,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-field">
+            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
                     required autofocus maxLength="50" />
@@ -368,22 +387,7 @@
                 </div>
             </div>
 
-            <div class="p-field">
-                <label for="name">Select Payment Type* </label>
-                <p-dropdown [options]="paymentType" formControlName="payType" optionLabel="label" optionValue="label"
-                    placeholder="Select Payment Type">
-                </p-dropdown>
-                <!-- <div class="p-invalid"
-                    *ngIf="generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['payType'].touched && (generateMaintenanceForm.controls['payType'].hasError('required') && !generateMaintenanceForm.controls['payType'].valid)">
-                    required
-                </div> -->
-                <div class="p-invalid"
-                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('payType').valid) || (!generateMaintenanceForm.get('payType').valid && generateMaintenanceForm.get('payType').touched) ">
-                    <div *ngIf=" (generateMaintenanceForm.get('payType').errors.required) ">
-                        Required
-                    </div>
-                </div>
-            </div>
+          
 
             <div class="p-field">
                 <label for="description"> Description </label>

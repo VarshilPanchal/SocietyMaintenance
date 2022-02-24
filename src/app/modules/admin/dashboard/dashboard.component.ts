@@ -85,6 +85,7 @@ export class DashboardComponent implements OnInit {
   ];
   receivePaymentDialog = false;
   receivePaymentForm: FormGroup;
+  waterCalulatedAmount: any;
 
   constructor(
     private dashboardService: DashboardServicesService,
@@ -116,7 +117,7 @@ export class DashboardComponent implements OnInit {
   hidetenatDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.tenatDialog = false;
-    // this.getFessMasterData();
+    this.getFessMasterData();
     this.initializeTenatForm();
   }
 
@@ -141,7 +142,7 @@ export class DashboardComponent implements OnInit {
   hidemaintenanceDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.maintenanceDialog = false;
-    // this.getFessMasterData();
+    this.getFessMasterData();
     this.initializeMaintenanceForm();
   }
 
@@ -166,7 +167,7 @@ export class DashboardComponent implements OnInit {
   hideWaterBillDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.waterBillDialog = false;
-    // this.getFessMasterData();
+    this.getFessMasterData();
     this.initializeWaterBillForm();
   }
 
@@ -191,7 +192,7 @@ export class DashboardComponent implements OnInit {
   hideTransferDialog(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.TransferDialog = false;
-    // this.getFessMasterData();
+    this.getFessMasterData();
     this.initializeTransferForm();
   }
 
@@ -381,8 +382,15 @@ export class DashboardComponent implements OnInit {
     }
 
     this.receiptGenerated = true;
+    let waterCalulatedAmount:number
     this.maintenanceBillMaster = generateMaintenanceForm.value;
-    let totalAmount: number = this.maintenanceBillMaster.usedUnit * this.maintenanceBillMaster.waterAmount;
+    if((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)){
+      waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading)*this.maintenanceBillMaster.waterAmount;
+    } else if(this.maintenanceBillMaster.averageReading){
+      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading)*this.maintenanceBillMaster.waterAmount;
+
+    }
+    let totalAmount: number = waterCalulatedAmount;
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
     this.maintenanceBillMaster.amount = totalAmount;
     this.remainingAmount = totalAmount;

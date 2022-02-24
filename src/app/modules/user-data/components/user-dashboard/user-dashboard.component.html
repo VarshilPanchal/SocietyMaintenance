@@ -8,7 +8,7 @@
         <div class="col-12">
             <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser" #dt
                 class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} regions"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                 <ng-template pTemplate="header">
                     <tr>
@@ -100,5 +100,42 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-lg-8 col-sm-12 col-md-12 ">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Label</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Tenant Fees</th>
+                    <td>{{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}</td>
+                   
+                </tr>
+                <tr>
+                    <th scope="row">Maintenance</th>
+                    <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Water Bill Per Unit</th>
+                    <td>{{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}</td>
+                   
+                </tr>
+
+                <tr>
+                    <th scope="row">Transfer Fees For 2-BHK
+                        <br>
+                        Transfer Fees For 3-BHK
+                    </th>
+                    <td>{{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
+                        <br>
+                        {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
