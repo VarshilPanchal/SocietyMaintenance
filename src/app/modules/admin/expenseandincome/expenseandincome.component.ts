@@ -237,16 +237,33 @@ export class ExpenseandincomeComponent implements OnInit {
   exportPdf(): void {
     const DATA = document.getElementById('htmlData');
 
+    // html2canvas(DATA).then(canvas => {
+    //   const fileWidth = 208;
+    //   const fileHeight = canvas.height * fileWidth / canvas.width;
+
+    //   const FILEURI = canvas.toDataURL('image/png');
+    //   const PDF = new jsPDF('p', 'mm', 'a4');
+    //   const position = 0;
+    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+
+    //   PDF.save('voucher-receipt.pdf');
+    // });
+
     html2canvas(DATA).then(canvas => {
-      const fileWidth = 208;
-      const fileHeight = canvas.height * fileWidth / canvas.width;
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
 
-      const FILEURI = canvas.toDataURL('image/png');
-      const PDF = new jsPDF('p', 'mm', 'a4');
-      const position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-
-      PDF.save('voucher-receipt.pdf');
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .250, 30, width * .50, height * .50);
+      doc.save('voucher-receipt.pdf');
     });
+
   }
 }

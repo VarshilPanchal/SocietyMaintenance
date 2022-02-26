@@ -64,26 +64,34 @@
         <div id="htmlData" *ngIf="viewReceiptDialog">
             <table class="table">
                 <thead class="thead-light">
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
                             Payment Receipt</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
                             Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Name : {{flatNo}}</th>
+                        <th class="table-secondary">Name : </th>
+                        <th> {{flatNo}}</th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Month : {{recieptData?.createdDate| date:shortDate}}</th>
+                        <th class="table-secondary">Month :</th>
+                        <th> {{recieptData?.createdDate| date:shortDate}}
+                        </th>
+                        <th></th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3">Payment type : {{recieptData?.payType}}</th>
+                        <th class="table-secondary">Payment type : </th>
+                        <th> {{recieptData?.payType}}</th>
+                        <th></th>
                     </tr>
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="col">Description</th>
                         <th scope="col">Amount</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,7 +111,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr class="table-success">
                         <td>Total</td>
                         <td *ngIf="recieptData?.amount">{{recieptData?.amount |currency:"INR":"symbol"}}</td>
                         <td></td>

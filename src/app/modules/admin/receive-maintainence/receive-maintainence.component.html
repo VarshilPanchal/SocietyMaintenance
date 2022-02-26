@@ -85,23 +85,23 @@
 
     <ng-template pTemplate="content">
         <div id="generatedBillTabel" *ngIf="maintenanceBillDialog">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead class="thead-light">
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
                             Maintenance Bill</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
                             Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">Name : {{maintenanceBill.userMasterId}}</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">Month : {{maintenanceBill.createdDate | date}}</th>
                     </tr>
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="col">Description</th>
                         <th scope="col">Unit/Reading</th>
                         <th scope="col">Amount</th>
@@ -124,19 +124,21 @@
                         <td>-</td>
                     </tr>
                     <tr>
-                        <td>Rate /- unit</td>
+                        <td>Rate/unit</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.waterAmount">{{maintenanceBill?.waterAmount}}</td>
+                        <td *ngIf="maintenanceBill?.waterAmount">{{maintenanceBill?.waterAmount |currency:"INR":"symbol"
+                            }}</td>
                     </tr>
                     <tr>
                         <td>Maintenance Amount</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.maintenanceAmount">{{maintenanceBill?.maintenanceAmount}}</td>
+                        <td *ngIf="maintenanceBill?.maintenanceAmount">{{maintenanceBill?.maintenanceAmount
+                            |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
                         <td>55</td>
-                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount}}</td>
+                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <!-- <tr>
                         <td>Payment type</td>
@@ -148,10 +150,10 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr class="table-success">
                         <td>Total</td>
                         <td></td>
-                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount}}</td>
+                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount |currency:"INR":"symbol" }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -161,8 +163,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark"
-            pTooltip="Download PDF" tooltipPosition="bottom">
+        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark" pTooltip="Download PDF"
+            tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
     </ng-template>
@@ -178,21 +180,21 @@
         <div id="generatedReceiptTabel" *ngIf="maintenanceReceiptDialog">
             <table class="table">
                 <thead class="thead-light">
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
                             Maintenance Receipt</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
                             Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">Name : {{maintenanceReceipt.userMasterId}}</th>
                     </tr>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">Month : {{maintenanceReceipt.createdDate | date }} </th>
                     </tr>
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="col">Description</th>
                         <th scope="col">Amount / Reference No.</th>
                     </tr>
@@ -200,7 +202,8 @@
                 <tbody>
                     <tr>
                         <td>Amount</td>
-                        <td *ngIf="maintenanceReceipt?.maintenanceAmount">{{maintenanceReceipt?.amount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="maintenanceReceipt?.maintenanceAmount">{{maintenanceReceipt?.amount
+                            |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
                         <td>Payment type</td>
@@ -218,9 +221,10 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr class="table-success">
                         <td>Amount Paid</td>
-                        <td *ngIf="maintenanceReceipt?.amount">{{maintenanceReceipt?.amountReceived|currency:"INR":"symbol"}}</td>
+                        <td *ngIf="maintenanceReceipt?.amount">
+                            {{maintenanceReceipt?.amountReceived|currency:"INR":"symbol"}}</td>
                     </tr>
                     <!-- <tr>
                         <td>Remaining Amount</td>
@@ -232,8 +236,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark"
-            pTooltip="Download PDF" tooltipPosition="bottom">
+        <button type="button" pButton pRipple (click)="exportPdfForReceipt()" class="bg-dark" pTooltip="Download PDF"
+            tooltipPosition="bottom">
             <i class="pi pi-download" style="font-size: 15px"></i>
         </button>
     </ng-template>
@@ -356,7 +360,8 @@
                     </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
+            <div class="p-field"
+                *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
                 <label for="referenceNo"> Reference No / Cheque No* </label>
                 <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
                     placeholder="Enter referenceNo" required autofocus maxLength="50" />
@@ -387,7 +392,7 @@
                 </div>
             </div>
 
-          
+
 
             <div class="p-field">
                 <label for="description"> Description </label>

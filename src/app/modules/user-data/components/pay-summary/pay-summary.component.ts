@@ -94,17 +94,34 @@ export class PaySummaryComponent implements OnInit {
   exportPdf(): void {
     let DATA = document.getElementById('htmlData');
 
+    // html2canvas(DATA).then(canvas => {
+    //   let fileWidth = 208;
+    //   let fileHeight = canvas.height * fileWidth / canvas.width;
+
+    //   const FILEURI = canvas.toDataURL('image/png')
+    //   let PDF = new jsPDF('p', 'mm', 'a4');
+    //   let position = 0;
+    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+
+    //   PDF.save('payment-receipt.pdf');
+    // });
+
     html2canvas(DATA).then(canvas => {
-      let fileWidth = 208;
-      let fileHeight = canvas.height * fileWidth / canvas.width;
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
 
-      const FILEURI = canvas.toDataURL('image/png')
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
-
-      PDF.save('payment-receipt.pdf');
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .250, 30, width * .50, height * .50);
+      doc.save('voucher-receipt.pdf');
     });
+
   }
   hideViewReceiptDialog(): any {
     this.viewReceiptDialog = false;

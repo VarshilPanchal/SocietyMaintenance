@@ -219,8 +219,7 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
             (click)="hideExpenseDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
-            (click)="onSubmitExpense()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark" (click)="onSubmitExpense()"></button>
     </ng-template>
 
 </p-dialog>
@@ -231,31 +230,41 @@
     <div id="htmlData">
         <table class="table">
             <thead class="thead-light">
-                <tr>
+                <tr class="table-primary">
                     <th scope="col" class="align-center text-center mb-2" colspan="3" style="font-size: 2rem;">
                         Voucher Receipt</th>
                 </tr>
-                <br>
-                <tr>
+                <tr class="table-primary">
                     <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
                         Nr. Pushkar bung, Nana Chiloda, Ahmedabad</th>
                 </tr>
-                <tr>
+                <tr class="table-primary">
                     <th scope="col" colspan="3">Month : {{receiptDetail?.createdDate | date}}</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th scope="col" colspan="3">Amount : {{receiptDetail?.amount|currency:"INR":"symbol"}}</th>
-                </tr>
+                </tr> -->
             </thead>
             <tbody>
                 <tr>
-                    <td>Pay to: {{receiptDetail?.payTo}}</td>
+                    <td class="table-dark"> <b> Pay to: </b> </td>
+                    <td> {{receiptDetail?.payTo}}</td>
                 </tr>
                 <tr>
-                    <td>Amount in Words: {{receiptDetail?.amount| numberToWords}}</td>
+                    <td class="table-dark"><b> Amount :</b> </td>
+                    <td>{{receiptDetail?.amount|currency:"INR":"symbol"}}</td>
                 </tr>
                 <tr>
-                    <td>Description: {{receiptDetail?.description}}</td>
+                    <td class="table-dark"> <b> Amount in Words: </b> </td>
+                    <td>{{receiptDetail?.amount| numberToWords}}</td>
+                </tr>
+                <tr>
+                    <td class="table-dark"> <b> Description: </b> </td>
+                    <td> {{receiptDetail?.description}}</td>
+                </tr>
+                <tr>
+                    <td class="table-success"></td>
+                    <td class="table-success"></td>
                 </tr>
             </tbody>
         </table>

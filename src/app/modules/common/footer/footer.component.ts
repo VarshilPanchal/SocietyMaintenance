@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PATH_CONSTANTS } from 'src/app/core/constants/PathConstants';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onAboutUsClick(): any {
+    this.router.navigate([PATH_CONSTANTS.ABOUT_US]);
   }
 
 }

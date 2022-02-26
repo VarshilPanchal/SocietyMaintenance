@@ -205,6 +205,15 @@ export class DashboardComponent implements OnInit {
       updatedDate: new Date().getTime(),
       createdBy: 'Admin',
     });
+
+    this.TransferForm.get('type').valueChanges.subscribe(response => {
+      if (response === 'TRANSFER_2_BHK') {
+        this.TransferForm.controls.amount.setValue(this.feesMasterData?.TRANSFER_2_BHK.amount);
+      }
+      else if (response === 'TRANSFER_3_BHK') {
+        this.TransferForm.controls.amount.setValue(this.feesMasterData?.TRANSFER_3_BHK.amount);
+      }
+    });
   }
 
   generateMaintenance(name): any {
@@ -364,7 +373,7 @@ export class DashboardComponent implements OnInit {
     this.waterMaintenanceBillMaster = this.waterBillForm.value;
     console.log(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
-    .finally(this.hideWaterBillDialog());
+      .finally(this.hideWaterBillDialog());
     this.waterBillFormSubmitted = false;
   }
 
@@ -382,12 +391,12 @@ export class DashboardComponent implements OnInit {
     }
 
     this.receiptGenerated = true;
-    let waterCalulatedAmount:number
+    let waterCalulatedAmount: number
     this.maintenanceBillMaster = generateMaintenanceForm.value;
-    if((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)){
-      waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading)*this.maintenanceBillMaster.waterAmount;
-    } else if(this.maintenanceBillMaster.averageReading){
-      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading)*this.maintenanceBillMaster.waterAmount;
+    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)) {
+      waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
+    } else if (this.maintenanceBillMaster.averageReading) {
+      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading) * this.maintenanceBillMaster.waterAmount;
 
     }
     let totalAmount: number = waterCalulatedAmount;
@@ -479,26 +488,26 @@ export class DashboardComponent implements OnInit {
       userMasterId: data,
       amountType: "Credit",
       payTo: [''],
-      payType: ['',[Validators.required]],
+      payType: ['', [Validators.required]],
       reading: '',
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
       bankName: ['', [Validators.required]],
       referenceNo: ['', [Validators.required]],
     });
-    this.receivePaymentForm.get('payType').valueChanges.subscribe(response=>{
-      if(response === 'Cheque'){
+    this.receivePaymentForm.get('payType').valueChanges.subscribe(response => {
+      if (response === 'Cheque') {
         this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
         this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]))
       }
-      else if(response === 'Online'){
+      else if (response === 'Online') {
         this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
-      }else if(response==='Cash'){
+      } else if (response === 'Cash') {
         this.receivePaymentForm.removeControl('referenceNo');
         this.receivePaymentForm.removeControl('bankName');
       }
     })
-    
+
   }
   getUserMasterForReceivePayment(id, user) {
     this.dashboardService.getUser(id).valueChanges().subscribe(
@@ -541,7 +550,7 @@ export class DashboardComponent implements OnInit {
         this.hidePaymentDialog();
         // this.getIncome();
         if (data.statusCode === '200' && data.message === 'OK') {
-          
+
         }
       },
       (err: Error) => {

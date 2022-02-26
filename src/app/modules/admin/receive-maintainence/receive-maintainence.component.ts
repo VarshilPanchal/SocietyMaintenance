@@ -141,18 +141,18 @@ export class ReceiveMaintainenceComponent implements OnInit {
       createdDate: data?.createdDate,
       updatedDate: new Date().getTime(),
     });
-    this.generateMaintenanceForm.get('payType').valueChanges.subscribe(response=>{
-      if(response === 'Cheque'){
+    this.generateMaintenanceForm.get('payType').valueChanges.subscribe(response => {
+      if (response === 'Cheque') {
         this.generateMaintenanceForm.addControl('referenceNo', new FormControl('', [Validators.required]));
-        this.generateMaintenanceForm.addControl('bankName', new FormControl('', [Validators.required]))
+        this.generateMaintenanceForm.addControl('bankName', new FormControl('', [Validators.required]));
       }
-      else if(response === 'Online'){
+      else if (response === 'Online') {
         this.generateMaintenanceForm.addControl('referenceNo', new FormControl('', [Validators.required]));
-      }else if(response === 'Cash'){
+      } else if (response === 'Cash') {
         this.generateMaintenanceForm.removeControl('referenceNo');
         this.generateMaintenanceForm.removeControl('bankName');
       }
-    })
+    });
   }
 
   onSubmitGenerateReceipt(generateMaintenanceForm) {
@@ -288,7 +288,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
             });
           this.lstofMaintenance = this.lstofMaintenance.sort(
             (a, b) => {
-              return <any>new Date(b.createdDate) - <any>new Date(a.createdDate);
+              return (new Date(b.createdDate) as any) - (new Date(a.createdDate) as any);
             }
           );
           this.totalRecords = this.maintenanceData.length;
@@ -313,33 +313,86 @@ export class ReceiveMaintainenceComponent implements OnInit {
   exportPdfForBill(): void {
     const DATA = document.getElementById('generatedBillTabel');
 
+    // html2canvas(DATA).then(canvas => {
+    //   const fileWidth = 208;
+    //   const fileHeight = canvas.height * fileWidth / canvas.width;
+
+    //   const FILEURI = canvas.toDataURL('image/png');
+    //   const PDF = new jsPDF('portrait', 'px', 'a5');
+    //   const position = 0;
+    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+
+    //   PDF.save('maintenance-bill.pdf');
+    // });
+
+    // https://stackoverflow.com/questions/66963487/html2canvas-export-a4-size-regardless-of-window-size
+
+
     html2canvas(DATA).then(canvas => {
-      const fileWidth = 208;
-      const fileHeight = canvas.height * fileWidth / canvas.width;
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
 
-      const FILEURI = canvas.toDataURL('image/png');
-      const PDF = new jsPDF('p', 'mm', 'a4');
-      const position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-
-      PDF.save('maintenance-receipt.pdf');
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
+      doc.save('maintenance-bill.pdf');
     });
+
   }
 
   exportPdfForReceipt(): void {
     const DATA = document.getElementById('generatedReceiptTabel');
 
+    // html2canvas(DATA).then(canvas => {
+    //   const fileWidth = 208;
+    //   const fileHeight = canvas.height * fileWidth / canvas.width;
+
+    //   const FILEURI = canvas.toDataURL('image/png');
+    //   const PDF = new jsPDF('p', 'mm', 'a4');
+    //   const position = 0;
+    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+
+    //   PDF.save('maintenance-receipt.pdf');
+    // });
+
+    // html2canvas(DATA).then(canvas => {
+    //   let wid;
+    //   let hgt;
+    //   const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+    //   const hratio = hgt / wid;
+    //   const doc = new jsPDF({
+    //     orientation: 'portrait'
+    //   });
+
+    //   const width = doc.internal.pageSize.width;
+    //   let height = doc.internal.pageSize.height;
+    //   // const height = width * hratio;
+    //   doc.addImage(img, 'JPEG', width * .020, 20, width * .90, height * .90);
+    //   doc.save('maintenance-receipt.pdf');
+    // });
+
     html2canvas(DATA).then(canvas => {
-      const fileWidth = 208;
-      const fileHeight = canvas.height * fileWidth / canvas.width;
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
 
-      const FILEURI = canvas.toDataURL('image/png');
-      const PDF = new jsPDF('p', 'mm', 'a4');
-      const position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-
-      PDF.save('maintenance-receipt.pdf');
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
+      doc.save('maintenance-bill.pdf');
     });
+
   }
 
 }
