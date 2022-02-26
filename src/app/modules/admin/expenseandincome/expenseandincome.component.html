@@ -102,9 +102,9 @@
         <ng-container>
             <ng-container>
                 <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
-                    [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
-                    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
+                [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let col of cols" pResizableColumn>
