@@ -525,6 +525,7 @@ export class DashboardComponent implements OnInit {
       }
       else if (response === 'Online') {
         this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]))
       } else if (response === 'Cash') {
         this.receivePaymentForm.removeControl('referenceNo');
         this.receivePaymentForm.removeControl('bankName');

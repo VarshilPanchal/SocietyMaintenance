@@ -527,7 +527,7 @@
                         Required </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque'">
+            <div class="p-field" *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque' || this.receivePaymentForm.get('payType').value === 'Online'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
                     required autofocus maxLength="50" />

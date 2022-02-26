@@ -192,12 +192,16 @@ export class ExpenseandincomeComponent implements OnInit {
       amount: ['', [Validators.required]],
       description: ['', [Validators.required]],
       referenceNo: ['', [Validators.required]],
+      bankName: ['', [Validators.required]]
     });
     this.expenseFormGroup.get('payType').valueChanges.subscribe(response => {
       if (response === 'Cheque' || response === 'OverDraft') {
         this.expenseFormGroup.addControl('referenceNo', new FormControl('', [Validators.required]));
+        this.expenseFormGroup.addControl('bankName', new FormControl('', [Validators.required]));
+
       } else if (response === 'Cash') {
         this.expenseFormGroup.removeControl('referenceNo');
+        this.expenseFormGroup.removeControl('bankName');
       }
     });
   }

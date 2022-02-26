@@ -179,7 +179,7 @@
                     placeholder="Amount In Words" disabled />
             </div>
             <div class="p-field">
-                <label for="name">Paid By* </label>
+                <label for="name">Paid Type* </label>
                 <p-dropdown [options]="payTypeList" autofocus formControlName="payType" optionLabel="name"
                     optionValue="name" [showClear]="true" placeholder="Select pay type">
                 </p-dropdown>
@@ -200,6 +200,17 @@
                         Required </div>
                 </div>
             </div>
+            <div class="p-field" *ngIf="this.expenseFormGroup.get('payType').value === 'Cheque' || this.expenseFormGroup.get('payType').value === 'OverDraft'">
+                <label for="bankName"> Bank Name* </label>
+                <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bank name"
+                    required autofocus maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(expenseFormGroupSubmitted && !expenseFormGroup.get('bankName').valid) || (!expenseFormGroup.get('bankName').valid && expenseFormGroup.get('bankName').touched) ">
+                    <div *ngIf=" ( expenseFormGroup.get('bankName').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
             <div class="p-field">
                 <label for="name">Description* </label>
                 <!-- <input type="text" pInputText id="regionName" formControlName="description"
@@ -261,6 +272,10 @@
                 <tr>
                     <td class="table-dark"> <b> Description: </b> </td>
                     <td> {{receiptDetail?.description}}</td>
+                </tr>
+                <tr>
+                    <td class="table-dark"> <b> Bank Name: </b> </td>
+                    <td> {{receiptDetail?.bankName}}</td>
                 </tr>
                 <tr>
                     <td class="table-success"></td>

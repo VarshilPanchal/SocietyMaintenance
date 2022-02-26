@@ -226,10 +226,11 @@
                         <td *ngIf="maintenanceReceipt?.amount">
                             {{maintenanceReceipt?.amountReceived|currency:"INR":"symbol"}}</td>
                     </tr>
-                    <!-- <tr>
+                    <tr class="table-success">
                         <td>Remaining Amount</td>
-                        <td *ngIf="maintenanceReceipt?.amount">{{maintenanceReceipt?.amount}}</td>
-                    </tr> -->
+                        <td *ngIf="remainingAmount">{{remainingAmount|currency:"INR":"symbol"}}</td>
+                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -376,7 +377,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque'">
+            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
                     required autofocus maxLength="50" />

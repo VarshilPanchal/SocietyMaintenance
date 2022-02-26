@@ -10,6 +10,7 @@ import { AmountMaster } from 'src/app/shared/interfaces/AmountMaster';
 import { MaintenanceBillMaster } from 'src/app/shared/interfaces/MaintenanceBillMaster';
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
+import { AuthService } from '../../auth/services/auth-services/auth.service';
 import { AdminServicesService } from '../services/admin-services.service';
 
 @Component({
@@ -80,6 +81,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private angularFireDatabase: AngularFireDatabase,
     private notificationService: NotificationService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -105,6 +107,15 @@ export class ReceiveMaintainenceComponent implements OnInit {
     this.maintenanceReceipt = data;
     console.log(this.maintenanceReceipt);
     this.maintenanceReceiptDialog = true;
+    this.getUserData(data.userMasterId);
+
+  }
+
+  getUserData(flatNo) {
+    this.authService.getUser(flatNo).valueChanges().subscribe(
+      (data: any) => {
+        this.remainingAmount = data.amount;
+      });
   }
 
   hideGenerateReceiptDialog() {
@@ -148,6 +159,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       }
       else if (response === 'Online') {
         this.generateMaintenanceForm.addControl('referenceNo', new FormControl('', [Validators.required]));
+        this.generateMaintenanceForm.addControl('bankName', new FormControl('', [Validators.required]));
       } else if (response === 'Cash') {
         this.generateMaintenanceForm.removeControl('referenceNo');
         this.generateMaintenanceForm.removeControl('bankName');

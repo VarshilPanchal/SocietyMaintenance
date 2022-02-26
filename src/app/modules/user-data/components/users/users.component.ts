@@ -33,15 +33,15 @@ export class UsersComponent implements OnInit {
 
   postData() {
     const userObject = {
-      id: "A102",
+      id: "A104",
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
-      password: "A102",
-      user_name: "A102",
+      password: "A104",
+      user_name: "A104",
       amount: 0
     };
     // this.userService.samplePostData(userObject);
-    this.angularFireDatabase.database.ref('user').child('A102').set(userObject);
+    this.angularFireDatabase.database.ref('user').child('A104').set(userObject);
     // this.userService.samplePost(userObject).subscribe(
     //   (data: any) => {
     //     console.log(data);
