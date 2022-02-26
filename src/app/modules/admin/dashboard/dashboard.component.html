@@ -104,8 +104,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Maintenance</th>
-                        <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}</td>
+                        <th scope="row">
+                            Maintenance
+                            <br>
+                            Maintenance Tenant
+                        </th>
+                        <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
+                            <br>
+                            {{feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount|currency:"INR":"symbol"}}
+                        </td>
                         <td>
                             <button pTooltip="Change Maintainence Amount" style="font-size: 15px; padding: 10px;"
                                 class="p-button bg-dark rounded" (click)="addMaintenanceFees()">
@@ -229,6 +236,15 @@
     <ng-template pTemplate="content">
         <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmitMaintenanceForm()">
             <div class="p-field">
+                <label for="name">Select maintenance Type* </label>
+                <p-dropdown [options]="maintainenceType" formControlName="type" placeholder="Select maintenance Type" optionValue="label" [showClear]="true">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="maintenanceForm.controls['type'].touched && (maintenanceForm.controls['type'].hasError('required') && !maintenanceForm.controls['type'].valid)">
+                    required
+                </div>
+            </div>
+            <div class="p-field">
                 <label for="name">Amount* </label>
                 <input type="text" pInputText id="regionName" formControlName="amount" placeholder="Enter Amount"
                     required autofocus pKeyFilter="num" maxLength="50" />
@@ -260,7 +276,7 @@
                 <p-dropdown [options]="flatType" formControlName="type" placeholder="Select Flat Type">
                 </p-dropdown>
                 <div class="p-invalid"
-                    *ngIf="TransferForm.controls['amount'].touched && (TransferForm.controls['amount'].hasError('required') && !TransferForm.controls['amount'].valid)">
+                    *ngIf="TransferForm.controls['type'].touched && (TransferForm.controls['type'].hasError('required') && !TransferForm.controls['type'].valid)">
                     required
                 </div>
             </div>
@@ -293,6 +309,17 @@
 
     <ng-template pTemplate="content">
         <form [formGroup]="generateMaintenanceForm" (ngSubmit)="GenerateMaintenanceBill()">
+            <div class="p-field">
+                <label for="name">Select Maintainence Type* </label>
+                <p-dropdown [options]="maintainenceType" formControlName="maintainenceType" optionValue="label" [showClear]="true"
+                    placeholder="Select Maintainence type">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('maintainenceType').valid) || (!generateMaintenanceForm.get('maintainenceType').valid && generateMaintenanceForm.get('maintainenceType').touched) ">
+                    <div *ngIf=" ( generateMaintenanceForm.get('maintainenceType').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
             <div class="p-field">
                 <label for="maintenanceAmount">Maintenance Amount* </label>
                 <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
@@ -344,9 +371,9 @@
                 </div>
             </div>
             <div class="p-field">
-                <label for="averageReading">Average Reading </label>
+                <label for="averageReading">Average Water Bill </label>
                 <input type="text" pInputText id="averageReading" formControlName="averageReading"
-                    placeholder="Enter Average Reading" autofocus pKeyFilter="num" maxLength="50" />
+                    placeholder="Enter Average Water bill" autofocus pKeyFilter="num" maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('averageReading').valid) || (!generateMaintenanceForm.get('averageReading').valid && generateMaintenanceForm.get('averageReading').touched) ">
                     <div *ngIf=" (generateMaintenanceForm.get('averageReading').errors.required) ">
@@ -466,11 +493,6 @@
 
     <ng-template pTemplate="content">
         <form [formGroup]="receivePaymentForm" (ngSubmit)="onSubmitPayment()">
-
-
-
-
-
             <div class="p-field">
                 <label for="amount">Amount* </label>
                 <input type="text" pInputText id="amount" formControlName="amount" placeholder="Enter Amount" required

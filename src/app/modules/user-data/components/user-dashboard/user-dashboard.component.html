@@ -1,11 +1,16 @@
 <nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="py-2 pl-4">
-        <b>User Dashboard</b>
+    <div class="pt-3 pl-4">
+        <b>
+            <h2>
+                Dashboard
+            </h2>
+        </b>
     </div>
 </nav>
 <div class="container-fluid my-3">
     <div class="row">
-        <div class="col-12">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 col-sm-12 col-md-12 ">
             <p-table tyleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px" [value]="lstofUser" #dt
                 class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
@@ -45,63 +50,13 @@
                 </ng-template>
             </p-table>
         </div>
-        <div class="col-12">
-            <div class="card h-100">
-                <div class="card-header p-3">
-                    <p>
-                        Admin
-                    </p>
-                </div>
-                <div class="card-text p-3">
-                    <div class="row">
-                        <div class="col-6">
-                            <span class="pb-1">
-                                <p class="d-inline w-25">
-                                    <b>
-                                        Tenant Fees:
-                                    </b>
-                                    {{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}
-                                </p>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    <b>
-                                        Maintenance:
-                                    </b>
-                                    {{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
-                                </p>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    <b>
-                                        Water Bill Per Unit:
-                                    </b>
-                                    {{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}
-                                </p>
-                            </span>
-                            <br>
-                            <span class="pb-1">
-                                <p class="d-inline">
-                                    <b>
-                                        Transfer Fees For 2-BHK :
-                                    </b>
-                                    {{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
-                                    <br>
-                                    <b>
-                                        Transfer Fees For 3-BHK :
-                                    </b>
-                                    {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
-                                </p>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-lg-2"></div>
     </div>
-    <div class="col-lg-8 col-sm-12 col-md-12 ">
+
+        <br>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 col-sm-12 col-md-12 ">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -116,8 +71,15 @@
                    
                 </tr>
                 <tr>
-                    <th scope="row">Maintenance</th>
-                    <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}</td>
+                    <th scope="row">
+                        Maintenance
+                        <br>
+                        Maintenance Tenant
+                    </th>
+                    <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
+                        <br>
+                        {{feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount|currency:"INR":"symbol"}}
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Water Bill Per Unit</th>
@@ -137,5 +99,8 @@
                 </tr>
             </tbody>
         </table>
+        </div>
+        <div class="col-lg-2"></div>
     </div>
+
 </div>

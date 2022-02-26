@@ -78,6 +78,10 @@ export class DashboardComponent implements OnInit {
     { label: 'Cash' },
     { label: 'Online' },
   ];
+  maintainenceType = [
+    { label: 'Tenant', value: 'MAINTENANCE_AMOUNT_TENANT' },
+    { label: 'Own', value: 'MAINTENANCE_AMOUNT' },
+  ];
 
   flatType = [
     { label: '2-BHK', value: 'TRANSFER_2_BHK' },
@@ -106,6 +110,7 @@ export class DashboardComponent implements OnInit {
     this.initializeGenerateMaintenanceForm();
     this.initializeTransferForm();
   }
+ 
 
   addTenatFees(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
@@ -148,12 +153,20 @@ export class DashboardComponent implements OnInit {
 
   initializeMaintenanceForm() {
     this.maintenanceForm = this._formBuilder.group({
-      id: 'MAINTENANCE_AMOUNT',
-      type: ['MAINTENANCE_AMOUNT', [Validators.required]],
-      amount: [this.feesMasterData?.MAINTENANCE_AMOUNT.amount ? this.feesMasterData?.MAINTENANCE_AMOUNT.amount : 0, [Validators.required]],
+      id: '',
+      type: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
       createdBy: 'Admin',
+    });
+    this.maintenanceForm.get('type').valueChanges.subscribe(response => {
+      if (response === 'Tenant') {
+        this.maintenanceForm.controls.amount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount);
+      }
+      else if (response === 'Own') {
+        this.maintenanceForm.controls.amount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT.amount);
+      }
     });
   }
 
@@ -250,7 +263,7 @@ export class DashboardComponent implements OnInit {
   initializeGenerateMaintenanceForm() {
     this.generateMaintenanceForm = this._formBuilder.group({
       id: '',
-      maintenanceAmount: [this.feesMasterData?.MAINTENANCE_AMOUNT.amount, [Validators.required]],
+      maintenanceAmount: ['', [Validators.required]],
       waterAmount: [this.feesMasterData?.WATER_BILL.amount, [Validators.required]],
       amount: [''],
       amountReceived: [''],
@@ -263,7 +276,16 @@ export class DashboardComponent implements OnInit {
       userMasterId: [this.flatNo],
       createdBy: 'Admin',
       createdDate: new Date().getTime(),
-      updatedDate: ''
+      updatedDate: '',
+      maintainenceType: ['', [Validators.required]],
+    });
+    this.generateMaintenanceForm.get('maintainenceType').valueChanges.subscribe(response => {
+      if (response === 'Tenant') {
+        this.generateMaintenanceForm.controls.maintenanceAmount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount);
+      }
+      else if (response === 'Own') {
+        this.generateMaintenanceForm.controls.maintenanceAmount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT.amount);
+      }
     });
   }
 
@@ -334,6 +356,7 @@ export class DashboardComponent implements OnInit {
       return false;
     }
     this.waterMaintenanceBillMaster = this.maintenanceForm.value;
+    this.waterMaintenanceBillMaster.id = this.waterMaintenanceBillMaster.type;
     console.log(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
       .finally(this.hidemaintenanceDialog())
@@ -396,7 +419,7 @@ export class DashboardComponent implements OnInit {
     if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)) {
       waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
     } else if (this.maintenanceBillMaster.averageReading) {
-      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading) * this.maintenanceBillMaster.waterAmount;
+      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading);
 
     }
     let totalAmount: number = waterCalulatedAmount;
