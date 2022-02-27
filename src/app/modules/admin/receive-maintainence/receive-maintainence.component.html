@@ -86,10 +86,16 @@
     <ng-template pTemplate="content">
         <div id="generatedBillTabel" *ngIf="maintenanceBillDialog">
             <table class="table table-bordered">
-                <thead class="thead-light">
+                <thead class="thead-light ">
+                    <tr class="">
+                    </tr>
                     <tr class="table-primary">
-                        <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
-                            Maintenance Bill</th>
+                        <th scope="col" class="align-center text-center" colspan="3" style="margin-bottom: 20px;">
+                            <img width="70" src="{{imageUrl}}" alt="profilePhoto" class="d-inline profileImage">
+                            <p style="font-size: 2rem;" class="d-inline">
+                                Maintenance Bill
+                            </p>
+                        </th>
                     </tr>
                     <tr class="table-primary">
                         <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
@@ -181,8 +187,11 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr class="table-primary">
-                        <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
-                            Maintenance Receipt</th>
+                        <th scope="col" class="align-center text-center" colspan="3" style="margin-bottom: 20px;">
+                            <img width="70" src="{{imageUrl}}" alt="profilePhoto" class="d-inline profileImage">
+                            <p style="font-size: 2rem;" class="d-inline">
+                                Maintenance Receipt
+                        </th>
                     </tr>
                     <tr class="table-primary">
                         <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
@@ -230,7 +239,7 @@
                         <td>Remaining Amount</td>
                         <td *ngIf="remainingAmount">{{remainingAmount|currency:"INR":"symbol"}}</td>
                     </tr>
-                    
+
                 </tbody>
             </table>
         </div>
@@ -377,7 +386,8 @@
                     </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
+            <div class="p-field"
+                *ngIf="this.generateMaintenanceForm.get('payType').value === 'Cheque' || this.generateMaintenanceForm.get('payType').value === 'Online'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
                     required autofocus maxLength="50" />

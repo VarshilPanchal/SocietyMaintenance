@@ -20,6 +20,8 @@ import { AdminServicesService } from '../services/admin-services.service';
 })
 export class ReceiveMaintainenceComponent implements OnInit {
 
+  imageUrl = 'assets/img/aqua-polaris-logo.jpg';
+
   maintenanceData = [];
   lstofMaintenance = [];
 

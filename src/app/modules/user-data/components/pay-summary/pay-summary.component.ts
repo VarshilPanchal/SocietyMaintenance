@@ -14,6 +14,8 @@ import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
   styleUrls: ['./pay-summary.component.css']
 })
 export class PaySummaryComponent implements OnInit {
+  imageUrl = 'assets/img/aqua-polaris-logo.jpg';
+
   amountData: any[];
   userAmountData: any[];
   viewReceiptDialog = false;
@@ -21,10 +23,10 @@ export class PaySummaryComponent implements OnInit {
   recieptData: any;
   remainingAmount: any;
   loggedInUserName: any;
-   // Paginator
-   totalRecords: Number = 0;
-   size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
-   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
+  // Paginator
+  totalRecords: Number = 0;
+  size = COMMON_CONSTANTS.MASTER_TABLE_ROW_SIZE;
+  rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,

@@ -102,9 +102,9 @@
         <ng-container>
             <ng-container>
                 <p-table styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px"
-                [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
-                [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
+                    [value]="incomeData" class="mx-3" [paginator]="true" [rows]="size" [totalRecords]="totalRecords"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="rowsPerPageOptions">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let col of cols" pResizableColumn>
@@ -200,7 +200,8 @@
                         Required </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.expenseFormGroup.get('payType').value === 'Cheque' || this.expenseFormGroup.get('payType').value === 'OverDraft'">
+            <div class="p-field"
+                *ngIf="this.expenseFormGroup.get('payType').value === 'Cheque' || this.expenseFormGroup.get('payType').value === 'OverDraft'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bank name"
                     required autofocus maxLength="50" />
@@ -242,8 +243,12 @@
         <table class="table">
             <thead class="thead-light">
                 <tr class="table-primary">
-                    <th scope="col" class="align-center text-center mb-2" colspan="3" style="font-size: 2rem;">
-                        Voucher Receipt</th>
+                    <th scope="col" class="align-center text-center" colspan="3" style="margin-bottom: 20px;">
+                        <img width="70" src="{{imageUrl}}" alt="profilePhoto" class="d-inline profileImage">
+                        <p style="font-size: 2rem;" class="d-inline">
+                            Voucher Receipt
+                        </p>
+                    </th>
                 </tr>
                 <tr class="table-primary">
                     <th scope="col" colspan="3">The Aqua Polaris Appartment, Nr. S.P. Ring Road, NH-8,
