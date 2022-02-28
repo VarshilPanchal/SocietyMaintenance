@@ -14,7 +14,7 @@ import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
   styleUrls: ['./pay-summary.component.css']
 })
 export class PaySummaryComponent implements OnInit {
-  imageUrl = 'assets/img/aqua-polaris-logo.jpg';
+  imageUrl = 'assets/img/logo_transparent.png';
 
   amountData: any[];
   userAmountData: any[];

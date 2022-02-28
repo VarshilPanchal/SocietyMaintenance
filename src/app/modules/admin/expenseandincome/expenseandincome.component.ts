@@ -16,7 +16,7 @@ import jsPDF from 'jspdf';
   styleUrls: ['./expenseandincome.component.css']
 })
 export class ExpenseandincomeComponent implements OnInit {
-  imageUrl = 'assets/img/aqua-polaris-logo.jpg';
+  imageUrl = 'assets/img/logo_transparent.png';
 
   amount;
   payTypeList = [
