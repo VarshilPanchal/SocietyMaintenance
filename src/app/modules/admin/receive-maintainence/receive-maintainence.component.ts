@@ -57,9 +57,9 @@ export class ReceiveMaintainenceComponent implements OnInit {
     { header: 'User Id' },
     { header: 'Create Date' },
     { header: 'Amount' },
-    { header: 'Used Unit' },
-    { header: 'Previous Reading' },
     { header: 'Current Reading' },
+    { header: 'Previous Reading' } ,
+    { header: 'Used Unit' },
     { header: 'Amount Received' },
     { header: 'Action' },
   ];
@@ -404,7 +404,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       // let height = doc.internal.pageSize.height;
       const height = width * hratio;
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
-      doc.save('maintenance-bill.pdf');
+      doc.save('maintenance-receipt.pdf');
     });
 
   }

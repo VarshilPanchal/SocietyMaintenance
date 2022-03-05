@@ -255,7 +255,9 @@ export class UserDashboardComponent implements OnInit {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
+            if(user.value.user_name !=='Admin'){
             this.lstofUser.push(user.value);
+            }
           });
         this.totalRecords = this.users.length;
         if (data.statusCode === '200' && data.message === 'OK') {

@@ -307,6 +307,13 @@ export class DashboardComponent implements OnInit {
         this.generateMaintenanceForm.controls.maintenanceAmount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT.amount);
       }
     });
+    this.generateMaintenanceForm.get('currentReading').valueChanges.subscribe(current => {
+      
+        this.generateMaintenanceForm.get('previousReading').valueChanges.subscribe(previous => {
+        this.generateMaintenanceForm.controls.usedUnit.setValue(Number(current)-Number(previous));
+      
+    })
+    });
   }
 
   getSampleData() {
@@ -317,7 +324,9 @@ export class DashboardComponent implements OnInit {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
-            this.lstofUser.push(user.value);
+            if(user.value.user_name !=='Admin'){
+              this.lstofUser.push(user.value);
+            }
           });
         this.totalRecords = this.users.length;
 
@@ -501,6 +510,8 @@ export class DashboardComponent implements OnInit {
       (data: any) => {
         // console.log(data);
         this.onSubmitUserMasterAmountUpdate();
+        this.getMaintenanceAmountData();
+
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Post Data');
         }
