@@ -178,6 +178,7 @@ export class ExpenseandincomeComponent implements OnInit {
   }
   viewVoucher(expense): any {
     this.receiptDetail = expense;
+    console.log(this.receiptDetail);
     this.viewVoucherDialog = true;
     this.popupHeader = 'View Voucher';
   }
