@@ -4,7 +4,7 @@ import { AuthGuard } from './core/gaurds/auth.guard';
 import { AuthGuardAdmin } from './core/gaurds/auth.guardAdmin';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'auth', data: { title: 'auth' } },
+  { path: '', pathMatch: 'full', redirectTo: 'auth/login', data: { title: 'auth' } },
   { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardAdmin] },
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(auth => auth.AuthModule) },
   { path: 'sample', loadChildren: () => import('./modules/sample/sample.module').then(m => m.SampleModule) },

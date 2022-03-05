@@ -11,20 +11,25 @@ import { ReceiveMaintainenceComponent } from './receive-maintainence/receive-mai
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SharedModule } from '../shared/shared.module';
 
+// import { DatePipe } from '@angular/common';
+
+
 
 @NgModule({
-  declarations: [ExpenseandincomeComponent,  AdminComponent,
+  declarations: [ExpenseandincomeComponent, AdminComponent,
     DashboardComponent,
     UserProfileComponent,
     ReceiveMaintainenceComponent,
-    ChangePasswordComponent,],
+    ChangePasswordComponent
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    // DatePipe
   ]
 })
-export class AdminModule{}
+export class AdminModule { }

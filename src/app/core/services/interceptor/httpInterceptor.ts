@@ -31,7 +31,7 @@ export class httpInterceptor implements HttpInterceptor {
             this.count++;
             return next.handle(req)
                 .pipe(tap(
-                    event => console.log(event),
+                    event => {},
                     error => console.log(error)
                 ), finalize(() => {
                     this.count--;

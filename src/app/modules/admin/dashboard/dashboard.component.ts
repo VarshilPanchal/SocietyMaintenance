@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,17 +13,22 @@ import { WaterMaintenanceBillMaster } from 'src/app/shared/interfaces/WaterMaint
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
 import { AdminServicesService } from '../services/admin-services.service';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  billGeneratedUsers = [];
+
+
   lstofUser: any[] = [];
   lstOfFees: any[] = [];
   loginUserId;
   users;
+  maintenanceData;
+  listOfMaintenanceData;
   feesMasterData;
   flatNo = '';
   receiptGenerated = false;
@@ -97,20 +103,34 @@ export class DashboardComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private angularFireDatabase: AngularFireDatabase,
     private notificationService: NotificationService,
-    private adminService: AdminServicesService
+    private adminService: AdminServicesService,
+    // private datePipe: DatePipe
   ) { }
 
 
   ngOnInit(): void {
+    const date = new Date();
+    // console.log(date);
+    // console.log(new Date(date.getFullYear(), date.getMonth(), 1));
+    // console.log(new Date(date.getFullYear(), date.getMonth() + 1, 0));
+
+    // date.setMonth(date.getMonth() - 1);
+    // const previousMonth = date.toLocaleString('default', { month: 'long' });
+
+    // console.log(previousMonth);
+
     this.getSampleData();
+    this.getMaintenanceAmountData();
     this.getFessMasterData();
     this.initializeMaintenanceForm();
     this.initializeTenatForm();
     this.initializeWaterBillForm();
     this.initializeGenerateMaintenanceForm();
     this.initializeTransferForm();
+
+
   }
- 
+
 
   addTenatFees(): any {
     this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
@@ -300,6 +320,9 @@ export class DashboardComponent implements OnInit {
             this.lstofUser.push(user.value);
           });
         this.totalRecords = this.users.length;
+
+        // console.log('User list', this.lstofUser);
+
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');
         }
@@ -310,6 +333,139 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  getMaintenanceAmountData() {
+
+
+    // const now = new Date();
+    // let check;
+    // if (
+    //   (check.getFullYear() == now.getFullYear()) &&
+    //   (check.getMonth() == now.getMonth()) &&
+    //   (check.getDate() >= now.getDate())
+    // ) {
+    //   // remanining days in current month and today. Use > if you don't need today.
+    // }
+
+    // var nextMonth = now.getMonth() + 1
+    // var nextYear = now.getFullYear()
+    // if (nextMonth == 12) {
+    //   nextMonth = 0
+    //   nextYear++
+    // }
+    // if (
+    //   (check.getFullYear() == nextYear) &&
+    //   (check.getMonth() == nextMonth)
+    // ) {
+    //   // any day in next month. Doesn't include current month remaining days.
+    // }
+
+    // // let now = new Date();
+    // now.setHours(12);
+    // now.setMinutes(0);
+    // now.setSeconds(0);
+    // now.setMilliseconds(0);
+    // const end_of_week = new Date(now.getTime() + (6 - now.getDay()) * 24 * 60 * 60 * 1000);
+    // end_of_week.setHours(23);
+    // end_of_week.setMinutes(59);
+    // end_of_week.setSeconds(59); // gee, bye-bye leap second
+    // if (check >= now && check <= end_of_week) {
+    //   // between now and end of week
+    //   console.log('now', now);
+    //   console.log('end_of_week', end_of_week);
+    // }
+
+    // var p = new Date() -1;
+    // var today = new Date();
+    // var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    // console.log('lastDayOfMonth', lastDayOfMonth);
+
+    // var a = new Date();
+    // var b = new Date(a.getFullYear(), a.getMonth()); // Mon Apr 30 2018 00:00:00 GMT+0300 (EEST)
+    // console.log(b);
+    // var b = new Date(a.getFullYear(), a.getMonth() + 1, 0); // Mon Apr 30 2018 00:00:00 GMT+0300 (EEST)
+    // console.log(b);
+    // var b = new Date(a.getFullYear(), a.getMonth() + 2, 0); // Thu May 31 2018 00:00:00 GMT+0300 (EEST)
+    // console.log(b);
+
+    // const date = new Date();
+    // let latest_date = DatePipe.transform(date, 'yyyy-MM-dd');
+    // console.log(latest_date);
+    // console.log(this.datePipe.transform(date, "yyyy-MM-dd")); //output : 2018-02-13
+
+    // const dateTime = '2018-11-01 18:51:41';
+    // const parts = dateTime.split(/[- :]/);
+
+    // const month = parts[1];
+    // const year = parts[0];
+
+    // const currentdate = new Date();
+    // let cur_month = currentdate.getMonth() + 1;
+    // let cur_year = currentdate.getFullYear();
+
+    // // tslint:disable-next-line: triple-equals
+    // if (cur_month.toString() == month && year == cur_year.toString()) {
+    //   alert('in this month');
+    // } else {
+    //   alert('not in this month');
+    // }
+
+    // var d = new Date();
+    // console.log("d", d);
+    // d.setMonth(d.getMonth() - 3);
+    // console.log("d", d);
+
+    // var b = new Date();
+    // console.log(b.toLocaleDateString());
+    // b.setMonth(b.getMonth() - 3);
+    // console.log("b", b.toLocaleDateString());
+
+
+
+
+    this.dashboardService.getMaintenanceAmountData().subscribe(
+      (data: any) => {
+        this.billGeneratedUsers = [];
+        this.maintenanceData = [];
+        this.listOfMaintenanceData = [];
+        this.maintenanceData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.maintenanceData.forEach(
+          (user) => {
+            const date = new Date();
+            const monthStartDate = new Date(date.getFullYear(), date.getMonth());
+            const monthLastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            console.log(monthStartDate);
+            console.log(monthLastDate);
+            if (user.value.createdDate > monthStartDate && user.value.createdDate < monthLastDate) {
+              this.billGeneratedUsers.push(user.value.userMasterId);
+            } else {
+              console.log('bill not generated');
+            }
+            this.listOfMaintenanceData.push(user.value);
+          });
+        // this.totalRecords = this.maintenanceData.length;
+
+        // console.log('MaintenanceData list', this.listOfMaintenanceData);
+        console.log('billGeneratedUsers list', this.billGeneratedUsers);
+
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
+
+  idExist(user: UserMaster) {
+    // this.billGeneratedUsers.includes(user.id);
+    if (this.billGeneratedUsers.includes(user.id)) {
+      // if (user.id === id) {
+      return false;
+    }
+    return true;
+  }
+
   getFessMasterData(): any {
     this.dashboardService.getFeesData().subscribe(
       (data: any) => {
@@ -317,7 +473,7 @@ export class DashboardComponent implements OnInit {
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');
         }
-        console.log(this.feesMasterData);
+        // console.log(this.feesMasterData);
       },
       (err: Error) => {
         console.error(err);
@@ -337,7 +493,7 @@ export class DashboardComponent implements OnInit {
       return false;
     }
     this.waterMaintenanceBillMaster = this.tenatForm.value;
-    console.log(this.waterMaintenanceBillMaster);
+    // console.log(this.waterMaintenanceBillMaster);
 
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
       .finally(this.hidetenatDialog());
@@ -357,9 +513,9 @@ export class DashboardComponent implements OnInit {
     }
     this.waterMaintenanceBillMaster = this.maintenanceForm.value;
     this.waterMaintenanceBillMaster.id = this.waterMaintenanceBillMaster.type;
-    console.log(this.waterMaintenanceBillMaster);
+    // console.log(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
-      .finally(this.hidemaintenanceDialog())
+      .finally(this.hidemaintenanceDialog());
     this.maintenanceFormSubmitted = false;
   }
 
@@ -376,7 +532,7 @@ export class DashboardComponent implements OnInit {
     }
     this.waterMaintenanceBillMaster = this.TransferForm.value;
     this.waterMaintenanceBillMaster.id = this.waterMaintenanceBillMaster.type;
-    console.log(this.waterMaintenanceBillMaster);
+    // console.log(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
       .finally(this.hideTransferDialog());
     this.TransferFormSubmitted = false;
@@ -394,7 +550,7 @@ export class DashboardComponent implements OnInit {
       return false;
     }
     this.waterMaintenanceBillMaster = this.waterBillForm.value;
-    console.log(this.waterMaintenanceBillMaster);
+    // console.log(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('feesmaster').child(this.waterMaintenanceBillMaster.id).set(this.waterMaintenanceBillMaster)
       .finally(this.hideWaterBillDialog());
     this.waterBillFormSubmitted = false;
@@ -414,7 +570,7 @@ export class DashboardComponent implements OnInit {
     }
 
     this.receiptGenerated = true;
-    let waterCalulatedAmount: number
+    let waterCalulatedAmount: number;
     this.maintenanceBillMaster = generateMaintenanceForm.value;
     if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)) {
       waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
@@ -427,12 +583,12 @@ export class DashboardComponent implements OnInit {
     this.maintenanceBillMaster.amount = totalAmount;
     this.remainingAmount = totalAmount;
     this.receiptDetail = generateMaintenanceForm.value;
-    console.log(this.maintenanceBillMaster);
+    // console.log(this.maintenanceBillMaster);
     // tslint:disable-next-line: max-line-length
     // this.angularFireDatabase.database.ref('maintenancemaster').child(this.waterMaintenanceBillMaster).set(this.waterMaintenanceBillMaster);
     this.dashboardService.generatedMaintenanceBillPost(this.maintenanceBillMaster).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         this.onSubmitUserMasterAmountUpdate();
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Post Data');
@@ -447,10 +603,10 @@ export class DashboardComponent implements OnInit {
   getUserMaster(id) {
     this.dashboardService.getUser(id).valueChanges().subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         if (data) {
           this.userMasterDto = data;
-          console.log(this.userMasterDto);
+          // console.log(this.userMasterDto);
         } else {
           this.notificationService.error('Something Error', '');
         }
@@ -468,7 +624,7 @@ export class DashboardComponent implements OnInit {
       .finally(() => { this.clearAll(); return true; })
       .catch(err => {
         this.notificationService.error(err, '');
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -509,7 +665,7 @@ export class DashboardComponent implements OnInit {
       createdDate: new Date(),
       updatedDate: new Date(),
       userMasterId: data,
-      amountType: "Credit",
+      amountType: 'Credit',
       payTo: [''],
       payType: ['', [Validators.required]],
       reading: '',
@@ -521,27 +677,27 @@ export class DashboardComponent implements OnInit {
     this.receivePaymentForm.get('payType').valueChanges.subscribe(response => {
       if (response === 'Cheque') {
         this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
-        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]))
+        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]));
       }
       else if (response === 'Online') {
         this.receivePaymentForm.addControl('referenceNo', new FormControl('', [Validators.required]));
-        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]))
+        this.receivePaymentForm.addControl('bankName', new FormControl('', [Validators.required]));
       } else if (response === 'Cash') {
         this.receivePaymentForm.removeControl('referenceNo');
         this.receivePaymentForm.removeControl('bankName');
       }
-    })
+    });
 
   }
   getUserMasterForReceivePayment(id, user) {
     this.dashboardService.getUser(id).valueChanges().subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         if (data) {
           this.count = this.count + 1;
           if (this.count === 1) {
             this.userMasterDto = data;
-            console.log(this.userMasterDto);
+            // console.log(this.userMasterDto);
             this.initializeReceivePaymentForm(user);
             return false;
             // this.onSubmitUserMasterAmountUpdate();
@@ -566,11 +722,11 @@ export class DashboardComponent implements OnInit {
       this.receivePaymentFormSubmitted = true;
       return false;
     }
-    console.log(this.receivePaymentForm.value);
+    // console.log(this.receivePaymentForm.value);
     // this.receivePaymentFormSubmitted = true;
     this.adminService.addIncome(this.receivePaymentForm.value).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         this.hidePaymentDialog();
         // this.getIncome();
         if (data.statusCode === '200' && data.message === 'OK') {
