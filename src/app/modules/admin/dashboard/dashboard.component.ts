@@ -334,94 +334,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getMaintenanceAmountData() {
-
-
-    // const now = new Date();
-    // let check;
-    // if (
-    //   (check.getFullYear() == now.getFullYear()) &&
-    //   (check.getMonth() == now.getMonth()) &&
-    //   (check.getDate() >= now.getDate())
-    // ) {
-    //   // remanining days in current month and today. Use > if you don't need today.
-    // }
-
-    // var nextMonth = now.getMonth() + 1
-    // var nextYear = now.getFullYear()
-    // if (nextMonth == 12) {
-    //   nextMonth = 0
-    //   nextYear++
-    // }
-    // if (
-    //   (check.getFullYear() == nextYear) &&
-    //   (check.getMonth() == nextMonth)
-    // ) {
-    //   // any day in next month. Doesn't include current month remaining days.
-    // }
-
-    // // let now = new Date();
-    // now.setHours(12);
-    // now.setMinutes(0);
-    // now.setSeconds(0);
-    // now.setMilliseconds(0);
-    // const end_of_week = new Date(now.getTime() + (6 - now.getDay()) * 24 * 60 * 60 * 1000);
-    // end_of_week.setHours(23);
-    // end_of_week.setMinutes(59);
-    // end_of_week.setSeconds(59); // gee, bye-bye leap second
-    // if (check >= now && check <= end_of_week) {
-    //   // between now and end of week
-    //   console.log('now', now);
-    //   console.log('end_of_week', end_of_week);
-    // }
-
-    // var p = new Date() -1;
-    // var today = new Date();
-    // var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    // console.log('lastDayOfMonth', lastDayOfMonth);
-
-    // var a = new Date();
-    // var b = new Date(a.getFullYear(), a.getMonth()); // Mon Apr 30 2018 00:00:00 GMT+0300 (EEST)
-    // console.log(b);
-    // var b = new Date(a.getFullYear(), a.getMonth() + 1, 0); // Mon Apr 30 2018 00:00:00 GMT+0300 (EEST)
-    // console.log(b);
-    // var b = new Date(a.getFullYear(), a.getMonth() + 2, 0); // Thu May 31 2018 00:00:00 GMT+0300 (EEST)
-    // console.log(b);
-
-    // const date = new Date();
-    // let latest_date = DatePipe.transform(date, 'yyyy-MM-dd');
-    // console.log(latest_date);
-    // console.log(this.datePipe.transform(date, "yyyy-MM-dd")); //output : 2018-02-13
-
-    // const dateTime = '2018-11-01 18:51:41';
-    // const parts = dateTime.split(/[- :]/);
-
-    // const month = parts[1];
-    // const year = parts[0];
-
-    // const currentdate = new Date();
-    // let cur_month = currentdate.getMonth() + 1;
-    // let cur_year = currentdate.getFullYear();
-
-    // // tslint:disable-next-line: triple-equals
-    // if (cur_month.toString() == month && year == cur_year.toString()) {
-    //   alert('in this month');
-    // } else {
-    //   alert('not in this month');
-    // }
-
-    // var d = new Date();
-    // console.log("d", d);
-    // d.setMonth(d.getMonth() - 3);
-    // console.log("d", d);
-
-    // var b = new Date();
-    // console.log(b.toLocaleDateString());
-    // b.setMonth(b.getMonth() - 3);
-    // console.log("b", b.toLocaleDateString());
-
-
-
-
     this.dashboardService.getMaintenanceAmountData().subscribe(
       (data: any) => {
         this.billGeneratedUsers = [];
@@ -430,11 +342,14 @@ export class DashboardComponent implements OnInit {
         this.maintenanceData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.maintenanceData.forEach(
           (user) => {
+
             const date = new Date();
             const monthStartDate = new Date(date.getFullYear(), date.getMonth());
             const monthLastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
             console.log(monthStartDate);
             console.log(monthLastDate);
+
             if (user.value.createdDate > monthStartDate && user.value.createdDate < monthLastDate) {
               this.billGeneratedUsers.push(user.value.userMasterId);
             } else {
@@ -442,8 +357,6 @@ export class DashboardComponent implements OnInit {
             }
             this.listOfMaintenanceData.push(user.value);
           });
-        // this.totalRecords = this.maintenanceData.length;
-
         // console.log('MaintenanceData list', this.listOfMaintenanceData);
         console.log('billGeneratedUsers list', this.billGeneratedUsers);
 
@@ -457,10 +370,8 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  idExist(user: UserMaster) {
-    // this.billGeneratedUsers.includes(user.id);
+  isIdExist(user: UserMaster) {
     if (this.billGeneratedUsers.includes(user.id)) {
-      // if (user.id === id) {
       return false;
     }
     return true;

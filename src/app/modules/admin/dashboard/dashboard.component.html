@@ -48,7 +48,7 @@
                             </td>
                         </ng-template>
                         <td>
-                            <button *ngIf="idExist(user)" pTooltip="Generate Maintenance" style="font-size: 15px; padding: 10px;"
+                            <button *ngIf="isIdExist(user)" pTooltip="Generate Maintenance" style="font-size: 15px; padding: 10px;"
                                 class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
