@@ -237,7 +237,7 @@
         <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmitMaintenanceForm()">
             <div class="p-field">
                 <label for="name">Select maintenance Type* </label>
-                <p-dropdown [options]="maintainenceType" formControlName="type" placeholder="Select maintenance Type" optionValue="label" [showClear]="true">
+                <p-dropdown [options]="maintainenceType" formControlName="type" placeholder="Select maintenance Type" optionValue="value" [showClear]="true">
                 </p-dropdown>
                 <div class="p-invalid"
                     *ngIf="maintenanceForm.controls['type'].touched && (maintenanceForm.controls['type'].hasError('required') && !maintenanceForm.controls['type'].valid)">

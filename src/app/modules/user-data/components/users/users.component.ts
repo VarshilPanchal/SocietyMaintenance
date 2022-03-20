@@ -3,13 +3,16 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ErrorService } from 'src/app/core/services/error/error.service';
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { UserService } from '../../services/user-services/user.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  file: File;
+  arrayBuffer: any;
+  filelist: any[];
 
   constructor(
     private userService: UserService,
@@ -25,7 +28,8 @@ export class UsersComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    this.postData();
+    // this.addfile();
+    // this.postData();
     // this.putData();
     this.getSampleData();
     // this.getSampleDataById();
@@ -52,9 +56,42 @@ export class UsersComponent implements OnInit {
     //   (err: Error) => {
     //     console.error(err);
     //   }
+
     // );
   }
-
+  addfile(event)     
+  {  
+    this.file= event.target.files[0];   
+  // this.file= new File("assets/SoceityMaintenanceUsernameAndPassword.xlsx");    
+  let fileReader = new FileReader();    
+  fileReader.readAsArrayBuffer(this.file);     
+  fileReader.onload = (e) => {    
+      this.arrayBuffer = fileReader.result;    
+      var data = new Uint8Array(this.arrayBuffer);    
+      var arr = new Array();    
+      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
+      var bstr = arr.join("");    
+      var workbook = XLSX.read(bstr, {type:"binary"});    
+      var first_sheet_name = workbook.SheetNames[0];    
+      var worksheet = workbook.Sheets[first_sheet_name];     
+      var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});   
+      console.log(arraylist);  
+      this.filelist = [];    
+      this.filelist = arraylist;
+      this.filelist.forEach(data=>{
+      
+      const userObject = {
+        id: data.id,
+        createdDate: new Date().getTime(),
+        updatedDate: new Date().getTime(),
+        password: data.password,
+        user_name: data.user_name,
+        amount: data.Amount
+      };
+      this.angularFireDatabase.database.ref('user').child(data.id).set(userObject);
+    });
+  }    
+}    
   putData() {
     const userObject = [
       {
