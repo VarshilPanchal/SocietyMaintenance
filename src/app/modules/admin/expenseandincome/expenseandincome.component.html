@@ -50,19 +50,19 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-expense>
                         <tr>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.payTo}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.amount|currency:"INR":"symbol"}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.payType}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.description}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 <button class="p-button bg-dark rounded" (click)="viewVoucher(expense)">
                                     View Voucher
                                 </button>
@@ -114,13 +114,13 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-income>
                         <tr>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.amount |currency:"INR":"symbol"}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.payType}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.description}}
                             </td>
 
@@ -270,27 +270,27 @@
             <tbody>
                 <tr>
                     <td class="table-dark"> <b> Pay to: </b> </td>
-                    <td> {{receiptDetail?.payTo}}</td>
+                    <td class="text-break text-wrap"> {{receiptDetail?.payTo}}</td>
                 </tr>
                 <tr>
                     <td class="table-dark"><b> Amount :</b> </td>
-                    <td>{{receiptDetail?.amount|currency:"INR":"symbol"}}</td>
+                    <td class="text-break text-wrap">{{receiptDetail?.amount|currency:"INR":"symbol"}}</td>
                 </tr>
                 <tr>
                     <td class="table-dark"> <b> Amount in Words: </b> </td>
-                    <td>{{receiptDetail?.amount| numberToWords}}</td>
+                    <td class="text-break text-wrap">{{receiptDetail?.amount| numberToWords}}</td>
                 </tr>
                 <tr>
                     <td class="table-dark"> <b> Description: </b> </td>
-                    <td> {{receiptDetail?.description}}</td>
+                    <td class="text-break text-wrap"> {{receiptDetail?.description}}</td>
                 </tr>
                 <tr>
                     <td class="table-dark"> <b> Bank Name: </b> </td>
-                    <td> {{receiptDetail?.bankName}}</td>
+                    <td class="text-break text-wrap"> {{receiptDetail?.bankName}}</td>
                 </tr>
                 <tr>
                     <td class="table-dark"> <b> Pay Type: </b> </td>
-                    <td> {{receiptDetail?.payType}}</td>
+                    <td class="text-break text-wrap"> {{receiptDetail?.payType}}</td>
                 </tr>
                 <tr>
                     <td class="table-success"></td>

@@ -23,16 +23,16 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
                     <tr>
-                        <td>
+                        <td class="text-wrap text-break">
                             {{data.amount|currency:"INR":"symbol"}}
                         </td>
-                        <td>
+                        <td class="text-wrap text-break">
                             {{data.createdDate| date: shortDate}}
                         </td>
-                        <td>
+                        <td class="text-wrap text-break">
                             {{data.payType}}
                         </td>
-                        <td>
+                        <td class="text-wrap text-break">
                             <!-- <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
                                 >
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
@@ -107,12 +107,12 @@
                 <tbody>
                     <tr>
                         <td>Amount</td>
-                        <td *ngIf="recieptData?.amount">{{recieptData?.amount |currency:"INR":"symbol"}}</td>
+                        <td class="text-wrap text-break" *ngIf="recieptData?.amount">{{recieptData?.amount |currency:"INR":"symbol"}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
-                        <td *ngIf="remainingAmount">{{remainingAmount |currency:"INR":"symbol"}}</td>
+                        <td class="text-wrap text-break" *ngIf="remainingAmount">{{remainingAmount |currency:"INR":"symbol"}}</td>
                         <td></td>
                     </tr>
 

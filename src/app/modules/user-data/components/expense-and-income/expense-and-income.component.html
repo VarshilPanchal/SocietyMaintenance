@@ -37,16 +37,16 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-expense>
                         <tr>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.payTo}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.amount|currency:"INR":"symbol"}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.payType}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{expense.description}}
                             </td>
                         </tr>
@@ -96,13 +96,13 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-income>
                         <tr>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.amount |currency:"INR":"symbol"}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.payType}}
                             </td>
-                            <td>
+                            <td class="text-break text-wrap">
                                 {{income.description}}
                             </td>
 
