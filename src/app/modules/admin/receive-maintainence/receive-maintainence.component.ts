@@ -54,7 +54,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   count = 0;
   cols = [
-    { header: 'User Id' },
+    { header: 'Name' },
     { header: 'Create Date' },
     { header: 'Amount' },
     { header: 'Current Reading' },
