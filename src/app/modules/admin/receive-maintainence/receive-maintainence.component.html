@@ -50,9 +50,8 @@
                     <p *ngIf="!data.amountReceived"> - </p>
                 </td>
                 <td>
-                    <button pTooltip="View Generated Bill"
-                        class="p-button bg-dark rounded" style="font-size: 15px; padding: 10px;"
-                        (click)="showMaintenanceBillDialog(data)">
+                    <button pTooltip="View Generated Bill" class="p-button bg-dark rounded"
+                        style="font-size: 15px; padding: 10px;" (click)="showMaintenanceBillDialog(data)">
                         <i class="pi pi-eye" style="font-size: 15px"></i>
                     </button> &nbsp;
                     <button pTooltip="Receive Maintenance" *ngIf="!data.maintenancePaid"
@@ -98,7 +97,8 @@
                         </th>
                     </tr>
                     <tr class="table-primary">
-                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society Limited, 
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society
+                            Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
                             <br>
@@ -111,7 +111,10 @@
                         <th scope="col" colspan="3">Name : {{maintenanceBill.userMasterId}}</th>
                     </tr>
                     <tr class="table-primary">
-                        <th scope="col" colspan="3">Month : {{maintenanceBill.createdDate | date}}</th>
+                        <th scope="col" colspan="3">Generated Date : {{maintenanceBill.createdDate | date}}</th>
+                    </tr>
+                    <tr class="table-primary" *ngIf="maintenanceBill?.month">
+                        <th scope="col" colspan="3">Maintenance bill of month : {{maintenanceBill?.month}}</th>
                     </tr>
                     <tr class="table-dark">
                         <th scope="col">Description</th>
@@ -138,20 +141,30 @@
                     <tr>
                         <td>Water Rate/unit</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.waterAmount">{{maintenanceBill?.waterAmount |currency:"INR":"symbol"
-                            }}</td>
+                        <td *ngIf="maintenanceBill?.waterAmount else averageAmount">{{maintenanceBill?.waterAmount |currency:"INR":"symbol"}}</td>                        
                     </tr>
                     <tr>
                         <td>Water Bill Amount</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.waterAmount">{{maintenanceBill?.waterAmount *  maintenanceBill?.usedUnit|currency:"INR":"symbol"
+                        <td *ngIf="maintenanceBill?.waterAmount">{{maintenanceBill?.waterAmount *
+                            maintenanceBill?.usedUnit|currency:"INR":"symbol"
                             }}</td>
+                    </tr>
+                    <tr>
+                        <td>Average Water Bill Amount</td>
+                        <td>-</td>
+                        <td *ngIf="maintenanceBill?.averageReading">{{maintenanceBill?.averageReading |currency:"INR":"symbol"}}</td>
                     </tr>
                     <tr>
                         <td>Maintenance Amount</td>
                         <td>-</td>
                         <td *ngIf="maintenanceBill?.maintenanceAmount">{{maintenanceBill?.maintenanceAmount
                             |currency:"INR":"symbol" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Other Amount</td>
+                        <td>-</td>
+                        <td *ngIf="maintenanceBill?.otherAmount">{{maintenanceBill?.otherAmount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
@@ -207,7 +220,8 @@
                         </th>
                     </tr>
                     <tr class="table-primary">
-                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society Limited, 
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society
+                            Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
                             <br>

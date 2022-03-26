@@ -409,6 +409,18 @@
                         Required </div>
                 </div>
             </div>
+
+            <div class="p-field">
+                <label for="otherAmount">Other amount*</label>
+                <input type="text" pInputText id="otherAmount" formControlName="otherAmount"
+                    placeholder="Enter Average Water bill" autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('otherAmount').valid) || (!generateMaintenanceForm.get('otherAmount').valid && generateMaintenanceForm.get('otherAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('otherAmount').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
             <!-- <div class="p-field">
                 <label for="amount">Total Payable Amount* </label>
                 <input type="text" disabled pInputText id="amount" formControlName="amount" placeholder="Enter Amount"

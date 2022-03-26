@@ -316,6 +316,7 @@ export class DashboardComponent implements OnInit {
       updatedDate: '',
       maintainenceType: ['', [Validators.required]],
       month: ['', [Validators.required]],
+      otherAmount: ['', [Validators.required]],
     });
     this.generateMaintenanceForm.get('maintainenceType').valueChanges.subscribe(response => {
       if (response === 'Tenant') {
@@ -519,6 +520,7 @@ export class DashboardComponent implements OnInit {
 
     let totalAmount: number = Number(waterCalulatedAmount);
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
+    totalAmount = totalAmount + Number(this.maintenanceBillMaster.otherAmount);
     this.maintenanceBillMaster.amount = totalAmount;
     this.remainingAmount = totalAmount;
     this.receiptDetail = generateMaintenanceForm.value;
