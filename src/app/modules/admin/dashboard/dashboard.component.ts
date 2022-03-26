@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit {
           (user) => {
             if (user.value.user_name !== 'Admin') {
               this.lstofUser.push(user.value);
-              this.totalPendingAmount = this.totalPendingAmount + user.value.amount;
+              this.totalPendingAmount = Number(this.totalPendingAmount) + Number(user.value.amount);
               // console.log('User value', user.value);
             }
           });

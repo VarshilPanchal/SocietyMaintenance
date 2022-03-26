@@ -80,8 +80,11 @@ export class LoginComponent implements OnInit {
               this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
             }
             setTimeout(() => {
+              this.notificationService.success('Welcome to AquaPolaris Application', '');
+            }, 100);
+            setTimeout(() => {
               window.location.reload();
-            }, 500);
+            }, 1500);
           } else {
             this.notificationService.error('Enter Valid password', '');
           }
