@@ -17,4 +17,5 @@ export interface MaintenanceBillMaster {
     createdBy: string;
     createdDate;
     updatedDate;
+    month;
 }

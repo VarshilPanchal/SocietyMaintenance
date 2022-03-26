@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { COMMON_CONSTANTS } from 'src/app/core/constants/CommonConstants';
 import { ErrorService } from 'src/app/core/services/error/error.service';
+import { LocalStorageService } from 'src/app/core/services/localstorage-service/localstorage.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { MaintenanceBillMaster } from 'src/app/shared/interfaces/MaintenanceBillMaster';
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { WaterMaintenanceBillMaster } from 'src/app/shared/interfaces/WaterMaintenanceBillMaster';
 import { DashboardServicesService } from 'src/app/shared/services/dashboard-services.service';
-
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -16,9 +18,12 @@ import { DashboardServicesService } from 'src/app/shared/services/dashboard-serv
 })
 export class UserDashboardComponent implements OnInit {
   lstofUser: any[] = [];
+  lstofBill: any[] = [];
   lstOfFees: any[] = [];
   loginUserId;
   users;
+  listOfMaintenanceBill;
+  recentMaintenanceBill;
   feesMasterData;
   flatNo = '';
   receiptGenerated = false;
@@ -46,6 +51,8 @@ export class UserDashboardComponent implements OnInit {
   waterBillFormSubmitted = false;
   TransferFormSubmitted = false;
   generateMaintenanceFormSubmitted = false;
+
+  imageUrl = 'assets/img/logo_transparent.png';
 
   // Paginator
   totalRecords: Number = 0;
@@ -82,20 +89,30 @@ export class UserDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardServicesService,
     private errorService: ErrorService,
+    private localStorageService: LocalStorageService,
     private _formBuilder: FormBuilder,
     private angularFireDatabase: AngularFireDatabase,
     private notificationService: NotificationService
   ) { }
 
+  monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
 
   ngOnInit(): void {
     this.getSampleData();
+    this.getUserData();
     this.getFessMasterData();
+    this.getMaintenanceDetail();
     // this.initializeMaintenanceForm();
     // this.initializeTenatForm();
     // this.initializeWaterBillForm();
     // this.initializeGenerateMaintenanceForm();
     // this.initializeTransferForm();
+  }
+  getUserData() {
+    this.loginUserId = this.localStorageService.getLoginUserId();
   }
 
   // addTenatFees(): any {
@@ -214,18 +231,16 @@ export class UserDashboardComponent implements OnInit {
   //   this.initializeGenerateMaintenanceForm();
   // }
 
-  // opengenerateMaintenanceBillDialog(name): any {
-  //   // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
-  //   this.generateMaintenanceBillDialog = true;
-  //   // this.popupHeader = `Generated Maintence Bill for ${name}`;
-  //   this.initializeGenerateMaintenanceForm();
-  // }
+  opengenerateMaintenanceBillDialog(): any {
+    // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
+    this.generateMaintenanceBillDialog = true;
+  }
 
-  // hideGenerateMaintenanceBillDialog(): any {
-  //   // this.receiptGenerated = false;
-  //   this.flatNo = '';
-  //   this.generateMaintenanceBillDialog = false;
-  // }
+  hideGenerateMaintenanceBillDialog(): any {
+    // this.receiptGenerated = false;
+    this.flatNo = '';
+    this.generateMaintenanceBillDialog = false;
+  }
 
   // initializeGenerateMaintenanceForm() {
   //   this.generateMaintenanceForm = this._formBuilder.group({
@@ -255,8 +270,8 @@ export class UserDashboardComponent implements OnInit {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
-            if(user.value.user_name !=='Admin'){
-            this.lstofUser.push(user.value);
+            if (user.value.user_name !== 'Admin') {
+              this.lstofUser.push(user.value);
             }
           });
         this.totalRecords = this.users.length;
@@ -450,5 +465,116 @@ export class UserDashboardComponent implements OnInit {
   //   });
   // }
 
-}
+  getMaintenanceDetail() {
+    this.dashboardService.getMaintenanceAmountData().subscribe(
+      (data: any) => {
+        this.listOfMaintenanceBill = [];
+        this.lstofBill = [];
+        this.listOfMaintenanceBill = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.listOfMaintenanceBill.forEach(
+          (bill) => {
+            if (this.loginUserId === bill.value.userMasterId) {
+              this.lstofBill.push(bill.value);
+            }
+          });
 
+
+
+
+        this.lstofBill.forEach((bill) => {
+
+          // let monthInNumber = Date.parse(bill.month + '1, 2012');
+          // if (!isNaN(monthInNumber)) {
+          //   monthInNumber = new Date(monthInNumber).getMonth() + 1;
+          // }
+          // if (bill.month && monthInNumber < todayDate.getMonth()) {
+          //   this.recentMaintenanceBill = bill;
+          // }
+
+          if (this.findLastMonthBill(bill)) {
+            this.recentMaintenanceBill = bill;
+          }
+
+          // console.log(todayDate.getMonth())
+        });
+
+
+
+
+        console.log(this.lstofBill);
+        console.log(this.recentMaintenanceBill);
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
+
+
+  findLastMonthBill(bill: any) {
+
+    // const todayDate = new Date();
+    // console.log(todayDate.getMonth());
+
+    // let monthInNumber = Date.parse(bill.month + '1, 2012');
+    // if (!isNaN(monthInNumber)) {
+    //   monthInNumber = new Date(monthInNumber).getMonth() + 1;
+    // }
+
+    const date = new Date();
+    const monthStartDate = new Date(date.getFullYear(), date.getMonth());
+    const monthLastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    const createdDate = new Date(bill.createdDate);
+
+
+    // let monthInNumbers = Date.parse(bill.month + '1, 2012');
+    // if (!isNaN(monthInNumbers)) {
+    //   monthInNumbers = new Date(monthInNumbers).getMonth() + 1;
+    // }
+    // if (bill.month && monthInNumbers < todayDate.getMonth()) {
+    //   this.recentMaintenanceBill = bill;
+    // }
+
+
+    if (createdDate > monthStartDate && createdDate < monthLastDate) {
+      const currentMonth = date.toLocaleString('en-us', { month: 'long' });
+      const indexOdcurrent = this.monthNames.indexOf(currentMonth);
+      const billMonth = this.monthNames.indexOf(bill.month);
+
+      if (billMonth < indexOdcurrent) {
+        return true;
+      }
+    }
+    return false;
+
+
+  }
+
+
+  exportPdfForBill(): void {
+    const DATA = document.getElementById('generatedBillTabel');
+
+    html2canvas(DATA).then(canvas => {
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
+
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
+      doc.save('maintenance-bill.pdf');
+    });
+
+  }
+
+
+}

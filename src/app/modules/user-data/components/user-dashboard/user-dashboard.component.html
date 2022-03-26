@@ -1,12 +1,26 @@
-<nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="pt-3 pl-4">
-        <b>
-            <h2>
-                Dashboard
-            </h2>
-        </b>
+<nav class="align-self-center main-nav bg-primary text-dark">
+    <div class="pt-3 px-4">
+        <div class="row">
+            <div class="col-6">
+                <b>
+                    <h2>
+                        Dashboard
+                    </h2>
+                </b>
+            </div>
+            <div class="col-6">
+                <span class="float-right">
+                    <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded" (click)="opengenerateMaintenanceBillDialog()">
+                        Maintenance Bill of {{recentMaintenanceBill?.month}}
+                    </button>
+                </span>
+            </div>
+        </div>
     </div>
 </nav>
+
+
+
 <div class="container-fluid my-3">
     <div class="row">
         <div class="col-lg-2"></div>
@@ -53,54 +67,263 @@
         <div class="col-lg-2"></div>
     </div>
 
-        <br>
+    <br>
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 col-sm-12 col-md-12 ">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Label</th>
-                    <th scope="col">Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">Tenant Fees</th>
-                    <td>{{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}</td>
-                   
-                </tr>
-                <tr>
-                    <th scope="row">
-                        Maintenance
-                        <br>
-                        Maintenance Tenant
-                    </th>
-                    <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
-                        <br>
-                        {{feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount|currency:"INR":"symbol"}}
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Water Bill Per Unit</th>
-                    <td>{{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}</td>
-                   
-                </tr>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Label</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Tenant Fees</th>
+                        <td>{{feesMasterData?.TENAT2022.amount|currency:"INR":"symbol"}}</td>
 
-                <tr>
-                    <th scope="row">Transfer Fees For 2-BHK
-                        <br>
-                        Transfer Fees For 3-BHK
-                    </th>
-                    <td>{{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
-                        <br>
-                        {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            Maintenance
+                            <br>
+                            Maintenance Tenant
+                        </th>
+                        <td>{{feesMasterData?.MAINTENANCE_AMOUNT.amount|currency:"INR":"symbol"}}
+                            <br>
+                            {{feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount|currency:"INR":"symbol"}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Water Bill Per Unit</th>
+                        <td>{{feesMasterData?.WATER_BILL.amount|currency:"INR":"symbol"}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Transfer Fees For 2-BHK
+                            <br>
+                            Transfer Fees For 3-BHK
+                        </th>
+                        <td>{{feesMasterData?.TRANSFER_2_BHK.amount|currency:"INR":"symbol"}}
+                            <br>
+                            {{feesMasterData?.TRANSFER_3_BHK.amount|currency:"INR":"symbol"}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col-lg-2"></div>
     </div>
 
 </div>
+
+
+
+
+<!-- <p-dialog [(visible)]="generaterecentMaintenanceBillDialog" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid"
+    (onHide)="hideGeneraterecentMaintenanceBillDialog()">
+
+    <ng-template pTemplate="content">
+
+        <div id="htmlData" *ngIf="generaterecentMaintenanceBillDialog">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="align-center text-center" colspan="3" style="font-size: 2rem;">
+                            Maintenance Bill</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society
+                            Limited,
+                            <br>Nr. S.P. Ring Road, NH-8,
+                            <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>
+                            <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">Name : {{flatNo}}</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="3">Month : createdDate</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-wrap text-break">Current Reading</td>
+                        <td *ngIf="receiptDetail?.reading">{{receiptDetail?.reading}}</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Used Unit </td>
+                        <td *ngIf="receiptDetail?.usedUnit">{{receiptDetail?.usedUnit}}</td>
+                        <td>33</td>
+                    </tr>
+                    <tr>
+                        <td>Rate /- unit</td>
+                        <td *ngIf="receiptDetail?.waterAmount">{{receiptDetail?.waterAmount}}</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>Maintenance Amount</td>
+                        <td *ngIf="receiptDetail?.maintenanceAmount">{{receiptDetail?.maintenanceAmount}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining Amount</td>
+                        <td>55</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td>Payment type</td>
+                        <td *ngIf="receiptDetail?.payType">{{receiptDetail?.payType.label}}</td>
+                        <td>653</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td *ngIf="receiptDetail?.amount">{{receiptDetail?.amount}}</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button type="button" pButton pRipple (click)="exportPdf()" class="bg-dark" pTooltip="Download PDF"
+            tooltipPosition="bottom">
+            <i class="pi pi-download" style="font-size: 15px"></i>
+        </button>
+    </ng-template>
+
+</p-dialog> -->
+
+
+<p-dialog [(visible)]="generateMaintenanceBillDialog" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid"
+    (onHide)="hideGenerateMaintenanceBillDialog()">
+
+    <ng-template pTemplate="content">
+        <div id="generatedBillTabel" *ngIf="generateMaintenanceBillDialog">
+            <table class="table table-bordered">
+                <thead class="thead-light ">
+                    <tr class="">
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" class="align-center text-center" colspan="3" style="margin-bottom: 20px;">
+                            <img width="100" src="{{imageUrl}}" alt="profilePhoto" class="d-inline rounded-circle">
+                            <p style="font-size: 2rem;" class="d-inline">
+                                Maintenance Receipt
+                            </p>
+                        </th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society Limited, 
+                            <br>Nr. S.P. Ring Road, NH-8,
+                            <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>
+                            <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
+                            <!-- <br> -->
+                            <!-- <br><i class="pi pi-phone"></i>&nbsp;9712393956 -->
+                        </th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3">Name : {{recentMaintenanceBill.userMasterId}}</th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3">Month : {{recentMaintenanceBill.createdDate | date}}</th>
+                    </tr>
+                    <tr class="table-dark">
+                        <th scope="col">Description</th>
+                        <th scope="col">Unit/Reading</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-wrap text-break">Current Reading</td>
+                        <td *ngIf="recentMaintenanceBill?.currentReading">{{recentMaintenanceBill?.currentReading}}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="text-wrap text-break">Previous Reading</td>
+                        <td *ngIf="recentMaintenanceBill?.previousReading">{{recentMaintenanceBill?.previousReading}}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="text-wrap text-break">Average Water Bill</td>
+                        <td *ngIf="recentMaintenanceBill?.previousReading">{{recentMaintenanceBill?.averageReading}}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Used Unit </td>
+                        <td *ngIf="recentMaintenanceBill?.usedUnit">{{recentMaintenanceBill?.usedUnit}}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Water Rate/unit</td>
+                        <td>-</td>
+                        <td *ngIf="recentMaintenanceBill?.waterAmount">{{recentMaintenanceBill?.waterAmount |currency:"INR":"symbol"
+                            }}</td>
+                    </tr>
+                    <tr>
+                        <td>Water Bill Amount</td>
+                        <td>-</td>
+                        <td *ngIf="recentMaintenanceBill?.waterAmount">{{recentMaintenanceBill?.waterAmount *  recentMaintenanceBill?.usedUnit|currency:"INR":"symbol"
+                            }}</td>
+                    </tr>
+                    <tr>
+                        <td>Maintenance Amount</td>
+                        <td>-</td>
+                        <td *ngIf="recentMaintenanceBill?.maintenanceAmount">{{recentMaintenanceBill?.maintenanceAmount
+                            |currency:"INR":"symbol" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining Amount</td>
+                        <td>-</td>
+                        <td *ngIf="recentMaintenanceBill?.amount">{{recentMaintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Payment type</td>
+                        <td *ngIf="recentMaintenanceBill?.payType">{{recentMaintenanceBill?.payType.label}}</td>
+                        <td>653</td>
+                    </tr> -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>Total</td>
+                        <td></td>
+                        <td *ngIf="recentMaintenanceBill?.amount">{{recentMaintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button type="button" pButton pRipple (click)="exportPdfForBill()" class="bg-dark" pTooltip="Download PDF"
+            tooltipPosition="bottom">
+            <i class="pi pi-download" style="font-size: 15px"></i>
+        </button>
+    </ng-template>
+
+</p-dialog>
+

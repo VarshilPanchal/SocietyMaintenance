@@ -68,6 +68,23 @@ export class DashboardComponent implements OnInit {
   userMasterDto: UserMaster;
   remainingAmount = 0;
 
+  totalPendingAmount = 0;
+
+  monthList = [
+    { label: 'January', value: 'January' },
+    { label: 'February', value: 'February' },
+    { label: 'March', value: 'March' },
+    { label: 'April', value: 'April' },
+    { label: 'May', value: 'May' },
+    { label: 'June', value: 'June' },
+    { label: 'July', value: 'July' },
+    { label: 'August', value: 'August' },
+    { label: 'September', value: 'September' },
+    { label: 'October', value: 'October' },
+    { label: 'November', value: 'November' },
+    { label: 'December', value: 'December' },
+  ];
+
   cols = [
     { header: 'Name' },
     { header: 'Pending Amount' },
@@ -254,7 +271,7 @@ export class DashboardComponent implements OnInit {
     this.generateMaintenanceDialog = true;
     this.generateMaintenanceFormSubmitted = false;
     this.flatNo = name;
-    console.log(this.flatNo);
+    // console.log(this.flatNo);
     this.popupHeader = `Generate Maintence for ${name}`;
     this.getUserMaster(name);
     this.initializeGenerateMaintenanceForm();
@@ -298,6 +315,7 @@ export class DashboardComponent implements OnInit {
       createdDate: new Date().getTime(),
       updatedDate: '',
       maintainenceType: ['', [Validators.required]],
+      month: ['', [Validators.required]],
     });
     this.generateMaintenanceForm.get('maintainenceType').valueChanges.subscribe(response => {
       if (response === 'Tenant') {
@@ -308,11 +326,11 @@ export class DashboardComponent implements OnInit {
       }
     });
     this.generateMaintenanceForm.get('currentReading').valueChanges.subscribe(current => {
-      
-        this.generateMaintenanceForm.get('previousReading').valueChanges.subscribe(previous => {
-        this.generateMaintenanceForm.controls.usedUnit.setValue(Number(current)-Number(previous));
-      
-    })
+
+      this.generateMaintenanceForm.get('previousReading').valueChanges.subscribe(previous => {
+        this.generateMaintenanceForm.controls.usedUnit.setValue(Number(current) - Number(previous));
+
+      })
     });
   }
 
@@ -324,12 +342,13 @@ export class DashboardComponent implements OnInit {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
-            if(user.value.user_name !=='Admin'){
+            if (user.value.user_name !== 'Admin') {
               this.lstofUser.push(user.value);
+              this.totalPendingAmount = this.totalPendingAmount + user.value.amount;
+              // console.log('User value', user.value);
             }
           });
         this.totalRecords = this.users.length;
-
         // console.log('User list', this.lstofUser);
 
         if (data.statusCode === '200' && data.message === 'OK') {
@@ -356,18 +375,18 @@ export class DashboardComponent implements OnInit {
             const monthStartDate = new Date(date.getFullYear(), date.getMonth());
             const monthLastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-            console.log(monthStartDate);
-            console.log(monthLastDate);
+            // console.log(monthStartDate);
+            // console.log(monthLastDate);
 
             if (user.value.createdDate > monthStartDate && user.value.createdDate < monthLastDate) {
               this.billGeneratedUsers.push(user.value.userMasterId);
             } else {
-              console.log('bill not generated');
+              // console.log('bill not generated');
             }
             this.listOfMaintenanceData.push(user.value);
           });
         // console.log('MaintenanceData list', this.listOfMaintenanceData);
-        console.log('billGeneratedUsers list', this.billGeneratedUsers);
+        // console.log('billGeneratedUsers list', this.billGeneratedUsers);
 
         if (data.statusCode === '200' && data.message === 'OK') {
           this.errorService.userNotification(data.statusCode, 'Get Data');
@@ -492,13 +511,13 @@ export class DashboardComponent implements OnInit {
     this.receiptGenerated = true;
     let waterCalulatedAmount: number;
     this.maintenanceBillMaster = generateMaintenanceForm.value;
-    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading)) {
+    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0)) {
       waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
     } else if (this.maintenanceBillMaster.averageReading) {
       waterCalulatedAmount = (this.maintenanceBillMaster.averageReading);
-
     }
-    let totalAmount: number = waterCalulatedAmount;
+
+    let totalAmount: number = Number(waterCalulatedAmount);
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
     this.maintenanceBillMaster.amount = totalAmount;
     this.remainingAmount = totalAmount;

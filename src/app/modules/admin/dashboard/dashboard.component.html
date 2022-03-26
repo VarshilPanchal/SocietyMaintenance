@@ -1,10 +1,23 @@
-<nav class="d-flex align-self-center main-nav bg-primary text-dark">
-    <div class="pt-3 pl-4">
-        <b>
-            <h2>
-                Dashboard
-            </h2>
-        </b>
+<nav class="align-self-center main-nav bg-primary text-dark">
+    <div class="pt-3 px-4">
+        <div class="row">
+            <div class="col-6">
+                <b>
+                    <h2>
+                        Dashboard
+                    </h2>
+                </b>
+            </div>
+            <div class="col-6">
+                <span class="float-right">
+                    <b>
+                        <h2>
+                            Total pending amount: {{totalPendingAmount |currency:"INR":"symbol"}}
+                        </h2>
+                    </b>
+                </span>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -48,8 +61,9 @@
                             </td>
                         </ng-template>
                         <td>
-                            <button *ngIf="isIdExist(user)" pTooltip="Generate Maintenance" style="font-size: 15px; padding: 10px;"
-                                class="p-button bg-dark rounded" (click)="generateMaintenance(user.user_name)">
+                            <button *ngIf="isIdExist(user)" pTooltip="Generate Maintenance"
+                                style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
+                                (click)="generateMaintenance(user.user_name)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
                             <button pTooltip="Receive Payment" style="font-size: 15px; padding: 10px;"
@@ -237,7 +251,8 @@
         <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmitMaintenanceForm()">
             <div class="p-field">
                 <label for="name">Select maintenance Type* </label>
-                <p-dropdown [options]="maintainenceType" formControlName="type" placeholder="Select maintenance Type" optionValue="value" [showClear]="true">
+                <p-dropdown [options]="maintainenceType" formControlName="type" placeholder="Select maintenance Type"
+                    optionValue="value" [showClear]="true">
                 </p-dropdown>
                 <div class="p-invalid"
                     *ngIf="maintenanceForm.controls['type'].touched && (maintenanceForm.controls['type'].hasError('required') && !maintenanceForm.controls['type'].valid)">
@@ -311,8 +326,8 @@
         <form [formGroup]="generateMaintenanceForm" (ngSubmit)="GenerateMaintenanceBill()">
             <div class="p-field">
                 <label for="name">Select Maintainence Type* </label>
-                <p-dropdown [options]="maintainenceType" formControlName="maintainenceType" optionValue="label" [showClear]="true"
-                    placeholder="Select Maintainence type">
+                <p-dropdown [options]="maintainenceType" formControlName="maintainenceType" optionValue="label"
+                    [showClear]="true" placeholder="Select Maintainence type">
                 </p-dropdown>
                 <div class="p-invalid"
                     *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('maintainenceType').valid) || (!generateMaintenanceForm.get('maintainenceType').valid && generateMaintenanceForm.get('maintainenceType').touched) ">
@@ -320,6 +335,19 @@
                         Required </div>
                 </div>
             </div>
+
+            <div class="p-field">
+                <label for="name">Month* </label>
+                <p-dropdown [options]="monthList" formControlName="month" optionValue="label" [showClear]="true"
+                    placeholder="Select Month">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('month').valid) || (!generateMaintenanceForm.get('month').valid && generateMaintenanceForm.get('month').touched) ">
+                    <div *ngIf=" ( generateMaintenanceForm.get('month').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
             <div class="p-field">
                 <label for="maintenanceAmount">Maintenance Amount* </label>
                 <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
@@ -360,11 +388,11 @@
                         Required </div>
                 </div>
             </div>
-            
+
             <div class="p-field">
                 <label for="usedUnit">Used Water unit* </label>
                 <input type="text" pInputText id="usedUnit" formControlName="usedUnit" placeholder="Enter Used Unit"
-                    required autofocus pKeyFilter="num" maxLength="50" disabled/>
+                    required autofocus pKeyFilter="num" maxLength="50" disabled />
                 <div class="p-invalid"
                     *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('usedUnit').valid) || (!generateMaintenanceForm.get('usedUnit').valid && generateMaintenanceForm.get('usedUnit').touched) ">
                     <div *ngIf=" (generateMaintenanceForm.get('usedUnit').errors.required) ">
@@ -416,7 +444,8 @@
                             Maintenance Bill</th>
                     </tr>
                     <tr>
-                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society Limited, 
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society
+                            Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
                             <br>
@@ -534,7 +563,8 @@
                         Required </div>
                 </div>
             </div>
-            <div class="p-field" *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque' || this.receivePaymentForm.get('payType').value === 'Online'">
+            <div class="p-field"
+                *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque' || this.receivePaymentForm.get('payType').value === 'Online'">
                 <label for="bankName"> Bank Name* </label>
                 <input type="text" pInputText id="bankName" formControlName="bankName" placeholder="Enter bankName"
                     required autofocus maxLength="50" />
@@ -548,7 +578,7 @@
             <div class="p-field">
                 <label for="name">Description* </label>
                 <textarea pInputText formControlName="description" maxlength="500" name="description" id="" cols="200"
-                rows="4" class="w-100" placeholder="Enter Description"></textarea>
+                    rows="4" class="w-100" placeholder="Enter Description"></textarea>
                 <!-- <input type="text" pInputText id="regionName" formControlName="description"
                     placeholder="Enter Description" required maxLength="50" /> -->
                 <div class="p-invalid"
