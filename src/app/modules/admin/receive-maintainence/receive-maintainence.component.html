@@ -64,6 +64,10 @@
                         (click)="showMaintenanceReceiptDialog(data)">
                         <i class="pi pi-eye" style="font-size: 15px"></i>
                     </button>
+                    <button pTooltip="Edit Maintainence Bill" *ngIf="!data.maintenancePaid" class="p-button bg-dark rounded"
+                    style="font-size: 15px; padding: 10px;" (click)="editMaintenanceBill(data)">
+                    <i class="pi pi-pencil" style="font-size: 15px"></i>
+                </button> &nbsp;
                 </td>
             </tr>
         </ng-template>
@@ -101,6 +105,8 @@
                             Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>382330
+                            <br>NA DH N/ GNR/ SA(HA) 7347 Year 2012
                             <br>
                             <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
                             <!-- <br> -->
@@ -140,8 +146,8 @@
                     </tr>
                     <tr>
                         <td>Water Rate/unit</td>
+                        <td *ngIf="maintenanceBill?.waterAmount else averageAmount">{{maintenanceBill?.waterAmount |currency:"INR":"symbol"}} per unit</td>                        
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.waterAmount else averageAmount">{{maintenanceBill?.waterAmount |currency:"INR":"symbol"}}</td>                        
                     </tr>
                     <tr>
                         <td>Water Bill Amount</td>
@@ -163,13 +169,13 @@
                     </tr>
                     <tr>
                         <td>Other Amount</td>
-                        <td>-</td>
+                        <td *ngIf="maintenanceBill?.otherDescription">{{maintenanceBill?.otherDescription}}</td>
                         <td *ngIf="maintenanceBill?.otherAmount">{{maintenanceBill?.otherAmount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
                         <td>Remaining Amount</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="maintenanceBill?.previousPendingAmount">{{maintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <!-- <tr>
                         <td>Payment type</td>
@@ -184,7 +190,7 @@
                     <tr class="table-success">
                         <td>Total</td>
                         <td></td>
-                        <td *ngIf="maintenanceBill?.amount">{{maintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="maintenanceBill?.amount">{{total|currency:"INR":"symbol" }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -224,6 +230,8 @@
                             Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>382330
+                            <br>NA DH N/ GNR/ SA(HA) 7347 Year 2012
                             <br>
                             <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
                             <!-- <br> -->
@@ -470,6 +478,119 @@
             (click)="hideGenerateReceiptDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
             (click)="onSubmitGenerateReceipt(generateMaintenanceForm)"></button>
+    </ng-template>
+
+</p-dialog>
+<p-dialog [(visible)]="editMaintenanceBillDialog" [style]="{width: '450px'}" header="{{popupHeader}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="onHideEdirMaintainenceDialog()">
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="editMaintenanceForm" (ngSubmit)="onSubmitEditMaintenanceBill()">
+            <div class="p-field">
+                <label for="name">Select Maintainence Type* </label>
+                <p-dropdown [options]="maintainenceType" formControlName="maintainenceType" optionValue="label"
+                    [showClear]="true" placeholder="Select Maintainence type">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('maintainenceType').valid) || (!editMaintenanceForm.get('maintainenceType').valid && editMaintenanceForm.get('maintainenceType').touched) ">
+                    <div *ngIf=" ( editMaintenanceForm.get('maintainenceType').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="name">Month* </label>
+                <p-dropdown [options]="monthList" formControlName="month" optionValue="label" [showClear]="true"
+                    placeholder="Select Month">
+                </p-dropdown>
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('month').valid) || (!editMaintenanceForm.get('month').valid && editMaintenanceForm.get('month').touched) ">
+                    <div *ngIf=" ( editMaintenanceForm.get('month').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="maintenanceAmount">Maintenance Amount* </label>
+                <input type="text" disabled pInputText id="maintenanceAmount" formControlName="maintenanceAmount"
+                    placeholder="Enter Maintenance Amount" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('maintenanceAmount').valid) || (!editMaintenanceForm.get('maintenanceAmount').valid && editMaintenanceForm.get('maintenanceAmount').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('maintenanceAmount').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="waterAmount">Water Bill Amount* </label>
+                <input type="text" disabled pInputText id="waterAmount" formControlName="waterAmount"
+                    placeholder="Enter Water Amount" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('waterAmount').valid) || (!editMaintenanceForm.get('waterAmount').valid && editMaintenanceForm.get('waterAmount').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('waterAmount').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="currentReading">Current Reading* </label>
+                <input type="text" pInputText id="currentReading" formControlName="currentReading"
+                    placeholder="Enter Current Reading" required autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('currentReading').valid) || (!editMaintenanceForm.get('currentReading').valid && editMaintenanceForm.get('currentReading').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('currentReading').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="previousReading">Previous Reading* </label>
+                <input type="text" pInputText id="previousReading" formControlName="previousReading"
+                    placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" disabled/>
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('previousReading').valid) || (!editMaintenanceForm.get('previousReading').valid && editMaintenanceForm.get('previousReading').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('previousReading').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="usedUnit">Used Water unit* </label>
+                <input type="text" pInputText id="usedUnit" formControlName="usedUnit" placeholder="Enter Used Unit"
+                    required autofocus pKeyFilter="num" maxLength="50" disabled />
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('usedUnit').valid) || (!editMaintenanceForm.get('usedUnit').valid && editMaintenanceForm.get('usedUnit').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('usedUnit').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="averageReading">Average Water Bill </label>
+                <input type="text" pInputText id="averageReading" formControlName="averageReading"
+                    placeholder="Enter Average Water bill" autofocus pKeyFilter="num" maxLength="50" />
+                <div class="p-invalid"
+                    *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('averageReading').valid) || (!editMaintenanceForm.get('averageReading').valid && editMaintenanceForm.get('averageReading').touched) ">
+                    <div *ngIf=" (editMaintenanceForm.get('averageReading').errors.required) ">
+                        Required </div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="otherAmount">Other amount</label>
+                <input type="text" pInputText id="otherAmount" formControlName="otherAmount"
+                    placeholder="Enter Other Amount" autofocus pKeyFilter="num" maxLength="50" />
+            </div>
+            <div class="p-field">
+                <label for="otherAmount">Other description</label>
+                <input type="text" pInputText id="otherDescription" formControlName="otherDescription"
+                    placeholder="Enter Other Description" autofocus/>
+              
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-primary text-dark"
+            (click)="onHideEdirMaintainenceDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="bg-dark"
+            (click)="onSubmitEditMaintenanceBill(editMaintenanceForm)"></button>
     </ng-template>
 
 </p-dialog>

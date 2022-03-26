@@ -26,17 +26,18 @@ export class ReceiveMaintainenceComponent implements OnInit {
   lstofMaintenance = [];
 
   maintenanceBill;
+
   maintenanceReceipt;
 
   amountType;
   referenceNo;
   bankName;
-
+  editMaintenanceForm: FormGroup;
   maintenanceBillDialog = false;
   maintenanceReceiptDialog = false;
   generateReceiptDialog = false;
   generateMaintenanceFormSubmitted = false;
-
+  editMaintenanceFormSubmitted = false;
   generateMaintenanceForm: FormGroup;
   popupHeader;
 
@@ -74,7 +75,30 @@ export class ReceiveMaintainenceComponent implements OnInit {
     { label: 'Cash', value: 'CASH' },
     { label: 'Online', value: 'ONLINE' },
   ];
-
+  total: Number;
+  editMaintenanceBillDialog: boolean;
+  editMaintenanceBillData: any;
+  maintainenceType = [
+    { label: 'Tenant', value: 'MAINTENANCE_AMOUNT_TENANT' },
+    { label: 'Own', value: 'MAINTENANCE_AMOUNT' },
+  ];
+  monthList = [
+    { label: 'January', value: 'January' },
+    { label: 'February', value: 'February' },
+    { label: 'March', value: 'March' },
+    { label: 'April', value: 'April' },
+    { label: 'May', value: 'May' },
+    { label: 'June', value: 'June' },
+    { label: 'July', value: 'July' },
+    { label: 'August', value: 'August' },
+    { label: 'September', value: 'September' },
+    { label: 'October', value: 'October' },
+    { label: 'November', value: 'November' },
+    { label: 'December', value: 'December' },
+  ];
+  receiptDetail: any;
+  receiptGenerated: boolean;
+  feesMasterData: any;
   constructor(
     private dashboardService: DashboardServicesService,
     private adminService: AdminServicesService,
@@ -97,6 +121,12 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   showMaintenanceBillDialog(data) {
     this.maintenanceBill = data;
+    if(Number(data.waterAmount*data?.usedUnit)!==0){
+      this.total = Number(data?.waterAmount *data?.usedUnit)+ Number(data?.previousPendingAmount)+Number(data?.otherAmount)+Number(data?.maintenanceAmount); 
+    }else{
+      this.total = Number(data?.averageReading)+ Number(data?.previousPendingAmount)+Number(data?.otherAmount)+Number(data?.maintenanceAmount); 
+
+    }
     this.maintenanceBillDialog = true;
   }
 
@@ -408,5 +438,118 @@ export class ReceiveMaintainenceComponent implements OnInit {
     });
 
   }
+  editMaintenanceBill(data) {
+    this.initializeEditMaintenanceForm(data);
+    this.editMaintenanceBillData = data;
+    this.editMaintenanceBillDialog = true;
+    this.popupHeader = "Edit Maintainence"
+  }
+  initializeEditMaintenanceForm(data) {
+    this.editMaintenanceForm = this._formBuilder.group({
+      id: data.id,
+      maintenanceAmount: data.maintenanceAmount,
+      waterAmount: data.waterAmount,
+      amount: data.amount,
+      amountReceived: data.amountReceived,
+      usedUnit: data.usedUnit,
+      previousReading: data.previousReading,
+      currentReading: data.currentReading,
+      maintenancePaid: data.maintenancePaid,
+      averageReading: data?.averageReading,
+      payType: data.payType,
+      userMasterId: data.userMasterId,
+      createdBy: 'Admin',
+      createdDate: data.createdDate,
+      updatedDate: new Date().getTime(),
+      maintainenceType:data?.maintainenceType,
+      month:data?.month,
+      otherAmount: data?.otherAmount,
+      otherDescription: data?.otherDescription,
+      previousPendingAmount: data.previousPendingAmount
+    });
+    this.editMaintenanceForm.get('maintainenceType').valueChanges.subscribe(response => {
+      if (response === 'Tenant') {
+        this.editMaintenanceForm.controls.maintenanceAmount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT_TENANT.amount);
+      }
+      else if (response === 'Own') {
+        this.editMaintenanceForm.controls.maintenanceAmount.setValue(this.feesMasterData?.MAINTENANCE_AMOUNT.amount);
+      }
+    });
+    this.editMaintenanceForm.get('currentReading').valueChanges.subscribe(current => {
+      this.editMaintenanceForm.controls.usedUnit.setValue(Number(current) - Number(this.editMaintenanceForm.get('previousReading').value));
+    });
+  }
+  onSubmitEditMaintenanceBill(data){
+    if (!this.editMaintenanceForm.valid) {
+      let controlName: string;
+      // tslint:disable-next-line: forin
+      for (controlName in this.editMaintenanceForm.controls) {
+        this.editMaintenanceForm.controls[controlName].markAsDirty();
+        this.editMaintenanceForm.controls[controlName].updateValueAndValidity(); // Validate form field and show the message
+      }
+      this.editMaintenanceFormSubmitted = true;
+      this.maintenanceBillMaster = data.value;
+      return false;
+    }
 
+    this.receiptGenerated = true;
+    let waterCalulatedAmount: number;
+    this.maintenanceBillMaster = data.value;
+    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0)) {
+      waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
+    } else if (this.maintenanceBillMaster.averageReading) {
+      waterCalulatedAmount = (this.maintenanceBillMaster.averageReading);
+    }
+
+    let totalAmount: number = Number(waterCalulatedAmount);
+    totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
+    totalAmount = totalAmount + Number(this.maintenanceBillMaster.otherAmount);
+    this.maintenanceBillMaster.amount = totalAmount;
+    this.remainingAmount = totalAmount;
+    this.receiptDetail = data.value;
+    // console.log(this.maintenanceBillMaster);
+    // tslint:disable-next-line: max-line-length
+    // this.angularFireDatabase.database.ref('maintenancemaster').child(this.waterMaintenanceBillMaster).set(this.waterMaintenanceBillMaster);
+    this.angularFireDatabase.database.ref('maintenancemaster').child(data.value.id).set(this.maintenanceBillMaster)
+    .finally(() => { this.getSampleData();
+      this.onSubmitUserMasterAmountUpdate();
+      this.onHideEdirMaintainenceDialog(); return true; })
+      .catch(err => {
+        this.notificationService.error(err, '');
+        // console.log(err);
+      });
+    // this.dashboardService.editMaintenanceBill(this.maintenanceBillMaster).subscribe(
+    //   (data: any) => {
+    //     // console.log(data);
+    //     this.getSampleData();
+    //     this.onSubmitUserMasterAmountUpdate();
+    //     this.onHideEdirMaintainenceDialog();
+    //     // this.getMaintenanceAmountData();
+
+    //     if (data.statusCode === '200' && data.message === 'OK') {
+    //       this.errorService.userNotification(data.statusCode, 'Post Data');
+    //     }
+    //   },
+    //   (err: Error) => {
+    //     console.error(err);
+    //   }
+    // );
+  }
+  onHideEdirMaintainenceDialog(){
+    this.editMaintenanceBillDialog = false;
+  }
+  getFessMasterData(): any {
+    this.dashboardService.getFeesData().subscribe(
+      (data: any) => {
+        this.feesMasterData = data;
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
+        // console.log(this.feesMasterData);
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
 }

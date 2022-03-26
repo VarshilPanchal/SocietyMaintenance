@@ -266,7 +266,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  generateMaintenance(name): any {
+  generateMaintenance(name, amount, previousReading): any {
     // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
     this.generateMaintenanceDialog = true;
     this.generateMaintenanceFormSubmitted = false;
@@ -275,6 +275,8 @@ export class DashboardComponent implements OnInit {
     this.popupHeader = `Generate Maintence for ${name}`;
     this.getUserMaster(name);
     this.initializeGenerateMaintenanceForm();
+    this.generateMaintenanceForm.controls.previousPendingAmount.setValue(amount);
+    this.generateMaintenanceForm.controls.previousReading.setValue(previousReading);
   }
 
   hideGenerateMaintenanceDialog(): any {
@@ -316,7 +318,9 @@ export class DashboardComponent implements OnInit {
       updatedDate: '',
       maintainenceType: ['', [Validators.required]],
       month: ['', [Validators.required]],
-      otherAmount: ['', [Validators.required]],
+      otherAmount: [''],
+      otherDescription: [''],
+      previousPendingAmount: []
     });
     this.generateMaintenanceForm.get('maintainenceType').valueChanges.subscribe(response => {
       if (response === 'Tenant') {
@@ -327,11 +331,7 @@ export class DashboardComponent implements OnInit {
       }
     });
     this.generateMaintenanceForm.get('currentReading').valueChanges.subscribe(current => {
-
-      this.generateMaintenanceForm.get('previousReading').valueChanges.subscribe(previous => {
-        this.generateMaintenanceForm.controls.usedUnit.setValue(Number(current) - Number(previous));
-
-      })
+      this.generateMaintenanceForm.controls.usedUnit.setValue(Number(current) - Number(this.generateMaintenanceForm.get('previousReading').value));
     });
   }
 
@@ -530,7 +530,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.generatedMaintenanceBillPost(this.maintenanceBillMaster).subscribe(
       (data: any) => {
         // console.log(data);
-        this.onSubmitUserMasterAmountUpdate();
+        this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
         this.getMaintenanceAmountData();
 
         if (data.statusCode === '200' && data.message === 'OK') {
@@ -560,7 +560,8 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  onSubmitUserMasterAmountUpdate() {
+  onSubmitUserMasterAmountUpdate(maintainenceData) {
+    this.userMasterDto.previousReading = maintainenceData.previousReading;
     this.userMasterDto.amount = this.userMasterDto.amount + this.remainingAmount;
     this.userMasterDto.updatedDate = new Date().getTime();
     this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)

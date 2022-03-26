@@ -63,5 +63,14 @@
        
       </div>
     </div>
+    <p-dialog [(visible)]="display" [style]="{width: '60vw'}" [modal]="true" header="Welcome">
+      <ng-template pTemplate="content">
+      Welcome to Society Maintainence Application
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Ok" icon="pi pi-check" class="bg-dark" (click)="onSubmitDialog()"></button>
+    </ng-template>
+    </p-dialog>
   </div>
+
   

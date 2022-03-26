@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginData;
   submitted = false;
+  display: boolean = false;
   constructor(
     private authService: AuthService,
     private errorService: ErrorService,
@@ -74,17 +75,17 @@ export class LoginComponent implements OnInit {
           if (this.loginData.password === password) {
             // this.notificationService.success('Signin Succesfull','');
             this.localStorageService.setItem('user', this.loginData);
-            if (this.loginData.id === 'Admin') {
-              this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
-            } else {
-              this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
-            }
-            setTimeout(() => {
-              this.notificationService.success('Welcome to AquaPolaris Application', '');
-            }, 100);
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
+            // if (this.loginData.id === 'Admin') {
+            //   this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+            // } else {
+            //   this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
+            // }
+            this.openDialog();
+            // setTimeout(() => {
+              // }, 100);
+              // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1500);
           } else {
             this.notificationService.error('Enter Valid password', '');
           }
@@ -97,5 +98,18 @@ export class LoginComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+  openDialog(){
+    this.display = true
+  }
+  onSubmitDialog(){
+    if (this.loginData.id === 'Admin') {
+      this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
+    } else {
+      this.route.navigate([PATH_CONSTANTS.USER_DASHBOARD]);
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   }
 }

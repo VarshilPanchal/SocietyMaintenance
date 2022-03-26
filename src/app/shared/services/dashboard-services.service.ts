@@ -78,6 +78,10 @@ export class DashboardServicesService {
     const url = 'maintenancemaster.json';
     return this.httpService.requestCall(url, ApiMethodName.POST, data);
   }
+  editMaintenanceBill(data: any): any {
+    const url = 'maintenancemaster.json';
+    return this.httpService.requestCall(url, ApiMethodName.PUT, data);
+  }
 
   dashboardPut(data: any): any {
     const url = 'user.json';

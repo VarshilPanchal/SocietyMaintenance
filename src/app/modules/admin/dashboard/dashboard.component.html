@@ -63,7 +63,7 @@
                         <td>
                             <button *ngIf="isIdExist(user)" pTooltip="Generate Maintenance"
                                 style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
-                                (click)="generateMaintenance(user.user_name)">
+                                (click)="generateMaintenance(user.user_name, user.amount, user?.previousReading)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
                             </button> &nbsp;
                             <button pTooltip="Receive Payment" style="font-size: 15px; padding: 10px;"
@@ -381,7 +381,7 @@
             <div class="p-field">
                 <label for="previousReading">Previous Reading* </label>
                 <input type="text" pInputText id="previousReading" formControlName="previousReading"
-                    placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" />
+                    placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" disabled/>
                 <div class="p-invalid"
                     *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('previousReading').valid) || (!generateMaintenanceForm.get('previousReading').valid && generateMaintenanceForm.get('previousReading').touched) ">
                     <div *ngIf=" (generateMaintenanceForm.get('previousReading').errors.required) ">
@@ -411,14 +411,24 @@
             </div>
 
             <div class="p-field">
-                <label for="otherAmount">Other amount*</label>
+                <label for="otherAmount">Other amount</label>
                 <input type="text" pInputText id="otherAmount" formControlName="otherAmount"
-                    placeholder="Enter Average Water bill" autofocus pKeyFilter="num" maxLength="50" />
-                <div class="p-invalid"
+                    placeholder="Enter Other Amount" autofocus pKeyFilter="num" maxLength="50" />
+                <!-- <div class="p-invalid"
                     *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('otherAmount').valid) || (!generateMaintenanceForm.get('otherAmount').valid && generateMaintenanceForm.get('otherAmount').touched) ">
                     <div *ngIf=" (generateMaintenanceForm.get('otherAmount').errors.required) ">
                         Required </div>
-                </div>
+                </div> -->
+            </div>
+            <div class="p-field">
+                <label for="otherAmount">Other description</label>
+                <input type="text" pInputText id="otherDescription" formControlName="otherDescription"
+                    placeholder="Enter Other Description" autofocus/>
+                <!-- <div class="p-invalid"
+                    *ngIf="(generateMaintenanceFormSubmitted && !generateMaintenanceForm.get('otherAmount').valid) || (!generateMaintenanceForm.get('otherAmount').valid && generateMaintenanceForm.get('otherAmount').touched) ">
+                    <div *ngIf=" (generateMaintenanceForm.get('otherAmount').errors.required) ">
+                        Required </div>
+                </div> -->
             </div>
 
             <!-- <div class="p-field">
@@ -460,6 +470,8 @@
                             Limited,
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>382330
+                            <br>NA DH N/ GNR/ SA(HA) 7347 Year 2012
                             <br>
                             <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
                             <!-- <br> -->

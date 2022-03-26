@@ -5,4 +5,5 @@ export interface UserMaster {
     password: string;
     user_name: string;
     amount: number;
+    previousReading: number;
 }
