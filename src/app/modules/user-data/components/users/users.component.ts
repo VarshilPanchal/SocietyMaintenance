@@ -86,7 +86,8 @@ export class UsersComponent implements OnInit {
         updatedDate: new Date().getTime(),
         password: data.password,
         user_name: data.user_name,
-        amount: data.Amount
+        amount: data.Amount,
+        previousReading: data.previousReading
       };
       this.angularFireDatabase.database.ref('user').child(data.id).set(userObject);
     });

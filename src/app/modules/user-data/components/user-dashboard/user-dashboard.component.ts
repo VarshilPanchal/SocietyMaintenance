@@ -475,43 +475,46 @@ export class UserDashboardComponent implements OnInit {
   getMaintenanceDetail() {
     this.dashboardService.getMaintenanceAmountData().subscribe(
       (data: any) => {
-        this.listOfMaintenanceBill = [];
-        this.lstofBill = [];
-        this.listOfMaintenanceBill = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-        this.listOfMaintenanceBill.forEach(
-          (bill) => {
-            if (this.loginUserId === bill.value.userMasterId) {
-              this.lstofBill.push(bill.value);
+        if(data){
+
+          this.listOfMaintenanceBill = [];
+          this.lstofBill = [];
+          this.listOfMaintenanceBill = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+          this.listOfMaintenanceBill.forEach(
+            (bill) => {
+              if (this.loginUserId === bill.value.userMasterId) {
+                this.lstofBill.push(bill.value);
+              }
+            });
+  
+  
+  
+  
+          this.lstofBill.forEach((bill) => {
+  
+            // let monthInNumber = Date.parse(bill.month + '1, 2012');
+            // if (!isNaN(monthInNumber)) {
+            //   monthInNumber = new Date(monthInNumber).getMonth() + 1;
+            // }
+            // if (bill.month && monthInNumber < todayDate.getMonth()) {
+            //   this.recentMaintenanceBill = bill;
+            // }
+  
+            if (this.findLastMonthBill(bill)) {
+              this.recentMaintenanceBill = bill;
             }
+  
+            // console.log(todayDate.getMonth())
           });
-
-
-
-
-        this.lstofBill.forEach((bill) => {
-
-          // let monthInNumber = Date.parse(bill.month + '1, 2012');
-          // if (!isNaN(monthInNumber)) {
-          //   monthInNumber = new Date(monthInNumber).getMonth() + 1;
-          // }
-          // if (bill.month && monthInNumber < todayDate.getMonth()) {
-          //   this.recentMaintenanceBill = bill;
-          // }
-
-          if (this.findLastMonthBill(bill)) {
-            this.recentMaintenanceBill = bill;
+  
+  
+  
+  
+          console.log(this.lstofBill);
+          console.log(this.recentMaintenanceBill);
+          if (data.statusCode === '200' && data.message === 'OK') {
+            this.errorService.userNotification(data.statusCode, 'Get Data');
           }
-
-          // console.log(todayDate.getMonth())
-        });
-
-
-
-
-        console.log(this.lstofBill);
-        console.log(this.recentMaintenanceBill);
-        if (data.statusCode === '200' && data.message === 'OK') {
-          this.errorService.userNotification(data.statusCode, 'Get Data');
         }
       },
       (err: Error) => {

@@ -66,17 +66,19 @@ export class PaySummaryComponent implements OnInit {
     this.userAmountData = [];
     console.log(this.loggedInUserName);
     this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
-      this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-      this.amountData.forEach(
-        (amount) => {
-          if (amount.value.amountType === 'Credit' && amount.value.userMasterId === this.loggedInUserName) {
-            this.userAmountData.push(amount.value)
-          }
-        });
-      console.log(this.userAmountData);
-      this.totalRecords = this.userAmountData.length;
-      if (data.statusCode === '200' && data.message === 'OK') {
-        this.errorService.userNotification(data.statusCode, 'Get Data');
+      if(data){
+        this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.amountData.forEach(
+          (amount) => {
+            if (amount.value.amountType === 'Credit' && amount.value.userMasterId === this.loggedInUserName) {
+              this.userAmountData.push(amount.value)
+            }
+          });
+        console.log(this.userAmountData);
+        this.totalRecords = this.userAmountData.length;
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
       }
     })
   }
