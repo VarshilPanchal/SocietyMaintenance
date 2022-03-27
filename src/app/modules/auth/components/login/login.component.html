@@ -1,76 +1,144 @@
-
 <div class="container mt-10 px-4 h-full">
-    <div class="flex content-center items-center justify-center h-full">
-      <div class="w-full lg:w-4/12 px-4">
-        <div
-          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
-        >
-          <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-              <div class="relative mt-10 w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Username
-                </label>
-                <input
-                  formControlName="username"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Username" pInputText pKeyFilter="alphanum"
-                />
-              </div>
-              <div class="p-invalid" *ngIf="(submitted && !loginForm.get('username').valid) || (!loginForm.get('username').valid && loginForm.get('username').touched) ">
+  <div class="flex content-center items-center justify-center h-full">
+    <div class="w-full lg:w-4/12 px-4">
+      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+            <div class="relative mt-10 w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+                Username
+              </label>
+              <input formControlName="username"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                placeholder="Username" pInputText pKeyFilter="alphanum" />
+            </div>
+            <div class="p-invalid"
+              *ngIf="(submitted && !loginForm.get('username').valid) || (!loginForm.get('username').valid && loginForm.get('username').touched) ">
 
-                <div *ngIf=" (loginForm.get('username').errors.required) ">
-                    required
-                </div>
+              <div *ngIf=" (loginForm.get('username').errors.required) ">
+                required
+              </div>
 
             </div>
-              
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Password
-                </label>
-                <input
-                  type="password" formControlName="password"
-                  class="form-control border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password"
-                />
-              </div>
-              <div class="p-invalid" *ngIf="(submitted && !loginForm.get('password').valid) || (!loginForm.get('password').valid && loginForm.get('password').touched) ">
 
-                <div *ngIf=" (loginForm.get('password').errors.required) ">
-                    required
-                </div>
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+                Password
+              </label>
+              <input type="password" formControlName="password"
+                class="form-control border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                placeholder="Password" />
+            </div>
+            <div class="p-invalid"
+              *ngIf="(submitted && !loginForm.get('password').valid) || (!loginForm.get('password').valid && loginForm.get('password').touched) ">
+
+              <div *ngIf=" (loginForm.get('password').errors.required) ">
+                required
+              </div>
 
             </div>
-            
-              <div class="text-center mt-6">
-                <button
-                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="submit"
-                >
-                  Sign In
-                </button>
-              </div>
-            </form>
-          </div>
+
+            <div class="text-center mt-6">
+              <button
+                class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                type="submit">
+                Sign In
+              </button>
+            </div>
+          </form>
         </div>
-       
       </div>
-    </div>
-    <p-dialog [(visible)]="display" [style]="{width: '60vw'}" [modal]="true" header="Welcome">
-      <ng-template pTemplate="content">
-      Welcome to Society Maintainence Application
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple label="Ok" icon="pi pi-check" class="bg-dark" (click)="onSubmitDialog()"></button>
-    </ng-template>
-    </p-dialog>
-  </div>
 
-  
+    </div>
+  </div>
+  <p-dialog [(visible)]="display" [style]="{width: '60vw'}" [modal]="true">
+    <ng-template pTemplate="content">
+
+      <div class="body welcome">
+        <span id="splash-overlay" class="splash"></span>
+        <span id="welcome" class="z-depth-4"></span>
+
+        <header class="navbar-fixed">
+          <nav class="row deep-purple darken-3">
+            <div class="col s12">
+              <div class="flex content-center items-center justify-center">
+                <img width="100" src="{{imageUrl}}" alt="profilePhoto" class="d-inline rounded-circle">
+              </div>
+              <br>
+              <div class="flex content-center items-center justify-center">
+                <h1 class="title text-lighten-3">Welcome to Aquapolaris</h1>
+              </div>
+              <blockquote class="flow-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis aspernatur
+                voluptas inventore ab
+                voluptates nostrum minus illo laborum harum laudantium earum ut, temporibus fugiat sequi explicabo
+                facilis unde quos corporis!</blockquote>
+            </div>
+          </nav>
+        </header>
+
+        <main class="main valign-wrapper">
+          <span class="container text-lighten-1 ">
+
+            <!-- <p class="flow-text">Welcome to</p>
+            <h1 class="title text-lighten-3">jason's classroom</h1>
+
+            <blockquote class="flow-text">A place to study for your High School Equivalency Diploma</blockquote> -->
+
+            <!-- <div class="center-align">
+                <a class="btn dropdown-button" href="" data-activates="exams">hse exams<i class="material-icons right">expand_more</i></a>
+        
+                <ul id="exams" class="dropdown-content">
+                  <li><a href="#!">GED&trade; Exam</a></li>
+                  <li><a href="#!">HiSET&trade; Exam</a></li>
+                  <li><a href="#!">TASC&trade; Exam</a></li>
+                </ul>
+                <a class="btn dropdown-button" href="" data-activates="study">study<i class="material-icons right">expand_more</i></a>
+        
+                <ul id="study" class="dropdown-content">
+                  <li><a href="#!">mathematics</a></li>
+                  <li><a href="#!">reading</a></li>
+                  <li><a href="#!">science</a></li>
+                  <li><a href="#!">social studies</a></li>
+                  <li><a href="#!">writing</a></li>
+                </ul>
+              </div> -->
+
+          </span>
+        </main>
+
+        <!-- <div class="fixed-action-btn">
+            <a href="#message" class="modal-trigger btn btn-large btn-floating amber waves-effect waves-light">
+              <i class="large material-icons">message</i>
+            </a>
+          </div> -->
+
+        <!-- <div id="message" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4>Contact</h4>
+              <p>coming soon...</p>
+            </div>
+            <div class="modal-footer">
+              <a href="" class="modal-action modal-close waves-effect btn-flat">close</a>
+            </div> 
+          </div>  -->
+
+        <!-- <footer class="page-footer deep-purple darken-3">
+            <div class="footer-copyright deep-purple darken-4">
+              <div class="container">
+                <time datetime="{{ site.time | date: '%Y' }}">&copy; 2016 Jason</time>
+              </div>
+            </div>
+          </footer> -->
+      </div>
+
+
+
+
+
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Ok" icon="pi pi-check" class="bg-dark" (click)="onSubmitDialog()"></button>
+    </ng-template>
+  </p-dialog>
+</div>

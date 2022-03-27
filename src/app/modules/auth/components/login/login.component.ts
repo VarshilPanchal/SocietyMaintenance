@@ -14,6 +14,8 @@ import { AuthService } from '../../services/auth-services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  imageUrl = 'assets/img/logo_transparent.png';
+
   dataTableParams = {
     offset: 0,
     size: 10,
@@ -82,8 +84,8 @@ export class LoginComponent implements OnInit {
             // }
             this.openDialog();
             // setTimeout(() => {
-              // }, 100);
-              // setTimeout(() => {
+            // }, 100);
+            // setTimeout(() => {
             //   window.location.reload();
             // }, 1500);
           } else {
@@ -99,10 +101,10 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  openDialog(){
+  openDialog() {
     this.display = true
   }
-  onSubmitDialog(){
+  onSubmitDialog() {
     if (this.loginData.id === 'Admin') {
       this.route.navigate([PATH_CONSTANTS.ADMIN_DASHBOARD]);
     } else {
