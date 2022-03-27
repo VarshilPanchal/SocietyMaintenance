@@ -85,6 +85,7 @@ export class UserDashboardComponent implements OnInit {
     { label: '2-BHK', value: 'TRANSFER_2_BHK' },
     { label: '3-BHK', value: 'TRANSFER_3_BHK' },
   ];
+  total: number;
 
   constructor(
     private dashboardService: DashboardServicesService,
@@ -233,6 +234,12 @@ export class UserDashboardComponent implements OnInit {
 
   opengenerateMaintenanceBillDialog(): any {
     // this.waterMaintenanceBillMaster = new WaterMaintenanceBillMaster();
+    if(Number(this.recentMaintenanceBill.waterAmount*this.recentMaintenanceBill?.usedUnit)!==0){
+      this.total = Number(this.recentMaintenanceBill?.waterAmount *this.recentMaintenanceBill?.usedUnit)+ Number(this.recentMaintenanceBill?.previousPendingAmount)+Number(this.recentMaintenanceBill?.otherAmount)+Number(this.recentMaintenanceBill?.maintenanceAmount); 
+    }else{
+      this.total = Number(this.recentMaintenanceBill?.averageReading)+ Number(this.recentMaintenanceBill?.previousPendingAmount)+Number(this.recentMaintenanceBill?.otherAmount)+Number(this.recentMaintenanceBill?.maintenanceAmount); 
+
+    }
     this.generateMaintenanceBillDialog = true;
   }
 

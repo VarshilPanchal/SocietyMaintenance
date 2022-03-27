@@ -243,10 +243,16 @@
                         </th>
                     </tr>
                     <tr class="table-primary">
+                        <th scope="col" colspan="3">Maintainence Type : {{recentMaintenanceBill.maintainenceType}}</th>
+                    </tr>
+                    <tr class="table-primary">
                         <th scope="col" colspan="3">Name : {{recentMaintenanceBill.userMasterId}}</th>
                     </tr>
                     <tr class="table-primary">
-                        <th scope="col" colspan="3">Month : {{recentMaintenanceBill.createdDate | date}}</th>
+                        <th scope="col" colspan="3">Generated Date : {{recentMaintenanceBill.createdDate | date}}</th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3">Month : {{recentMaintenanceBill.month}}</th>
                     </tr>
                     <tr class="table-dark">
                         <th scope="col">Description</th>
@@ -267,8 +273,9 @@
                     </tr>
                     <tr>
                         <td class="text-wrap text-break">Average Water Bill</td>
-                        <td *ngIf="recentMaintenanceBill?.previousReading">{{recentMaintenanceBill?.averageReading}}</td>
                         <td>-</td>
+                        <td *ngIf="recentMaintenanceBill?.averageReading">{{recentMaintenanceBill?.averageReading | currency:"INR":"symbol"}}</td>
+                        <td *ngIf="!recentMaintenanceBill?.averageReading">-</td>
                     </tr>
                     <tr>
                         <td>Used Unit </td>
@@ -277,9 +284,9 @@
                     </tr>
                     <tr>
                         <td>Water Rate/unit</td>
-                        <td>-</td>
                         <td *ngIf="recentMaintenanceBill?.waterAmount">{{recentMaintenanceBill?.waterAmount |currency:"INR":"symbol"
-                            }}</td>
+                            }} per unit</td>
+                        <td>-</td>
                     </tr>
                     <tr>
                         <td>Water Bill Amount</td>
@@ -294,9 +301,16 @@
                             |currency:"INR":"symbol" }}</td>
                     </tr>
                     <tr>
+                        <td>Other Amount</td>
+                        <td *ngIf="recentMaintenanceBill?.otherDescription">{{recentMaintenanceBill?.otherDescription}}</td>
+                        <td *ngIf="!recentMaintenanceBill?.otherDescription">-</td>
+                        <td *ngIf="recentMaintenanceBill?.otherAmount">{{recentMaintenanceBill?.otherAmount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="!recentMaintenanceBill?.otherAmount">-</td>
+                    </tr>
+                    <tr>
                         <td>Remaining Amount</td>
                         <td>-</td>
-                        <td *ngIf="recentMaintenanceBill?.amount">{{recentMaintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="recentMaintenanceBill?.previousPendingAmount">{{recentMaintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <!-- <tr>
                         <td>Payment type</td>
@@ -311,7 +325,7 @@
                     <tr class="table-success">
                         <td>Total</td>
                         <td></td>
-                        <td *ngIf="recentMaintenanceBill?.amount">{{recentMaintenanceBill?.amount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="recentMaintenanceBill?.amount">{{total |currency:"INR":"symbol" }}</td>
                     </tr>
                 </tbody>
             </table>

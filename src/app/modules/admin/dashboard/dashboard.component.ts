@@ -561,7 +561,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmitUserMasterAmountUpdate(maintainenceData) {
-    this.userMasterDto.previousReading = maintainenceData.previousReading;
+    this.userMasterDto.previousReading = maintainenceData.currentReading;
     this.userMasterDto.amount = this.userMasterDto.amount + this.remainingAmount;
     this.userMasterDto.updatedDate = new Date().getTime();
     this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)

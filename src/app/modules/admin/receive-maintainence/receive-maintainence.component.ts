@@ -259,8 +259,11 @@ export class ReceiveMaintainenceComponent implements OnInit {
     );
   }
 
-  onSubmitUserMasterAmountUpdate() {
+  onSubmitUserMasterAmountUpdate(maintenanceBillMaster?) {
     if (this.count === 1) {
+      if(maintenanceBillMaster){
+        this.userMasterDto.previousReading = maintenanceBillMaster.currentReading;
+      }
       this.userMasterDto.amount = this.remainingAmount;
       this.userMasterDto.updatedDate = new Date().getTime();
       this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
@@ -442,6 +445,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     this.initializeEditMaintenanceForm(data);
     this.editMaintenanceBillData = data;
     this.editMaintenanceBillDialog = true;
+    this.getUserMaster(data.userMasterId, data);
     this.popupHeader = "Edit Maintainence"
   }
   initializeEditMaintenanceForm(data) {
@@ -512,7 +516,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     // this.angularFireDatabase.database.ref('maintenancemaster').child(this.waterMaintenanceBillMaster).set(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('maintenancemaster').child(data.value.id).set(this.maintenanceBillMaster)
     .finally(() => { this.getSampleData();
-      this.onSubmitUserMasterAmountUpdate();
+      this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
       this.onHideEdirMaintainenceDialog(); return true; })
       .catch(err => {
         this.notificationService.error(err, '');
