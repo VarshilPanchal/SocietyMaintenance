@@ -385,8 +385,10 @@ export class ReceiveMaintainenceComponent implements OnInit {
       });
 
       const width = doc.internal.pageSize.width;
+      console.log(width)
       // let height = doc.internal.pageSize.height;
       const height = width * hratio;
+      console.log(height)
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
       doc.save('maintenance-bill.pdf');
     });
@@ -499,7 +501,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     this.receiptGenerated = true;
     let waterCalulatedAmount: number;
     this.maintenanceBillMaster = data.value;
-    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0)) {
+    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0) && !this.maintenanceBillMaster.averageReading) {
       waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
     } else if (this.maintenanceBillMaster.averageReading) {
       waterCalulatedAmount = (this.maintenanceBillMaster.averageReading);

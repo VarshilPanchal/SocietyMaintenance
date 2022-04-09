@@ -97,6 +97,9 @@
                     <ng-template pTemplate="body" let-income>
                         <tr>
                             <td class="text-break text-wrap">
+                                {{income.userMasterId}}
+                            </td>
+                            <td class="text-break text-wrap">
                                 {{income.amount |currency:"INR":"symbol"}}
                             </td>
                             <td class="text-break text-wrap">

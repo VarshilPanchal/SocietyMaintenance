@@ -26,6 +26,7 @@ export class ExpenseAndIncomeComponent implements OnInit {
     { name: 'OverDraft', code: 'OverDraft' },
   ];
   cols = [
+    { header: 'Flat No.' },
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },

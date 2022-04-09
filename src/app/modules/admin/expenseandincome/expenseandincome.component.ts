@@ -25,9 +25,11 @@ export class ExpenseandincomeComponent implements OnInit {
     { name: 'OverDraft', code: 'OverDraft' },
   ];
   cols = [
+    { header: 'Flat No.' },
     { header: 'Amount' },
     { header: 'Paid Through' },
     { header: 'Description' },
+    { header: 'Receipt' },
   ];
   expenseCols = [
     { header: 'Paid To' },
@@ -74,6 +76,8 @@ export class ExpenseandincomeComponent implements OnInit {
   rowsPerPageOptions = COMMON_CONSTANTS.MASTER_TABLE_PAGINATE_DROPDOWN;
   totalRecordsForExpense: Number = 0;
   submitted = false;
+  receiptDialog: boolean;
+  receiptData: any;
   constructor(private adminService: AdminServicesService,
     private errorService: ErrorService,
     private formBuilder: FormBuilder,
@@ -270,6 +274,33 @@ export class ExpenseandincomeComponent implements OnInit {
       const height = width * hratio;
       doc.addImage(img, 'JPEG', width * .250, 30, width * .50, height * .50);
       doc.save('voucher-receipt.pdf');
+    });
+
+  }
+  showReceiptDialog(data){
+    this.receiptDialog = true;
+    console.log(data);
+    this.receiptData = data;
+  }
+  hideReceiptDialog(){
+    this.receiptDialog = false;
+  }
+  exportPdfForReceipt(): void {
+    const DATA = document.getElementById('generatedReceiptTabel');
+    html2canvas(DATA).then(canvas => {
+      let wid;
+      let hgt;
+      const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
+      const hratio = hgt / wid;
+      const doc = new jsPDF({
+        orientation: 'portrait'
+      });
+
+      const width = doc.internal.pageSize.width;
+      // let height = doc.internal.pageSize.height;
+      const height = width * hratio;
+      doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
+      doc.save('payment-receipt.pdf');
     });
 
   }

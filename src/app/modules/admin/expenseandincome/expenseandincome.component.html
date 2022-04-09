@@ -115,13 +115,28 @@
                     <ng-template pTemplate="body" let-income>
                         <tr>
                             <td class="text-break text-wrap">
+                                {{income.userMasterId}}
+                            </td>
+                            <td class="text-break text-wrap">
                                 {{income.amount |currency:"INR":"symbol"}}
                             </td>
+
                             <td class="text-break text-wrap">
                                 {{income.payType}}
                             </td>
                             <td class="text-break text-wrap">
                                 {{income.description}}
+                            </td>
+                            <td>
+                                <div *ngIf="income?.otherPayment">
+                                    <button pTooltip="View Generated Receipt" class="p-button bg-dark rounded"
+                                    style="font-size: 15px; padding: 10px;" (click)="showReceiptDialog(income)">
+                                    <i class="pi pi-eye" style="font-size: 15px"></i>
+                                    </button>
+                                </div>
+                                <div *ngIf="!income?.otherPayment">
+                                    -
+                                </div>
                             </td>
 
                         </tr>
@@ -255,7 +270,7 @@
                         <br>Nr. S.P. Ring Road, NH-8,
                         <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
                         <br>382330
-                        <br>NA DH N/ GNR/ SA(HA) 7347 Year 2012
+                        <br>Registered Cert. No.: NA DH N/ GNR/ SA(HA) 7347 Year 2012
                         <br>
                         <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
                         <!-- <br> -->
@@ -314,5 +329,90 @@
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="bg-admin"
             (click)="hideVoucherDialog()"></button>
     </ng-template> -->
+
+</p-dialog>
+
+<p-dialog [(visible)]="receiptDialog" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid"
+    (onHide)="hideReceiptDialog()">
+
+    <ng-template pTemplate="content">
+        <div id="generatedReceiptTabel" *ngIf="receiptDialog">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr class="table-primary">
+                        <th scope="col" class="align-center text-center" colspan="3" style="margin-bottom: 20px;">
+                            <img width="100" src="{{imageUrl}}" alt="profilePhoto" class="d-inline rounded-circle">
+                            <!-- <img width="70" src="{{imageUrl}}" alt="profilePhoto" class="d-inline profileImage"> -->
+                            <p style="font-size: 2rem;" class="d-inline">
+                                Maintenance Receipt
+                        </th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3" class="text-center">The Aqua Polaris Co. Op. Housing Service Society
+                            Limited,
+                            <br>Nr. S.P. Ring Road, NH-8,
+                            <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
+                            <br>382330
+                            <br>Registered Cert. No.: NA DH N/ GNR/ SA(HA) 7347 Year 2012
+                            <br>
+                            <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
+                            <!-- <br> -->
+                            <!-- <br><i class="pi pi-phone"></i>&nbsp;9712393956 -->
+                        </th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3">Name : {{receiptData.userMasterId}}</th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th scope="col" colspan="3">Date : {{receiptData.createdDate | date }} </th>
+                    </tr>
+                    <tr class="table-dark">
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount / Reference No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Amount</td>
+                        <td *ngIf="receiptData?.amount">{{receiptData?.amount
+                            |currency:"INR":"symbol" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Payment type</td>
+                        <td *ngIf="receiptData?.payType">{{receiptData?.payType}}</td>
+                    </tr>
+                    <tr>
+                        <td>Reference No / Cheque No</td>
+                        <td>{{receiptData?.referenceNo? receiptData?.referenceNo: '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bank Name</td>
+                        <td>{{receiptData?.bankName? receiptData?.bankName: '-'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>{{receiptData?.description? receiptData?.description: '-'}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- <tr class="table-success">
+                        <td>Amount Paid</td>
+                        <td *ngIf="receiptData?.amount">
+                            {{receiptData?.amountReceived|currency:"INR":"symbol"}}</td>
+                    </tr> -->
+
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button type="button" pButton pRipple (click)="exportPdfForReceipt()" class="bg-dark" pTooltip="Download PDF"
+            tooltipPosition="bottom">
+            <i class="pi pi-download" style="font-size: 15px"></i>
+        </button>
+    </ng-template>
 
 </p-dialog>

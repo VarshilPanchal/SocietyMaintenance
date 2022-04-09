@@ -61,7 +61,7 @@
                             </td>
                         </ng-template>
                         <td>
-                            <button *ngIf="isIdExist(user)" pTooltip="Generate Maintenance"
+                            <button pTooltip="Generate Maintenance"
                                 style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded"
                                 (click)="generateMaintenance(user.user_name, user.amount, user?.previousReading)">
                                 <i class="pi pi-upload" style="font-size: 15px"></i>
@@ -471,7 +471,7 @@
                             <br>Nr. S.P. Ring Road, NH-8,
                             <br>Nr. Pushkar bung, Nana Chiloda, Ahmedabad
                             <br>382330
-                            <br>NA DH N/ GNR/ SA(HA) 7347 Year 2012
+                            <br>Registered Cert. No.: NA DH N/ GNR/ SA(HA) 7347 Year 2012
                             <br>
                             <br><i class="pi pi-envelope"></i>&nbsp;aquapolaris0310@gmail.com
                             <!-- <br> -->
@@ -580,7 +580,7 @@
                 *ngIf="this.receivePaymentForm.get('payType').value === 'Cheque' || this.receivePaymentForm.get('payType').value === 'Online'">
                 <label for="referenceNo"> Reference No / Cheque No* </label>
                 <input type="text" pInputText id="referenceNo" formControlName="referenceNo"
-                    placeholder="Enter referenceNo" required autofocus pKeyFilter="num" maxLength="50" />
+                    placeholder="Enter referenceNo" required autofocus maxLength="50" />
                 <div class="p-invalid"
                     *ngIf="(receivePaymentFormSubmitted && !receivePaymentForm.get('referenceNo').valid) || (!receivePaymentForm.get('referenceNo').valid && receivePaymentForm.get('referenceNo').touched) ">
                     <div *ngIf=" ( receivePaymentForm.get('referenceNo').errors.required) ">

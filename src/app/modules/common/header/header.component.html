@@ -51,18 +51,27 @@
 
 <nav class="bg-dark top-0  w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
   <div class="container mx-auto flex flex-wrap items-center justify-between">
-
+    <div class="w-full relative flex justify-between lg:w-auto   lg:static lg:block lg:justify-start">
+      <a class="text-white text-sm leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase" style="cursor: pointer;" tabindex="-1" aria-disabled="true">
+        <i class="pi pi-user mr-1" aria-hidden="true"></i>
+        {{usernameLabel}}
+      </a>
+    
+  </div>
     <div class="w-full relative flex justify-between lg:w-auto   lg:static lg:block lg:justify-start">
       <a [routerLink]="['/auth/login']"
         class="text-white text-sm leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase">
         Aqua Polaris
       </a>
+
+      
       <button
         class="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
         type="button" (click)="toggleNavbar('example-collapse-navbar')">
         <i class="fa fa-bars" aria-hidden="true"></i>
       </button>
     </div>
+   
 
     <div class="lg:flex flex-grow items-center hidden my-2 my-sm-0 main-nav" id="example-collapse-navbar"
       *ngIf="loggedInUser">
@@ -125,12 +134,7 @@
             <i class="fa fa-sign-out" aria-hidden="true"></i>
           </a>
         </li>
-        <li>
-          <a class="nav-link" style="cursor: pointer;" tabindex="-1" aria-disabled="true">
-            <i class="pi pi-user mr-1" aria-hidden="true"></i>
-            {{usernameLabel}}
-          </a>
-        </li>
+      
       </ul>
       <ul>
       </ul>

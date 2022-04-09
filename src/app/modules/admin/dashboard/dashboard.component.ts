@@ -512,7 +512,7 @@ export class DashboardComponent implements OnInit {
     this.receiptGenerated = true;
     let waterCalulatedAmount: number;
     this.maintenanceBillMaster = generateMaintenanceForm.value;
-    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0)) {
+    if ((this.maintenanceBillMaster.currentReading && this.maintenanceBillMaster.previousReading) && (this.maintenanceBillMaster.currentReading > 0 && this.maintenanceBillMaster.previousReading > 0) && (!this.maintenanceBillMaster.averageReading)) {
       waterCalulatedAmount = (this.maintenanceBillMaster.currentReading - this.maintenanceBillMaster.previousReading) * this.maintenanceBillMaster.waterAmount;
     } else if (this.maintenanceBillMaster.averageReading) {
       waterCalulatedAmount = (this.maintenanceBillMaster.averageReading);
@@ -617,6 +617,7 @@ export class DashboardComponent implements OnInit {
       description: ['', [Validators.required]],
       bankName: ['', [Validators.required]],
       referenceNo: ['', [Validators.required]],
+      otherPayment: true
     });
     this.receivePaymentForm.get('payType').valueChanges.subscribe(response => {
       if (response === 'Cheque') {
