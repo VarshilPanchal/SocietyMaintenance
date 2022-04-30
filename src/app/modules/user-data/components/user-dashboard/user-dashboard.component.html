@@ -8,7 +8,7 @@
                     </h2>
                 </b>
             </div>
-            <div class="col-6">
+            <div class="col-6" *ngIf="recentMaintenanceBill?.month">
                 <span class="float-right">
                     <button style="font-size: 15px; padding: 10px;" class="p-button bg-dark rounded" (click)="opengenerateMaintenanceBillDialog()">
                         Maintenance Bill of {{recentMaintenanceBill?.month}}
