@@ -4,6 +4,7 @@ import { ErrorService } from 'src/app/core/services/error/error.service';
 import { UserMaster } from 'src/app/shared/interfaces/UserMaster';
 import { UserService } from '../../services/user-services/user.service';
 import * as XLSX from 'xlsx';
+import { AdminServicesService } from 'src/app/modules/admin/services/admin-services.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,7 +18,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private errorService: ErrorService,
-    private angularFireDatabase: AngularFireDatabase) {
+    private angularFireDatabase: AngularFireDatabase,
+    private adminService: AdminServicesService) {
   }
 
   users: UserMaster[] = [];
@@ -32,6 +34,7 @@ export class UsersComponent implements OnInit {
     // this.postData();
     // this.putData();
     this.getSampleData();
+    this.addBalance();
     // this.getSampleDataById();
   }
 
@@ -189,5 +192,33 @@ export class UsersComponent implements OnInit {
       }
     );
   }
+  addBalance(){
+    const object = {
+      id: 'Balance',
+      createdDate: new Date(),
+      updatedDate: new Date(),
+      userMasterId: '',
+      amountType: 'Credit',
+      payTo: '',
+      payType: '',
+      reading: '',
+      amount: 209802.52,
+      description:'Manual Balance entry',
+      bankName: '',
+      referenceNo: '',
+    }
+    this.adminService.addIncome(object).subscribe(
+      (data: any) => {
+        // console.log(data);
+        // this.hidePaymentDialog();
+        // this.getIncome();
+        if (data.statusCode === '200' && data.message === 'OK') {
 
+        }
+      },
+      (err: Error) => {
+        console.error(err);
+      }
+    );
+  }
 }

@@ -61,6 +61,7 @@ export class ExpenseandincomeComponent implements OnInit {
   amountData: { type: string; value: any; }[];
   incomeData = [];
   expenseData = [];
+  otherPayment = [];
   voucherDialog = false;
   popupHeader: string;
   loginUserId: any;
@@ -146,13 +147,19 @@ export class ExpenseandincomeComponent implements OnInit {
     this.expenseData = [];
     this.amountData = [];
     this.incomeData = [];
+    this.otherPayment = [];
     this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
       if (data) {
         this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.amountData.forEach(
           (amount) => {
             if (amount.value.amountType === 'Credit') {
-              this.incomeData.push(amount.value);
+              if(amount.value?.otherPayment){
+                  this.otherPayment.push(amount.value);  
+              }
+              if(amount.value.id !== 'Balance'){
+                this.incomeData.push(amount.value);
+              }
               this.balance = this.balance + parseInt(amount.value.amount);
             } else if (amount.value.amountType === 'Debit') {
               this.expenseData.push(amount.value);
@@ -224,6 +231,7 @@ export class ExpenseandincomeComponent implements OnInit {
       return false;
     }
     console.log(this.expenseFormGroup.value);
+    this.expenseFormGroup.value.id = (this.expenseData.length)+1;
     this.adminService.addIncome(this.expenseFormGroup.value).subscribe(
       (data: any) => {
         console.log(data);

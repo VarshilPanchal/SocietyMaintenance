@@ -278,6 +278,9 @@
                     </th>
                 </tr>
                 <tr class="table-primary">
+                    <th scope="col" colspan="3">Voucher No : {{receiptDetail?.id}}</th>
+                </tr>
+                <tr class="table-primary">
                     <th scope="col" colspan="3">Month : {{receiptDetail?.createdDate | date}}</th>
                 </tr>
                 <!-- <tr>
@@ -344,7 +347,7 @@
                             <img width="100" src="{{imageUrl}}" alt="profilePhoto" class="d-inline rounded-circle">
                             <!-- <img width="70" src="{{imageUrl}}" alt="profilePhoto" class="d-inline profileImage"> -->
                             <p style="font-size: 2rem;" class="d-inline">
-                                Maintenance Receipt
+                                Payment Receipt
                         </th>
                     </tr>
                     <tr class="table-primary">
@@ -360,8 +363,11 @@
                             <!-- <br><i class="pi pi-phone"></i>&nbsp;9712393956 -->
                         </th>
                     </tr>
+                    <tr class="table-primary" *ngIf="receiptData?.otherPayment">
+                        <th scope="col" colspan="3">Receipt No : {{receiptData.id}}</th>
+                    </tr>
                     <tr class="table-primary">
-                        <th scope="col" colspan="3">Name : {{receiptData.userMasterId}}</th>
+                        <th scope="col" colspan="3">Flat No : {{receiptData.userMasterId}}</th>
                     </tr>
                     <tr class="table-primary">
                         <th scope="col" colspan="3">Date : {{receiptData.createdDate | date }} </th>

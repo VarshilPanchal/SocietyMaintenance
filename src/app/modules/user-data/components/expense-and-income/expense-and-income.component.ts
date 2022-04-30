@@ -144,7 +144,9 @@ export class ExpenseAndIncomeComponent implements OnInit {
         this.amountData.forEach(
           (amount) => {
             if (amount.value.amountType === 'Credit') {
-              this.incomeData.push(amount.value);
+              if(amount.value.id !== 'Balance'){
+                this.incomeData.push(amount.value);
+              }
               this.balance = this.balance + parseInt(amount.value.amount);
             } else if (amount.value.amountType === 'Debit') {
               this.expenseData.push(amount.value);

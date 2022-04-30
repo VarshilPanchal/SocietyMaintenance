@@ -113,7 +113,11 @@ export class DashboardComponent implements OnInit {
   receivePaymentDialog = false;
   receivePaymentForm: FormGroup;
   waterCalulatedAmount: any;
-
+  queryParam: URLSearchParams | undefined;
+  amountData: { type: string; value: any; }[];
+  incomeData = [];
+  expenseData = [];
+  otherPayment = [];
   constructor(
     private dashboardService: DashboardServicesService,
     private errorService: ErrorService,
@@ -144,7 +148,7 @@ export class DashboardComponent implements OnInit {
     this.initializeWaterBillForm();
     this.initializeGenerateMaintenanceForm();
     this.initializeTransferForm();
-
+    this.getIncome();
 
   }
 
@@ -669,6 +673,8 @@ export class DashboardComponent implements OnInit {
     }
     // console.log(this.receivePaymentForm.value);
     // this.receivePaymentFormSubmitted = true;
+    
+    this.receivePaymentForm.value.id = this.otherPayment.length + 1;
     this.adminService.addIncome(this.receivePaymentForm.value).subscribe(
       (data: any) => {
         // console.log(data);
@@ -686,5 +692,25 @@ export class DashboardComponent implements OnInit {
   hidePaymentDialog() {
     this.receivePaymentDialog = false;
     this.initializeReceivePaymentForm();
+  }
+  getIncome(){
+    this.adminService.getIncomeAndExpenses(this.queryParam).subscribe(data => {
+      if (data) {
+        this.amountData = Object.keys(data).map(key => ({ type: key, value: data[key] }));
+        this.amountData.forEach(
+          (amount) => {
+            if (amount.value.amountType === 'Credit') {
+              if(amount.value?.otherPayment){
+                  this.otherPayment.push(amount.value);  
+              }
+            }
+          });
+        
+        
+        if (data.statusCode === '200' && data.message === 'OK') {
+          this.errorService.userNotification(data.statusCode, 'Get Data');
+        }
+      }
+    });
   }
 }
