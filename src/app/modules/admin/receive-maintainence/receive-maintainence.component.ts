@@ -121,6 +121,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   showMaintenanceBillDialog(data) {
     this.maintenanceBill = data;
+    console.log(this.maintenanceBill);
     if(Number(data.waterAmount*data?.usedUnit)!==0){
       this.total = Number(data?.waterAmount *data?.usedUnit)+ Number(data?.previousPendingAmount)+Number(data?.otherAmount)+Number(data?.maintenanceAmount); 
     }else{

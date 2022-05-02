@@ -19,4 +19,5 @@ export interface MaintenanceBillMaster {
     updatedDate;
     month;
     otherAmount;
+    type;
 }
