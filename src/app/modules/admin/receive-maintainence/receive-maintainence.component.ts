@@ -59,7 +59,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     { header: 'Create Date' },
     { header: 'Amount' },
     { header: 'Current Reading' },
-    { header: 'Previous Reading' } ,
+    { header: 'Previous Reading' },
     { header: 'Used Unit' },
     { header: 'Amount Received' },
     { header: 'Action' },
@@ -122,12 +122,13 @@ export class ReceiveMaintainenceComponent implements OnInit {
   showMaintenanceBillDialog(data) {
     this.maintenanceBill = data;
     console.log(this.maintenanceBill);
-    if(Number(data.waterAmount*data?.usedUnit)!==0){
-      this.total = Number(data?.waterAmount *data?.usedUnit)+ Number(data?.previousPendingAmount)+Number(data?.otherAmount)+Number(data?.maintenanceAmount); 
-    }else{
-      this.total = Number(data?.averageReading)+ Number(data?.previousPendingAmount)+Number(data?.otherAmount)+Number(data?.maintenanceAmount); 
+    if (Number(data.waterAmount * data?.usedUnit) !== 0) {
+      this.total = Number(data?.waterAmount * data?.usedUnit) + Number(data?.previousPendingAmount) + Number(data?.otherAmount) + Number(data?.maintenanceAmount);
+    } else {
+      this.total = Number(data?.averageReading) + Number(data?.previousPendingAmount) + Number(data?.otherAmount) + Number(data?.maintenanceAmount);
 
     }
+    console.log(this.total);
     this.maintenanceBillDialog = true;
   }
 
@@ -184,6 +185,11 @@ export class ReceiveMaintainenceComponent implements OnInit {
       createdBy: 'Admin',
       createdDate: data?.createdDate,
       updatedDate: new Date().getTime(),
+      maintainenceType: data?.maintainenceType,
+      month: data?.month,
+      otherAmount: data?.otherAmount,
+      otherDescription: data?.otherDescription,
+      previousPendingAmount: data.previousPendingAmount
     });
     this.generateMaintenanceForm.get('payType').valueChanges.subscribe(response => {
       if (response === 'Cheque') {
@@ -219,7 +225,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     this.amountType = generateMaintenanceForm.value.amountType;
     this.referenceNo = generateMaintenanceForm.value.referenceNo;
     this.bankName = generateMaintenanceForm.value.bankName;
-    this.remainingAmount = this.userMasterDto.amount - this.maintenanceBillMaster.amountReceived;
+    this.remainingAmount = Number(this.userMasterDto.amount) - Number(this.maintenanceBillMaster.amountReceived);
     console.log(this.maintenanceBillMaster);
     console.log(this.maintenanceBillMaster.id);
 
@@ -262,7 +268,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   onSubmitUserMasterAmountUpdate(maintenanceBillMaster?) {
     if (this.count === 1) {
-      if(maintenanceBillMaster){
+      if (maintenanceBillMaster) {
         this.userMasterDto.previousReading = maintenanceBillMaster.currentReading;
       }
       this.userMasterDto.amount = this.remainingAmount;
@@ -468,8 +474,8 @@ export class ReceiveMaintainenceComponent implements OnInit {
       createdBy: 'Admin',
       createdDate: data.createdDate,
       updatedDate: new Date().getTime(),
-      maintainenceType:data?.maintainenceType,
-      month:data?.month,
+      maintainenceType: data?.maintainenceType,
+      month: data?.month,
       otherAmount: data?.otherAmount,
       otherDescription: data?.otherDescription,
       previousPendingAmount: data.previousPendingAmount
@@ -486,7 +492,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       this.editMaintenanceForm.controls.usedUnit.setValue(Number(current) - Number(this.editMaintenanceForm.get('previousReading').value));
     });
   }
-  onSubmitEditMaintenanceBill(data){
+  onSubmitEditMaintenanceBill(data) {
     if (!this.editMaintenanceForm.valid) {
       let controlName: string;
       // tslint:disable-next-line: forin
@@ -518,9 +524,11 @@ export class ReceiveMaintainenceComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     // this.angularFireDatabase.database.ref('maintenancemaster').child(this.waterMaintenanceBillMaster).set(this.waterMaintenanceBillMaster);
     this.angularFireDatabase.database.ref('maintenancemaster').child(data.value.id).set(this.maintenanceBillMaster)
-    .finally(() => { this.getSampleData();
-      this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
-      this.onHideEdirMaintainenceDialog(); return true; })
+      .finally(() => {
+        this.getSampleData();
+        this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
+        this.onHideEdirMaintainenceDialog(); return true;
+      })
       .catch(err => {
         this.notificationService.error(err, '');
         // console.log(err);
@@ -542,7 +550,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     //   }
     // );
   }
-  onHideEdirMaintainenceDialog(){
+  onHideEdirMaintainenceDialog() {
     this.editMaintenanceBillDialog = false;
   }
   getFessMasterData(): any {
