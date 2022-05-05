@@ -181,7 +181,7 @@
                     <tr>
                         <td>Remaining Amount</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.previousPendingAmount">{{maintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="maintenanceBill?.previousPendingAmount >= 0">{{maintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
                     </tr>
                     <!-- <tr>
                         <td>Payment type</td>
