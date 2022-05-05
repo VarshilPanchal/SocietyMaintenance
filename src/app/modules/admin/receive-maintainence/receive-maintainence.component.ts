@@ -165,11 +165,12 @@ export class ReceiveMaintainenceComponent implements OnInit {
   }
 
   initializeGenerateMaintenanceForm(data?) {
+    console.log(data);
     this.generateMaintenanceForm = this._formBuilder.group({
       id: data?.id,
       maintenanceAmount: [data?.maintenanceAmount, [Validators.required]],
       waterAmount: [data?.waterAmount, [Validators.required]],
-      amount: [data?.amount, [Validators.required]],
+      amount: [data?.amount+data?.previousPendingAmount, [Validators.required]],
       amountReceived: [''],
       usedUnit: [data?.usedUnit, [Validators.required]],
       previousReading: [data?.previousReading, [Validators.required]],
