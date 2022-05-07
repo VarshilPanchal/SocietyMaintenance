@@ -358,7 +358,7 @@
             </div>
             <div class="p-field">
                 <label for="previousReading">Previous Reading* </label>
-                <input type="text" disabled pInputText id="previousReading" formControlName="previousReading"
+                <input type="text" pInputText id="previousReading" formControlName="previousReading"
                     placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" />
                 <!-- <div class="p-invalid"
                     *ngIf=" generateMaintenanceFormSubmitted && generateMaintenanceForm.controls['previousReading'].touched && (generateMaintenanceForm.controls['previousReading'].hasError('required') && !generateMaintenanceForm.controls['previousReading'].valid)">
@@ -552,7 +552,7 @@
             <div class="p-field">
                 <label for="previousReading">Previous Reading* </label>
                 <input type="text" pInputText id="previousReading" formControlName="previousReading"
-                    placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50" disabled/>
+                    placeholder="Enter Previous Reading" required autofocus pKeyFilter="num" maxLength="50"/>
                 <div class="p-invalid"
                     *ngIf="(editMaintenanceFormSubmitted && !editMaintenanceForm.get('previousReading').valid) || (!editMaintenanceForm.get('previousReading').valid && editMaintenanceForm.get('previousReading').touched) ">
                     <div *ngIf=" (editMaintenanceForm.get('previousReading').errors.required) ">

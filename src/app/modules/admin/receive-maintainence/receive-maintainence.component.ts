@@ -190,7 +190,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       month: data?.month,
       otherAmount: data?.otherAmount,
       otherDescription: data?.otherDescription,
-      previousPendingAmount: data.previousPendingAmount
+      previousPendingAmount: data?.previousPendingAmount
     });
     this.generateMaintenanceForm.get('payType').valueChanges.subscribe(response => {
       if (response === 'Cheque') {
@@ -209,7 +209,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
   onSubmitGenerateReceipt(generateMaintenanceForm) {
     console.log(generateMaintenanceForm.value);
-
+    this.remainingAmount = 0;
     if (!this.generateMaintenanceForm.valid) {
       let controlName: string;
       // tslint:disable-next-line: forin
@@ -255,7 +255,6 @@ export class ReceiveMaintainenceComponent implements OnInit {
             console.log(this.userMasterDto);
             this.initializeGenerateMaintenanceForm(user);
             return false;
-            // this.onSubmitUserMasterAmountUpdate();
           }
         } else {
           this.notificationService.error('Something Error', '');
@@ -275,7 +274,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       this.userMasterDto.amount = this.remainingAmount;
       this.userMasterDto.updatedDate = new Date().getTime();
       this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
-        // .finally(() => { this.clearAll(); return true; })
+        .finally(() => { this.clearAll(); return true; })
         .catch(err => {
           this.notificationService.error(err, '');
           console.log(err);
@@ -338,7 +337,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
           this.maintenanceData.forEach(
             (e) => {
               e.value.id = e.type;
-              console.log(e.type);
+              // console.log(e.type);
               this.lstofMaintenance.push(e.value);
             });
           this.lstofMaintenance = this.lstofMaintenance.sort(
@@ -494,6 +493,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
     });
   }
   onSubmitEditMaintenanceBill(data) {
+    this.remainingAmount = 0;
     if (!this.editMaintenanceForm.valid) {
       let controlName: string;
       // tslint:disable-next-line: forin
@@ -527,29 +527,14 @@ export class ReceiveMaintainenceComponent implements OnInit {
     this.angularFireDatabase.database.ref('maintenancemaster').child(data.value.id).set(this.maintenanceBillMaster)
       .finally(() => {
         this.getSampleData();
-        this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
+        this.onSubmitUserMasterAmountUpdateForEdit(this.maintenanceBillMaster);
+        // this.onSubmitUserMasterAmountUpdate(this.maintenanceBillMaster);
         this.onHideEdirMaintainenceDialog(); return true;
       })
       .catch(err => {
         this.notificationService.error(err, '');
         // console.log(err);
       });
-    // this.dashboardService.editMaintenanceBill(this.maintenanceBillMaster).subscribe(
-    //   (data: any) => {
-    //     // console.log(data);
-    //     this.getSampleData();
-    //     this.onSubmitUserMasterAmountUpdate();
-    //     this.onHideEdirMaintainenceDialog();
-    //     // this.getMaintenanceAmountData();
-
-    //     if (data.statusCode === '200' && data.message === 'OK') {
-    //       this.errorService.userNotification(data.statusCode, 'Post Data');
-    //     }
-    //   },
-    //   (err: Error) => {
-    //     console.error(err);
-    //   }
-    // );
   }
   onHideEdirMaintainenceDialog() {
     this.editMaintenanceBillDialog = false;
@@ -567,5 +552,18 @@ export class ReceiveMaintainenceComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+  onSubmitUserMasterAmountUpdateForEdit(maintainenceData) {
+    if(this.count==1){
+      this.userMasterDto.previousReading = maintainenceData.currentReading;
+      this.userMasterDto.amount = this.userMasterDto.amount + this.remainingAmount;
+      this.userMasterDto.updatedDate = new Date().getTime();
+      this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
+        .finally(() => { this.clearAll(); return true; })
+        .catch(err => {
+          this.notificationService.error(err, '');
+          // console.log(err);
+        });
+    }
   }
 }
