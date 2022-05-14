@@ -64,10 +64,10 @@
                         (click)="showMaintenanceReceiptDialog(data)">
                         <i class="pi pi-eye" style="font-size: 15px"></i>
                     </button>
-                    <!-- <button pTooltip="Edit Maintainence Bill" *ngIf="!data.maintenancePaid" class="p-button bg-dark rounded"
+                    <button pTooltip="Edit Maintainence Bill" *ngIf="!data.maintenancePaid" class="p-button bg-dark rounded"
                     style="font-size: 15px; padding: 10px;" (click)="editMaintenanceBill(data)">
                     <i class="pi pi-pencil" style="font-size: 15px"></i>
-                </button> &nbsp; -->
+                </button> &nbsp;
                 </td>
             </tr>
         </ng-template>
@@ -181,7 +181,11 @@
                     <tr>
                         <td>Remaining Amount</td>
                         <td>-</td>
-                        <td *ngIf="maintenanceBill?.previousPendingAmount">{{maintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
+                        <td *ngIf="maintenanceBill?.previousPendingAmount>0; else zeroPreviousAmount">{{maintenanceBill?.previousPendingAmount |currency:"INR":"symbol" }}</td>
+                        <ng-template #zeroPreviousAmount>
+                           <td>-</td> 
+                        </ng-template>
+                        
                     </tr>
                     <!-- <tr>
                         <td>Payment type</td>

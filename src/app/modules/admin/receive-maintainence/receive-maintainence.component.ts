@@ -148,6 +148,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
   getUserData(flatNo) {
     this.authService.getUser(flatNo).valueChanges().subscribe(
       (data: any) => {
+        console.log(data)
         this.remainingAmount = data.amount;
       });
   }
@@ -267,11 +268,11 @@ export class ReceiveMaintainenceComponent implements OnInit {
   }
 
   onSubmitUserMasterAmountUpdate(maintenanceBillMaster?) {
-    if (this.count === 1) {
+    // if (this.count === 1) {
       if (maintenanceBillMaster) {
         this.userMasterDto.previousReading = maintenanceBillMaster.currentReading;
       }
-      this.userMasterDto.amount = this.remainingAmount;
+      this.userMasterDto.amount = Number(this.remainingAmount);
       this.userMasterDto.updatedDate = new Date().getTime();
       this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
         .finally(() => { this.clearAll(); return true; })
@@ -279,7 +280,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
           this.notificationService.error(err, '');
           console.log(err);
         });
-    }
+    // }
   }
 
   onSubmitIncome(incomeData: MaintenanceBillMaster) {
@@ -518,8 +519,8 @@ export class ReceiveMaintainenceComponent implements OnInit {
     let totalAmount: number = Number(waterCalulatedAmount);
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.maintenanceAmount);
     totalAmount = totalAmount + Number(this.maintenanceBillMaster.otherAmount);
+    this.remainingAmount = totalAmount - Number(this.maintenanceBillMaster.amount);
     this.maintenanceBillMaster.amount = totalAmount;
-    this.remainingAmount = totalAmount;
     this.receiptDetail = data.value;
     // console.log(this.maintenanceBillMaster);
     // tslint:disable-next-line: max-line-length
@@ -554,9 +555,14 @@ export class ReceiveMaintainenceComponent implements OnInit {
     );
   }
   onSubmitUserMasterAmountUpdateForEdit(maintainenceData) {
-    if(this.count==1){
+    // if(this.count==1){
       this.userMasterDto.previousReading = maintainenceData.currentReading;
-      this.userMasterDto.amount = this.userMasterDto.amount + this.remainingAmount;
+      // if(this.remainingAmount>=0){
+        this.userMasterDto.amount = Number(this.userMasterDto.amount) + Number(this.remainingAmount);
+      // }
+      // else{
+        // this.userMasterDto.amount = this.remainingAmount
+      // }
       this.userMasterDto.updatedDate = new Date().getTime();
       this.angularFireDatabase.database.ref('user').child(this.userMasterDto.user_name).set(this.userMasterDto)
         .finally(() => { this.clearAll(); return true; })
@@ -564,6 +570,6 @@ export class ReceiveMaintainenceComponent implements OnInit {
           this.notificationService.error(err, '');
           // console.log(err);
         });
-    }
+    // }
   }
 }
