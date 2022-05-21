@@ -347,7 +347,7 @@ export class DashboardComponent implements OnInit {
         this.users = Object.keys(data).map(key => ({ type: key, value: data[key] }));
         this.users.forEach(
           (user) => {
-            if (user.value.user_name !== 'Admin') {
+            if (user.value.user_name !== 'Admin' && user.value.user_name !== 'dummy') {
               this.lstofUser.push(user.value);
               this.totalPendingAmount = Number(this.totalPendingAmount) + Number(user.value.amount);
               // console.log('User value', user.value);

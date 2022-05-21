@@ -33,22 +33,23 @@ export class UsersComponent implements OnInit {
     // this.addfile();
     // this.postData();
     // this.putData();
-    this.getSampleData();
-    this.addBalance();
+    // this.getSampleData();
+    // this.addBalance();
     // this.getSampleDataById();
   }
 
   postData() {
     const userObject = {
-      id: "Admin",
+      id: "dummy",
       createdDate: new Date().getTime(),
       updatedDate: new Date().getTime(),
-      password: "admin@123",
-      user_name: "Admin",
-      amount: 0
+      password: "dummy@123",
+      user_name: "Dummy",
+      amount: 0,
+      previousReading:"100"
     };
     // this.userService.samplePostData(userObject);
-    this.angularFireDatabase.database.ref('user').child('Admin').set(userObject);
+    this.angularFireDatabase.database.ref('user').child('dummy').set(userObject);
     // this.userService.samplePost(userObject).subscribe(
     //   (data: any) => {
     //     console.log(data);

@@ -339,6 +339,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
             (e) => {
               e.value.id = e.type;
               // console.log(e.type);
+              
               this.lstofMaintenance.push(e.value);
             });
           this.lstofMaintenance = this.lstofMaintenance.sort(
@@ -365,9 +366,9 @@ export class ReceiveMaintainenceComponent implements OnInit {
   }
 
 
-  exportPdfForBill(): void {
+  exportPdfForBill(maintainenceBill): void {
     const DATA = document.getElementById('generatedBillTabel');
-
+    console.log(maintainenceBill);
     // html2canvas(DATA).then(canvas => {
     //   const fileWidth = 208;
     //   const fileHeight = canvas.height * fileWidth / canvas.width;
@@ -384,6 +385,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
 
 
     html2canvas(DATA).then(canvas => {
+      console.log(DATA)
       let wid;
       let hgt;
       const img = canvas.toDataURL('image/png', (wid = canvas.width) * (hgt = canvas.height)); // image data of canvas
@@ -398,12 +400,12 @@ export class ReceiveMaintainenceComponent implements OnInit {
       const height = width * hratio;
       console.log(height)
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
-      doc.save('maintenance-bill.pdf');
+      doc.save(maintainenceBill.userMasterId+"_"+maintainenceBill.month+'_maintenance-bill.pdf');
     });
 
   }
 
-  exportPdfForReceipt(): void {
+  exportPdfForReceipt(maintenanceReceipt): void {
     const DATA = document.getElementById('generatedReceiptTabel');
 
     // html2canvas(DATA).then(canvas => {
@@ -447,7 +449,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
       // let height = doc.internal.pageSize.height;
       const height = width * hratio;
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
-      doc.save('maintenance-receipt.pdf');
+      doc.save(maintenanceReceipt.userMasterId+"_"+maintenanceReceipt.month+'_maintenance-receipt.pdf');
     });
 
   }
