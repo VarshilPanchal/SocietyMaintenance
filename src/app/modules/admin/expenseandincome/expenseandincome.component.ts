@@ -293,7 +293,7 @@ export class ExpenseandincomeComponent implements OnInit {
   hideReceiptDialog(){
     this.receiptDialog = false;
   }
-  exportPdfForReceipt(): void {
+  exportPdfForReceipt(receiptData): void {
     const DATA = document.getElementById('generatedReceiptTabel');
     html2canvas(DATA).then(canvas => {
       let wid;
@@ -308,7 +308,7 @@ export class ExpenseandincomeComponent implements OnInit {
       // let height = doc.internal.pageSize.height;
       const height = width * hratio;
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
-      doc.save('payment-receipt.pdf');
+      doc.save(receiptData.userMasterId+'_payment-receipt.pdf');
     });
 
   }
