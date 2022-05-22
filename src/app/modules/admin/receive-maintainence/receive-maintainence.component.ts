@@ -268,7 +268,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
   }
 
   onSubmitUserMasterAmountUpdate(maintenanceBillMaster?) {
-    // if (this.count === 1) {
+    if (this.count === 1) {
       if (maintenanceBillMaster) {
         this.userMasterDto.previousReading = maintenanceBillMaster.currentReading;
       }
@@ -280,7 +280,7 @@ export class ReceiveMaintainenceComponent implements OnInit {
           this.notificationService.error(err, '');
           console.log(err);
         });
-    // }
+    }
   }
 
   onSubmitIncome(incomeData: MaintenanceBillMaster) {

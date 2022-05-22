@@ -90,8 +90,8 @@ export class ExpenseandincomeComponent implements OnInit {
     // this.loginUserId = this.localStorageService.getItem('logInUserID');
     // this.addBulkIncome();
     this.getIncome();
-    // console.log(this.ngxNumToWordsService.inWords(100000, 'en'));
-    // console.log(converter.toWords(20000));
+    // // console.log(this.ngxNumToWordsService.inWords(100000, 'en'));
+    // // console.log(converter.toWords(20000));
 
   }
   prepareQueryParam(paramObject: any) {
@@ -112,26 +112,26 @@ export class ExpenseandincomeComponent implements OnInit {
     const fetchDataMap = [];
 
     // this.angularFireDatabase.object('amount/' + 'A104').valueChanges().subscribe(data => {
-    //   console.log(data);
+    //   // console.log(data);
     //   this.fetchData.push(data[0]);
-    //   console.log(this.fetchData)
+    //   // console.log(this.fetchData)
     //   // fetchDataMap = Object.keys(data).map(key => ({ type: key, value: data[key] }));
-    //   // console.log(fetchDataMap)
+    //   // // console.log(fetchDataMap)
     //   // fetchDataMap.forEach(data => {
     //   //   fetchData.push(data.value);
     //   // })
     //   this.fetchData.push(this.expenseandincomeObject);
-    //   console.log(this.fetchData)
+    //   // console.log(this.fetchData)
 
     // });
-    // console.log(this.fetchData);
+    // // console.log(this.fetchData);
     // this.angularFireDatabase.database.ref('amount').child('A102').set(this.expenseandincomeObject);
     // data.push(this.expenseandincomeObject)
     // this.angularFireDatabase.database.ref('amount').child('A104').set(data)
-    // console.log(this.angularFireDatabase.database.ref('amount').child('A104').get());
+    // // console.log(this.angularFireDatabase.database.ref('amount').child('A104').get());
     this.adminService.addIncome(this.expenseandincomeObject).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         if (data.statusCode === '200' && data.message === 'OK') {
         }
       },
@@ -154,10 +154,10 @@ export class ExpenseandincomeComponent implements OnInit {
         this.amountData.forEach(
           (amount) => {
             if (amount.value.amountType === 'Credit') {
-              if(amount.value?.otherPayment){
-                  this.otherPayment.push(amount.value);  
+              if (amount.value?.otherPayment) {
+                this.otherPayment.push(amount.value);
               }
-              if(amount.value.id !== 'Balance'){
+              if (amount.value.id !== 'Balance') {
                 this.incomeData.push(amount.value);
               }
               this.balance = this.balance + parseInt(amount.value.amount);
@@ -166,9 +166,20 @@ export class ExpenseandincomeComponent implements OnInit {
               this.balance = this.balance - parseInt(amount.value.amount);
             }
           });
-        console.log(this.balance);
-        console.log(this.incomeData);
-        console.log(this.expenseData);
+
+        this.incomeData = this.incomeData.sort(
+          (a, b) => {
+            return (new Date(b.createdDate) as any) - (new Date(a.createdDate) as any);
+          });
+
+        this.expenseData = this.expenseData.sort(
+          (a, b) => {
+            return (new Date(b.createdDate) as any) - (new Date(a.createdDate) as any);
+          });
+
+        // console.log(this.balance);
+        // console.log(this.incomeData);
+        // console.log(this.expenseData);
         this.totalRecords = this.incomeData.length;
         this.totalRecordsForExpense = this.expenseData.length;
         if (data.statusCode === '200' && data.message === 'OK') {
@@ -189,7 +200,7 @@ export class ExpenseandincomeComponent implements OnInit {
   }
   viewVoucher(expense): any {
     this.receiptDetail = expense;
-    console.log(this.receiptDetail);
+    // console.log(this.receiptDetail);
     this.viewVoucherDialog = true;
     this.popupHeader = 'View Voucher';
   }
@@ -230,11 +241,11 @@ export class ExpenseandincomeComponent implements OnInit {
       this.submitted = true;
       return false;
     }
-    console.log(this.expenseFormGroup.value);
-    this.expenseFormGroup.value.id = (this.expenseData.length)+1;
+    // console.log(this.expenseFormGroup.value);
+    this.expenseFormGroup.value.id = (this.expenseData.length) + 1;
     this.adminService.addIncome(this.expenseFormGroup.value).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         this.hideExpenseDialog();
         this.getIncome();
         if (data.statusCode === '200' && data.message === 'OK') {
@@ -285,12 +296,12 @@ export class ExpenseandincomeComponent implements OnInit {
     });
 
   }
-  showReceiptDialog(data){
+  showReceiptDialog(data) {
     this.receiptDialog = true;
-    console.log(data);
+    // console.log(data);
     this.receiptData = data;
   }
-  hideReceiptDialog(){
+  hideReceiptDialog() {
     this.receiptDialog = false;
   }
   exportPdfForReceipt(receiptData): void {
@@ -308,7 +319,7 @@ export class ExpenseandincomeComponent implements OnInit {
       // let height = doc.internal.pageSize.height;
       const height = width * hratio;
       doc.addImage(img, 'JPEG', width * .150, 30, width * .70, height * .70);
-      doc.save(receiptData.userMasterId+'_payment-receipt.pdf');
+      doc.save(receiptData.userMasterId + '_payment-receipt.pdf');
     });
 
   }
